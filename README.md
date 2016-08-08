@@ -9,7 +9,7 @@ This project converts between [OSIS-style](http://www.bibletechnologies.net/) Bi
 
 ### Convert OSIS to English
 
-`osisToEnglish` exports exactly one function that takes two required string arguments and one optional string argument:
+`en.js` exports exactly one function (`osisToEnglish`) that takes two required string arguments and one optional string argument:
 
 1. Output format type: `niv-long`, `niv-short`, or `niv-shortest`. These styles, drawn from the [NIV Zondervan Study Bible](http://www.nivzondervanstudybible.com/), attempt to mimic the style guide of a print study Bible.
 	1. `niv-long`. Book names are fully spelled out: `Matthew 1:2\u20133,4`.
@@ -20,23 +20,23 @@ This project converts between [OSIS-style](http://www.bibletechnologies.net/) Bi
 
 ```javascript
 const osisToEnglish = require("./es6/en")
-osisToEnglish("niv-long", Matt.1.2-Matt.1.3,Matt.1.4", "Matt.1") "vv. 2\u20133,4"
-osisToEnglish("niv-short", Matt.1.2-Matt.1.3,Matt.1.4", "Matt.1") "vv. 2\u20133,4"
-osisToEnglish("niv-shortest", Matt.1.2-Matt.1.3,Matt.1.4", "Matt.1") "ver 2\u20133,4"
+osisToEnglish("niv-long", "Matt.1.2-Matt.1.3,Matt.1.4", "Matt.1") "vv. 2\u20133,4"
+osisToEnglish("niv-short", "Matt.1.2-Matt.1.3,Matt.1.4", "Matt.1") "vv. 2\u20133,4"
+osisToEnglish("niv-shortest", "Matt.1.2-Matt.1.3,Matt.1.4", "Matt.1") "ver 2\u20133,4"
 ```
 
 Other examples:
 
 ```javascript
 const osisToEnglish = require("./es6/en")
-osisToEnglish("niv-long", Matt.1.2-Matt.1.3,Matt.1.4") // "Matthew 1:2\u20133,4"
-osisToEnglish("niv-short", Matt.1.2-Matt.1.3,Matt.1.4") // "Matt 1:2\u20133,4"
-osisToEnglish("niv-shortest", Matt.1.2-Matt.1.3,Matt.1.4") // "Mt 1:2-3, 4"
+osisToEnglish("niv-long", "Matt.1.2-Matt.1.3,Matt.1.4") // "Matthew 1:2\u20133,4"
+osisToEnglish("niv-short", "Matt.1.2-Matt.1.3,Matt.1.4") // "Matt 1:2\u20133,4"
+osisToEnglish("niv-shortest", "Matt.1.2-Matt.1.3,Matt.1.4") // "Mt 1:2-3, 4"
 ```
 
 ### Convert OSIS to Paratext
 
-`osisToParatext` exports exactly one function that takes a single string argument: the OSIS reference(s) to convert to Paratext. You can include multiple references by separating them with commas.
+`osisToParatext.js` exports exactly one function that takes a single string argument: the OSIS reference(s) to convert to Paratext. You can include multiple references by separating them with commas.
 
 ```javascript
 const osisToParatext = require("./es6/osisToParatext")
@@ -46,7 +46,7 @@ console.log(paratext) // "MAT 1:2-3,MAT 1:4"
 
 ### Convert Paratext to OSIS
 
-`paratextToOsis` exports exactly one function that takes a single string argument: the Paratext reference(s) to convert to OSIS. You can include multiple references by separating them with commas.
+`paratextToOsis.js` exports exactly one function that takes a single string argument: the Paratext reference(s) to convert to OSIS. You can include multiple references by separating them with commas.
 
 ```javascript
 const paratextToOsis = require("./es6/paratextToOsis")
