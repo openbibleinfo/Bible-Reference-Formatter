@@ -1,3 +1,4 @@
+"use strict";
 const paratextToOsis = require("../es6/paratextToOsis")
 
 describe("Tests", function() {
@@ -42,6 +43,10 @@ describe("Tests", function() {
 
 	it ("should handle sequences", function() {
 		expect(paratextToOsis("MAT 22:2,MAT 22:3,MAT 22-23,MAT 24:1-25")).toEqual("Matt.22.2,Matt.22.3,Matt.22-Matt.23,Matt.24.1-Matt.24.25")
+	})
+
+	it ("should handle examples from the readme", function() {
+		expect(paratextToOsis("MAT 1:2-3,MAT 1:4")).toEqual("Matt.1.2-Matt.1.3,Matt.1.4")
 	})
 
 	it ("should throw exceptions with unexpected input", function() {
