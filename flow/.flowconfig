@@ -3,5 +3,6 @@
 [include]
 
 [libs]
+declarations/
 
 [options]
