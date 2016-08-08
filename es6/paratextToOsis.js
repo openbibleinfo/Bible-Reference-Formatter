@@ -10,7 +10,6 @@
 	const numberFormat = /^\d+$/;
 
 	// Convert a Paratext reference (`GEN 1:1`) to the equivalent OSIS reference (`Gen.1.1`).
-	// The argument type is `mixed` to require a type check inside the function and only allow strings.
 	function paratextToOsis(paratext) {
 		if (typeof paratext !== "string") {
 			throw "paratextToOsis: first argument must be a string.";
