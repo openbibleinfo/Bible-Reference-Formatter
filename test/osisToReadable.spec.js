@@ -5,12 +5,13 @@ const c = new osisToReadable
 function resetBooks() {
 	c.setBooks({
 		"Gen": ["Gen."],
-		"Ps": ["Ps.", "Pss."],
+		"Ps": ["Ps.", "Pss.", "Psalms"],
 		"Ps.$chapters": ["Ps.", "Pss."],
 		"Ps151": ["Ps. 151"],
 		"Matt": ["Matt."],
 		"Luke": ["Luke"],
 		"Phlm": ["Philem."],
+		"Heb": ["Heb. S.", "Heb. P."],
 		"1John": ["1 John"],
 		"2John": ["2 John"],
 		"3John": ["3 John"],
@@ -254,6 +255,11 @@ describe("Setting options", function() {
 		expect(c.toReadable("Phlm.1.4", "Matt.1")).toEqual("Philem\. 4")
 	})
 
+	it ("should show the plural when looking at the whole book of Psalms", function() {
+		expect(c.toReadable("Ps")).toEqual("Psalms")
+		expect(c.toReadable("Heb")).toEqual("Heb. P.")
+		expect(c.toReadable("Phlm")).toEqual("Philem.")
+	})
 })
 
 describe("Psalm 151", function() {
@@ -367,16 +373,16 @@ describe("Multiple books by themselves", function() {
 	})
 
 	it ("should handle special book ranges", function() {
-		expect(c.toReadable("Ps,1John-3John,Matt")).toEqual("Ps.; 1\u20143 John; Matt.")
-		expect(c.toReadable("Ps,1John-2John,3John")).toEqual("Ps.; 1\u20142 John; 3 John")
-		expect(c.toReadable("Ps,1John,2John-3John")).toEqual("Ps.; 1 John; 2\u20143 John")
+		expect(c.toReadable("Ps,1John-3John,Matt")).toEqual("Psalms; 1\u20143 John; Matt.")
+		expect(c.toReadable("Ps,1John-2John,3John")).toEqual("Psalms; 1\u20142 John; 3 John")
+		expect(c.toReadable("Ps,1John,2John-3John")).toEqual("Psalms; 1 John; 2\u20143 John")
 	})
 
 	it ("should handle special book sequences", function() {
-		expect(c.toReadable("Ps,1John,2John,3John,Matt")).toEqual("Ps.; 1, 2, and 3 John; Matt.")
-		expect(c.toReadable("Ps,1John,2John,Matt")).toEqual("Ps.; 1 and 2 John; Matt.")
-		expect(c.toReadable("Ps,2John,3John,3John.1.2,2John,1John,2John")).toEqual("Ps.; 2 and 3 John; 3 John 2; 2 John; 1 and 2 John")
-		expect(c.toReadable("Ps,Matt,3John,Phlm,Rev")).toEqual("Ps.; Matt.; 3 John; Philem.; Rev.")
+		expect(c.toReadable("Ps,1John,2John,3John,Matt")).toEqual("Psalms; 1, 2, and 3 John; Matt.")
+		expect(c.toReadable("Ps,1John,2John,Matt")).toEqual("Psalms; 1 and 2 John; Matt.")
+		expect(c.toReadable("Ps,2John,3John,3John.1.2,2John,1John,2John")).toEqual("Psalms; 2 and 3 John; 3 John 2; 2 John; 1 and 2 John")
+		expect(c.toReadable("Ps,Matt,3John,Phlm,Heb,Rev")).toEqual("Psalms; Matt.; 3 John; Philem.; Heb. P.; Rev.")
 	})
 })
 
@@ -391,11 +397,11 @@ describe("setBooks", function() {
 		expect(() => c.setBooks({"a": {}})).toThrow()
 	})
 
-	it ("should only accept arrays of lengths 1 or 2", function() {
+	it ("should only accept arrays of lengths 1, 2, or 3", function() {
 		expect(() => c.setBooks({"a": []})).toThrow()
 		expect(c.setBooks({"a": ["b"]})).not.toBeDefined()
 		expect(c.setBooks({"a": ["b", "c"]})).not.toBeDefined()
-		expect(() => c.setBooks({"a": ["b", "c", "d"]})).toThrow()
+		expect(() => c.setBooks({"a": ["b", "c", "d", "e"]})).toThrow()
 	})
 	resetBooks()
 })

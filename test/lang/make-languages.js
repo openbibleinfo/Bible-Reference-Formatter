@@ -5,6 +5,7 @@ const outPath = ".."
 
 const template = fs.readFileSync(`${dataPath}/template.js`, "utf8")
 
+let headings = []
 const langFiles = getLangFiles()
 for (const langFile of langFiles) {
 	const [lang] = langFile.split(".")
@@ -27,6 +28,12 @@ function writeTests(lang, describes) {
 		}
 		out.push("})\n")
 	}
+	out.push("describe(\"Not switching styles\", function() {")
+	out.push("\tit (\"should work when not switching styles\", function() {")
+	const heading = headings[headings.length - 1]
+	out.push(`\t\texpect(() => convert(${JSON.stringify(heading)}, \"Matt.1\")).not.toThrow()`)
+	out.push(`\t\texpect(() => convert(${JSON.stringify(heading)}, \"Matt.2\")).not.toThrow()`)
+	out.push("\t})\n})\n")
 	let outString = template.replace(/\$LANG/, lang)
 	outString += out.join("\n")
 	fs.writeFileSync(`${outPath}/${lang}.spec.js`, outString)
@@ -34,7 +41,7 @@ function writeTests(lang, describes) {
 
 function makeDescribes(langFile) {
 	const lines = fs.readFileSync(`${dataPath}/${langFile}`, "utf8").split(/\n+/)
-	const headings = lines.shift().split("\t")
+	headings = lines.shift().split("\t")
 	const describes = []
 	for (const line of lines) {
 		if (!line.match(/\S/)) {

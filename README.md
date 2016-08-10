@@ -5,33 +5,35 @@ This project converts between [OSIS-style](http://www.bibletechnologies.net/) Bi
 1. Human-readable references in English (`Matthew 1:2-3`).
 2. [Paratext-style](https://www.thedigitalbiblelibrary.org/static/docs/usx/elements.html#ref) Bible references (`MAT 1:2-3`).
 
+For the reverse, to convert human-readable passage references to OSIS reference, see [Bible Passage Reference Parser](https://github.com/openbibleinfo/Bible-Passage-Reference-Parser).
+
 ## Usage
 
 ### Convert OSIS to English
 
-`en.js` exports exactly one function (`osisToEnglish`) that takes two required string arguments and one optional string argument:
+`en.js` exports exactly one function (`convertOsisToReadable`) that takes two required string arguments and one optional string argument:
 
 1. Output format type: `niv-long`, `niv-short`, or `niv-shortest`. These styles, drawn from the [NIV Zondervan Study Bible](http://www.nivzondervanstudybible.com/), attempt to mimic the style guide of a print study Bible.
-	1. `niv-long`. Book names are fully spelled out: `Matthew 1:2\u20133,4`.
-	2. `niv-short`. Book names are abbreviated, but punctuation otherwise matches `niv-long`: `Matt 1:2\u20133,4`.
-	3. `niv-shortest`. Book names are even shorter, and the styles match cross-references.: `Mt 1:2-3, 4`.
+	1. `niv-long`. Book names are fully spelled out: `Matthew 1:2–3,4`.
+	2. `niv-short`. Book names are abbreviated, but punctuation otherwise matches `niv-long`: `Matt 1:2–3,4`.
+	3. `niv-shortest`. Book names are even shorter in some cases, and the styles match cross-references.: `Mt 1:2-3, 4`.
 2. OSIS string. A comma-separated list of references: `Matt.1.2-Matt.1.3,Matt.1.4`.
-3. Optional context OSIS string. You can provide a single OSIS string (not a list) to give contextual verses for the second argument:
+3. Optional context OSIS string. You can provide a single OSIS string (not a comma-separated list) to give contextual verses for the second argument:
 
 ```javascript
-const osisToEnglish = require("./es6/en")
-osisToEnglish("niv-long", "Matt.1.2-Matt.1.3,Matt.1.4", "Matt.1") "vv. 2\u20133,4"
-osisToEnglish("niv-short", "Matt.1.2-Matt.1.3,Matt.1.4", "Matt.1") "vv. 2\u20133,4"
-osisToEnglish("niv-shortest", "Matt.1.2-Matt.1.3,Matt.1.4", "Matt.1") "ver 2\u20133,4"
+const convertOsisToReadable = require("./es6/en")
+convertOsisToReadable("niv-long", "Matt.1.2-Matt.1.3,Matt.1.4", "Matt.1") // "vv. 2–3,4"
+convertOsisToReadable("niv-short", "Matt.1.2-Matt.1.3,Matt.1.4", "Matt.1") // "vv. 2–3,4"
+convertOsisToReadable("niv-shortest", "Matt.1.2-Matt.1.3,Matt.1.4", "Matt.1") // "ver 2–3,4"
 ```
 
 Other examples:
 
 ```javascript
-const osisToEnglish = require("./es6/en")
-osisToEnglish("niv-long", "Matt.1.2-Matt.1.3,Matt.1.4") // "Matthew 1:2\u20133,4"
-osisToEnglish("niv-short", "Matt.1.2-Matt.1.3,Matt.1.4") // "Matt 1:2\u20133,4"
-osisToEnglish("niv-shortest", "Matt.1.2-Matt.1.3,Matt.1.4") // "Mt 1:2-3, 4"
+const convertOsisToReadable = require("./es6/en")
+convertOsisToReadable("niv-long", "Matt.1.2-Matt.1.3,Matt.1.4") // "Matthew 1:2–3,4"
+convertOsisToReadable("niv-short", "Matt.1.2-Matt.1.3,Matt.1.4") // "Matt 1:2–3,4"
+convertOsisToReadable("niv-shortest", "Matt.1.2-Matt.1.3,Matt.1.4") // "Mt 1:2-3, 4"
 ```
 
 ### Convert OSIS to Paratext

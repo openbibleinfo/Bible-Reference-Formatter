@@ -1,14 +1,16 @@
 /* @flow */
 "use strict";
 
-const osisToReadable = require("./osisToReadable")
+const osisToReadable: () => OsisToReadableInterface = require("./osisToReadable")
 const converter: OsisToReadableInterface = new osisToReadable;
 let currentStyle: string = ""
 
-const styles: any = Object.freeze({
+const styles: StylesType = Object.freeze({
 	"niv-long": {
 		options: {
 			",": "; ",
+			"b,c": "; $chapters ",
+			"b,v": "; $b ",
 			"c,v": "; $verses ",
 			"v,v": ",",
 			"v,c": "; $chapters ",
@@ -23,12 +25,13 @@ const styles: any = Object.freeze({
 			"b-c": "\u2014$chapters ",
 			"b-v": "\u2014$b ",
 			"b-b1c": "\u2014$b ",
-			"c-v": "\u2014$c:", // arguably should be \u2013
+			"c-v": "\u2014$c:",
 			"v-c": "\u2014$chapters ",
 			"v-cv": "\u2014",
 			"v-v": "\u2013",
-			"^v": "$verses ",
-			"^c": "$chapters "
+			"^c": "$chapters ",
+			"b1^v": "$verses ",
+			"^v": "$verses "
 		},
 		books: {
 			"Gen": ["Genesis"], "Exod": ["Exodus"], "Lev": ["Leviticus"], "Num": ["Numbers"], "Deut": ["Deuteronomy"], "Josh": ["Joshua"], "Judg": ["Judges"], "Ruth": ["Ruth"], "1Sam": ["1 Samuel"], "2Sam": ["2 Samuel"], "1Kgs": ["1 Kings"], "2Kgs": ["2 Kings"], "1Chr": ["1 Chronicles"], "2Chr": ["2 Chronicles"], "Ezra": ["Ezra"], "Neh": ["Nehemiah"], "Esth": ["Esther"], "Job": ["Job"], "Ps": ["Psalm", "Psalms"], "Prov": ["Proverbs"], "Eccl": ["Ecclesiastes"], "Song": ["Song of Songs"], "Isa": ["Isaiah"], "Jer": ["Jeremiah"], "Lam": ["Lamentations"], "Ezek": ["Ezekiel"], "Dan": ["Daniel"], "Hos": ["Hosea"], "Joel": ["Joel"], "Amos": ["Amos"], "Obad": ["Obadiah"], "Jonah": ["Jonah"], "Mic": ["Micah"], "Nah": ["Nahum"], "Hab": ["Habakkuk"], "Zeph": ["Zephaniah"], "Hag": ["Haggai"], "Zech": ["Zechariah"], "Mal": ["Malachi"], "Matt": ["Matthew"], "Mark": ["Mark"], "Luke": ["Luke"], "John": ["John"], "Acts": ["Acts"], "Rom": ["Romans"], "1Cor": ["1 Corinthians"], "2Cor": ["2 Corinthians"], "Gal": ["Galatians"], "Eph": ["Ephesians"], "Phil": ["Philippians"], "Col": ["Colossians"], "1Thess": ["1 Thessalonians"], "2Thess": ["2 Thessalonians"], "1Tim": ["1 Timothy"], "2Tim": ["2 Timothy"], "Titus": ["Titus"], "Phlm": ["Philemon"], "Heb": ["Hebrews"], "Jas": ["James"], "1Pet": ["1 Peter"], "2Pet": ["2 Peter"], "1John": ["1 John"], "2John": ["2 John"], "3John": ["3 John"], "Jude": ["Jude"], "Rev": ["Revelation"], "Tob": ["Tobit"], "Jdt": ["Judith"], "GkEsth": ["Greek Esther"], "EsthGr": ["Greek Esther"], "AddEsth": ["Additions to Esther"], "Wis": ["Wisdom of Solomon"], "Sir": ["Sirach"], "Bar": ["Baruch"], "EpJer": ["Letter of Jeremiah"], "DanGr": ["Greek Daniel"], "SgThree": ["Song of the Three Holy Children"], "PrAzar": ["Prayer of Azariah"], "Sus": ["Susanna"], "Bel": ["Bel and the Dragon"], "1Macc": ["1 Maccabees"], "2Macc": ["2 Maccabees"], "3Macc": ["3 Maccabees"], "4Macc": ["4 Maccabees"], "PrMan": ["Prayer of Manasseh"], "1Esd": ["1 Esdras"], "2Esd": ["2 Esdras"], "Ps151": ["Psalm 151"], "AddPs": ["Psalm 151"],
@@ -43,6 +46,8 @@ const styles: any = Object.freeze({
 	"niv-short": {
 		options: {
 			",": "; ",
+			"b,c": "; $chapters ",
+			"b,v": "; $b ",
 			"c,v": "; $verses ",
 			"v,v": ",",
 			"v,c": "; $chapters ",
@@ -56,12 +61,13 @@ const styles: any = Object.freeze({
 			"-": "\u2014",
 			"b-c": "\u2014$chapters ",
 			"b-v": "\u2014$b ",
-			"c-v": "\u2014$c:", // arguably should be \u2013
+			"c-v": "\u2014$c:",
 			"v-c": "\u2014$chapters ",
 			"v-cv": "\u2014",
 			"v-v": "\u2013",
-			"^v": "$verses ",
-			"^c": "$chapters "
+			"^c": "$chapters ",
+			"b1^v": "$verses ",
+			"^v": "$verses "
 		},
 		books: {
 			"Gen": ["Gen"], "Exod": ["Exod"], "Lev": ["Lev"], "Num": ["Num"], "Deut": ["Deut"], "Josh": ["Josh"], "Judg": ["Judg"], "Ruth": ["Ruth"], "1Sam": ["1 Sam"], "2Sam": ["2 Sam"], "1Kgs": ["1 Kgs"], "2Kgs": ["2 Kgs"], "1Chr": ["1 Chr"], "2Chr": ["2 Chr"], "Ezra": ["Ezra"], "Neh": ["Neh"], "Esth": ["Esth"], "Job": ["Job"], "Ps": ["Ps", "Pss"], "Prov": ["Prov"], "Eccl": ["Eccl"], "Song": ["Song"], "Isa": ["Isa"], "Jer": ["Jer"], "Lam": ["Lam"], "Ezek": ["Ezek"], "Dan": ["Dan"], "Hos": ["Hos"], "Joel": ["Joel"], "Amos": ["Amos"], "Obad": ["Obad"], "Jonah": ["Jonah"], "Mic": ["Mic"], "Nah": ["Nah"], "Hab": ["Hab"], "Zeph": ["Zeph"], "Hag": ["Hag"], "Zech": ["Zech"], "Mal": ["Mal"], "Matt": ["Matt"], "Mark": ["Mark"], "Luke": ["Luke"], "John": ["John"], "Acts": ["Acts"], "Rom": ["Rom"], "1Cor": ["1 Cor"], "2Cor": ["2 Cor"], "Gal": ["Gal"], "Eph": ["Eph"], "Phil": ["Phil"], "Col": ["Col"], "1Thess": ["1 Thess"], "2Thess": ["2 Thess"], "1Tim": ["1 Tim"], "2Tim": ["2 Tim"], "Titus": ["Titus"], "Phlm": ["Phlm"], "Heb": ["Heb"], "Jas": ["Jas"], "1Pet": ["1 Pet"], "2Pet": ["2 Pet"], "1John": ["1 John"], "2John": ["2 John"], "3John": ["3 John"], "Jude": ["Jude"], "Rev": ["Rev"], "Tob": ["Tob"], "Jdt": ["Jdt"], "GkEsth": ["Gr Esth"], "EsthGr": ["Gr Esth"], "AddEsth": ["Add Esth"], "Wis": ["Wis"], "Sir": ["Sir"], "Bar": ["Bar"], "EpJer": ["L Jer"], "DanGr": ["Gr Dan"], "SgThree": ["S3Y"], "PrAzar": ["Pr Azar"], "Sus": ["Sus"], "Bel": ["Bel"], "1Macc": ["1 Macc"], "2Macc": ["2 Macc"], "3Macc": ["3 Macc"], "4Macc": ["4 Macc"], "PrMan": ["Pr Man"], "1Esd": ["1 Esd"], "2Esd": ["2 Esd"], "Ps151": ["Ps151"], "AddPs": ["Ps151"],
@@ -76,12 +82,14 @@ const styles: any = Object.freeze({
 	"niv-shortest": {
 		options: {
 			",": "; ",
+			"b,c": "; $b ",
+			"b,v": "; $b ",
 			"c,v": "; $c:",
 			"v,v": ", ",
-			"v,c": "; $chapters ", // Gen.10.15
+			"v,c": "; $chapters ", // see Gen.10.15
 			"v,cv": "; ",
 			"$chapters": ["$b"],
-			"$verses": ["ver"], // Gen.18.2 for plural
+			"$verses": ["ver"], // see Gen.18.2 for plural
 			"singleChapterFormat": "b",
 			"c.v": ":",
 			",b": "; ",
@@ -92,6 +100,8 @@ const styles: any = Object.freeze({
 			"c-v": "-$c:",
 			"v-c": "-$chapters ",
 			"v-cv": "-",
+			"^c": "$chapters ",
+			"b1^v": "$verses ",
 			"^v": "$verses "
 		},
 		books: {
@@ -105,7 +115,7 @@ const styles: any = Object.freeze({
 	},
 })
 
-function osisToEnglish(style: string, osis: string, context?: string) : string {
+function convertOsisToReadable(style: string, osis: string, context?: string) : string {
 	if (style !== currentStyle) {
 		setStyle(style)
 	}
@@ -121,4 +131,4 @@ function setStyle(style: string): void {
 	currentStyle = style
 }
 
-module.exports = osisToEnglish
+module.exports = convertOsisToReadable

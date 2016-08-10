@@ -15,7 +15,6 @@ flow suggest flow/en.js
 flow coverage flow/en.js
 babel flow/en.js --out-file=./es6/en.js
 node es6/en.js
-istanbul cover jasmine-node test/en.spec.js
 
 flow check flow/osisToParatext.js
 flow suggest flow/osisToParatext.js

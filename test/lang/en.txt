@@ -3,6 +3,8 @@ Initialization	should initialize	Matt.1.2	Mt 1:2	Matt 1:2	Matthew 1:2
 Readme	should match examples	Matt.1.2-Matt.1.3,Matt.1.4	Mt 1:2-3, 4	Matt 1:2\u20133,4	Matthew 1:2\u20133,4
 		Matt.1.2-Matt.1.3,Matt.1.4/Matt.1	ver 2-3, 4	vv. 2\u20133,4	vv. 2\u20133,4
 		Matt.1.2-Matt.1.3,Matt.1.4/Matt	1:2-3, 4	1:2\u20133,4	1:2\u20133,4
+Book names	should match unusual book names	Song	SS	Song	Song of Songs
+		Ps	Ps	Pss	Psalms
 `b` ranges	should handle `b-same b`	Gen-Gen	Ge-Ge	Gen\u2014Gen	Genesis\u2014Genesis
 		Gen-Gen.1	Ge-Ge 1	Gen\u2014ch. 1	Genesis\u2014ch. 1
 		Gen-Gen.1.2	Ge-Ge 1:2	Gen\u2014ch. 1:2	Genesis\u2014ch. 1:2
@@ -88,19 +90,41 @@ Readme	should match examples	Matt.1.2-Matt.1.3,Matt.1.4	Mt 1:2-3, 4	Matt 1:2\u20
 	should handle `Ps.cv-Ps151`	Ps.1.1-Ps151	Ps 1:1-Ps 151	Pss 1:1\u2014Ps 151	Psalms 1:1\u2014Psalm 151
 		Ps.1.1-Ps151.1	Ps 1:1-Ps 151	Pss 1:1\u2014Ps 151	Psalms 1:1\u2014Psalm 151
 		Ps.1.1-Ps151.1.2	Ps 1:1-151:2	Pss 1:1\u2014151:2	Psalms 1:1\u2014151:2
-	should handle single-chapter bcv-same b`	Phlm.1.1-Phlm	Phm 1-Phm	Phlm 1\u2014Phlm	Philemon 1\u2014Philemon
+`bv` ranges	should handle `bv-same b`	Phlm.1.1-Phlm	Phm 1-Phm	Phlm 1\u2014Phlm	Philemon 1\u2014Philemon
 		Phlm.1.1-Phlm.1	Phm 1-Phm	Phlm 1\u2014Phlm	Philemon 1\u2014Philemon
 		Phlm.1.1-Phlm.1.2	Phm 1-2	Phlm 1\u20132	Philemon 1\u20132
-	should handle single-chapter bcv-same bcv`	Phlm.1.1-Phlm.1.1	Phm 1-1	Phlm 1\u20131	Philemon 1\u20131
-	should handle `single-chapter bcv-different b`	Phlm.1.1-Rev	Phm 1-Rev	Phlm 1\u2014Rev	Philemon 1\u2014Revelation
+	should handle `bv-same bv`	Phlm.1.1-Phlm.1.1	Phm 1-1	Phlm 1\u20131	Philemon 1\u20131
+	should handle `bv-different b`	Phlm.1.1-Rev	Phm 1-Rev	Phlm 1\u2014Rev	Philemon 1\u2014Revelation
 		Phlm.1.1-Rev.1	Phm 1-Rev 1	Phlm 1\u2014Rev 1	Philemon 1\u2014Revelation 1
 		Phlm.1.1-Rev.1.2	Phm 1-Rev 1:2	Phlm 1\u2014Rev 1:2	Philemon 1\u2014Revelation 1:2
-	should handle `single-chapter bcv-different single-chapter b`	Phlm.1.1-Jude	Phm 1-Jude	Phlm 1\u2014Jude	Philemon 1\u2014Jude
+	should handle `bv-different single-chapter b`	Phlm.1.1-Jude	Phm 1-Jude	Phlm 1\u2014Jude	Philemon 1\u2014Jude
 		Phlm.1.1-Jude.1	Phm 1-Jude	Phlm 1\u2014Jude	Philemon 1\u2014Jude
 		Phlm.1.1-Jude.1.2	Phm 1-Jude 2	Phlm 1\u2014Jude 2	Philemon 1\u2014Jude 2
-					
-					
-`b` sequences					
+`b` sequences	should handle `b,same b`	Gen,Gen	Ge; Ge	Gen; Gen	Genesis; Genesis
+		Gen,Gen.1	Ge; Ge 1	Gen; ch. 1	Genesis; ch. 1
+		Gen,Gen.1-Gen.2	Ge; Ge 1-2	Gen; chs. 1\u20142	Genesis; chs. 1\u20142
+		Gen,Gen.1.2	Ge; Ge 1:2	Gen; ch. 1:2	Genesis; ch. 1:2
+	should handle `b,different b`	Gen,Matt	Ge; Mt	Gen; Matt	Genesis; Matthew
+		Gen,Matt.1	Ge; Mt 1	Gen; Matt 1	Genesis; Matthew 1
+		Gen,Matt.1.2	Ge; Mt 1:2	Gen; Matt 1:2	Genesis; Matthew 1:2
+	should handle `b,different, single-chapter b`	Gen,Phlm	Ge; Phm	Gen; Phlm	Genesis; Philemon
+		Gen,Phlm.1	Ge; Phm	Gen; Phlm	Genesis; Philemon
+		Gen,Phlm.1.2	Ge; Phm 2	Gen; Phlm 2	Genesis; Philemon 2
+	should handle `b,Ps151`	Gen,Ps151	Ge; Ps 151	Gen; Ps 151	Genesis; Psalm 151
+		Gen,Ps151.1	Ge; Ps 151	Gen; Ps 151	Genesis; Psalm 151
+		Gen,Ps151.1.2	Ge; Ps 151:2	Gen; Ps 151:2	Genesis; Psalm 151:2
+	should handle `Ps,Ps151`	Ps,Ps151	Ps; Ps 151	Pss; Ps 151	Psalms; Psalm 151
+		Ps,Ps151.1	Ps; Ps 151	Pss; Ps 151	Psalms; Psalm 151
+		Ps,Ps151.1.2	Ps; Ps 151:2	Pss; Ps 151:2	Psalms; Psalm 151:2
+	should handle `single-chapter b,same b`	Phlm,Phlm	Phm; Phm	Phlm; Phlm	Philemon; Philemon
+		Phlm,Phlm.1	Phm; Phm	Phlm; Phlm	Philemon; Philemon
+		Phlm,Phlm.1.2	Phm; Phm 2	Phlm; Phlm 2	Philemon; Philemon 2
+	should handle `single-chapter b,different b`	Phlm,Rev	Phm; Rev	Phlm; Rev	Philemon; Revelation
+		Phlm,Rev.1	Phm; Rev 1	Phlm; Rev 1	Philemon; Revelation 1
+		Phlm,Rev.1.2	Phm; Rev 1:2	Phlm; Rev 1:2	Philemon; Revelation 1:2
+	should handle `single-chapter b,different single-chapter b`	Phlm,Jude	Phm; Jude	Phlm; Jude	Philemon; Jude
+		Phlm,Jude.1	Phm; Jude	Phlm; Jude	Philemon; Jude
+		Phlm,Jude.1.2	Phm; Jude 2	Phlm; Jude 2	Philemon; Jude 2
 	should handle special book sequences	1Sam,2Sam	1Sa; 2Sa	1 and 2 Sam	1 and 2 Samuel
 		1Kgs,2Kgs	1Ki; 2Ki	1 and 2 Kgs	1 and 2 Kings
 		1Chr,2Chr	1Ch; 2Ch	1 and 2 Chr	1 and 2 Chronicles
@@ -122,3 +146,68 @@ Readme	should match examples	Matt.1.2-Matt.1.3,Matt.1.4	Mt 1:2-3, 4	Matt 1:2\u20
 		2Macc,4Macc	2Mac; 4Mac	2 and 4 Macc	2 and 4 Maccabees
 		3Macc,4Macc	3Mac; 4Mac	3 and 4 Macc	3 and 4 Maccabees
 		1Esd,2Esd	1Esd; 2Esd	1 and 2 Esd	1 and 2 Esdras
+`bc` sequences	should handle `bc, same b`	Gen.1,Gen	Ge 1; Ge	Gen 1; Gen	Genesis 1; Genesis
+		Gen.1,Gen.2	Ge 1; 2	Gen 1; 2	Genesis 1; 2
+		Gen.1,Gen.2.3	Ge 1; 2:3	Gen 1; 2:3	Genesis 1; 2:3
+	should handle `bc, same bc`	Gen.1,Gen.1	Ge 1; 1	Gen 1; 1	Genesis 1; 1
+		Gen.1,Gen.1.2	Ge 1; 1:2	Gen 1; v. 2	Genesis 1; v. 2
+	should handle `bc, different b`	Gen.1,Matt	Ge 1; Mt	Gen 1; Matt	Genesis 1; Matthew
+		Gen.1,Matt.2	Ge 1; Mt 2	Gen 1; Matt 2	Genesis 1; Matthew 2
+		Gen.1,Matt.2.3	Ge 1; Mt 2:3	Gen 1; Matt 2:3	Genesis 1; Matthew 2:3
+	should handle `bc, different, single-chapter b`	Gen.1,Phlm	Ge 1; Phm	Gen 1; Phlm	Genesis 1; Philemon
+		Gen.1,Phlm.1	Ge 1; Phm	Gen 1; Phlm	Genesis 1; Philemon
+		Gen.1,Phlm.1.2	Ge 1; Phm 2	Gen 1; Phlm 2	Genesis 1; Philemon 2
+	should handle `bc, Ps151`	Gen.1,Ps151	Ge 1; Ps 151	Gen 1; Ps 151	Genesis 1; Psalm 151
+		Gen.1,Ps151.1	Ge 1; Ps 151	Gen 1; Ps 151	Genesis 1; Psalm 151
+		Gen.1,Ps151.1.2	Ge 1; Ps 151:2	Gen 1; Ps 151:2	Genesis 1; Psalm 151:2
+	should handle `Ps.c, Ps151`	Ps.1,Ps151	Ps 1; 151	Pss 1; 151	Psalms 1; 151
+		Ps.1,Ps151.1	Ps 1; 151	Pss 1; 151	Psalms 1; 151
+		Ps.1,Ps151.1.2	Ps 1; 151:2	Pss 1; 151:2	Psalms 1; 151:2
+	should handle single-chapter bc, same b`	Phlm.1,Phlm	Phm; Phm	Phlm; Phlm	Philemon; Philemon
+		Phlm.1,Phlm.1	Phm; Phm	Phlm; Phlm	Philemon; Philemon
+		Phlm.1,Phlm.1.2	Phm; Phm 2	Phlm; Phlm 2	Philemon; Philemon 2
+	should handle `single-chapter bc, different b`	Phlm.1,Rev	Phm; Rev	Phlm; Rev	Philemon; Revelation
+		Phlm.1,Rev.1	Phm; Rev 1	Phlm; Rev 1	Philemon; Revelation 1
+		Phlm.1,Rev.1.2	Phm; Rev 1:2	Phlm; Rev 1:2	Philemon; Revelation 1:2
+	should handle `single-chapter bc, different single-chapter b`	Phlm.1,Jude	Phm; Jude	Phlm; Jude	Philemon; Jude
+		Phlm.1,Jude.1	Phm; Jude	Phlm; Jude	Philemon; Jude
+		Phlm.1,Jude.1.2	Phm; Jude 2	Phlm; Jude 2	Philemon; Jude 2
+`bcv` sequences	should handle `bcv, same b`	Gen.1.1,Gen	Ge 1:1; Ge	Gen 1:1; Gen	Genesis 1:1; Genesis
+		Gen.1.1,Gen.2	Ge 1:1; Ge 2	Gen 1:1; ch. 2	Genesis 1:1; ch. 2
+		Gen.1.1,Gen.2-Gen.3	Ge 1:1; Ge 2-3	Gen 1:1; chs. 2\u20143	Genesis 1:1; chs. 2\u20143
+		Gen.1.1,Gen.2.3	Ge 1:1; 2:3	Gen 1:1; 2:3	Genesis 1:1; 2:3
+		Gen.1.1,Gen.1.2-Gen.1.3	Ge 1:1, 2-3	Gen 1:1,2\u20133	Genesis 1:1,2\u20133
+	should handle `bcv, same bc`	Gen.1.1,Gen.1	Ge 1:1; Ge 1	Gen 1:1; ch. 1	Genesis 1:1; ch. 1
+		Gen.1.1,Gen.1.2	Ge 1:1, 2	Gen 1:1,2	Genesis 1:1,2
+	should handle `bcv, same bcv`	Gen.1.1,Gen.1.1	Ge 1:1, 1	Gen 1:1,1	Genesis 1:1,1
+	should handle `bcv, different b`	Gen.1.1,Matt	Ge 1:1; Mt	Gen 1:1; Matt	Genesis 1:1; Matthew
+		Gen.1.1,Matt.2	Ge 1:1; Mt 2	Gen 1:1; Matt 2	Genesis 1:1; Matthew 2
+		Gen.1.1,Matt.2.3	Ge 1:1; Mt 2:3	Gen 1:1; Matt 2:3	Genesis 1:1; Matthew 2:3
+	should handle `bcv, different, single-chapter b`	Gen.1.1,Phlm	Ge 1:1; Phm	Gen 1:1; Phlm	Genesis 1:1; Philemon
+		Gen.1.1,Phlm.1	Ge 1:1; Phm	Gen 1:1; Phlm	Genesis 1:1; Philemon
+		Gen.1.1,Phlm.1.2	Ge 1:1; Phm 2	Gen 1:1; Phlm 2	Genesis 1:1; Philemon 2
+	should handle `bcv, Ps151`	Gen.1.1,Ps151	Ge 1:1; Ps 151	Gen 1:1; Ps 151	Genesis 1:1; Psalm 151
+		Gen.1.1,Ps151.1	Ge 1:1; Ps 151	Gen 1:1; Ps 151	Genesis 1:1; Psalm 151
+		Gen.1.1,Ps151.1.2	Ge 1:1; Ps 151:2	Gen 1:1; Ps 151:2	Genesis 1:1; Psalm 151:2
+	should handle `Ps.cv, Ps151`	Ps.1.1,Ps151	Ps 1:1; Ps 151	Pss 1:1; Ps 151	Psalms 1:1; Psalm 151
+		Ps.1.1,Ps151.1	Ps 1:1; Ps 151	Pss 1:1; Ps 151	Psalms 1:1; Psalm 151
+		Ps.1.1,Ps151.1.2	Ps 1:1; 151:2	Pss 1:1; 151:2	Psalms 1:1; 151:2
+`bv` sequences	should handle `bv, same b`	Phlm.1.1,Phlm	Phm 1; Phm	Phlm 1; Phlm	Philemon 1; Philemon
+		Phlm.1.1,Phlm.1	Phm 1; Phm	Phlm 1; Phlm	Philemon 1; Philemon
+		Phlm.1.1,Phlm.1.2	Phm 1, 2	Phlm 1,2	Philemon 1,2
+	should handle `bv, same bcv`	Phlm.1.1,Phlm.1.1	Phm 1, 1	Phlm 1,1	Philemon 1,1
+	should handle `bv, different b`	Phlm.1.1,Rev	Phm 1; Rev	Phlm 1; Rev	Philemon 1; Revelation
+		Phlm.1.1,Rev.1	Phm 1; Rev 1	Phlm 1; Rev 1	Philemon 1; Revelation 1
+		Phlm.1.1,Rev.1.2	Phm 1; Rev 1:2	Phlm 1; Rev 1:2	Philemon 1; Revelation 1:2
+	should handle `bv, different single-chapter b`	Phlm.1.1,Jude	Phm 1; Jude	Phlm 1; Jude	Philemon 1; Jude
+		Phlm.1.1,Jude.1	Phm 1; Jude	Phlm 1; Jude	Philemon 1; Jude
+		Phlm.1.1,Jude.1.2	Phm 1; Jude 2	Phlm 1; Jude 2	Philemon 1; Jude 2
+Context	should handle `b^c`	Gen.1/Gen	Ge 1	ch. 1	ch. 1
+		Gen.1-Gen.2/Gen	Ge 1-2	chs. 1\u20142	chs. 1\u20142
+		Gen.1-Matt.1/Gen	Ge 1-Mt 1	chs. 1\u2014Matt 1	chs. 1\u2014Matthew 1
+	should handle `b^cv`	Gen.1.1/Gen	1:1	1:1	1:1
+		Gen.1.1-Gen.2/Gen	1:1-Ge 2	1:1\u2014ch. 2	1:1\u2014ch. 2
+		Gen.1.1-Matt.1/Gen	1:1-Mt 1	1:1\u2014Matt 1	1:1\u2014Matthew 1
+	should handle `b1^c`	Phlm.1/Phlm	Phm	Phlm	Philemon
+	should handle `b1^cv`	Phlm.1.1-Phlm.1.2/Phlm	ver 1-2	vv. 1\u20132	vv. 1\u20132
+		Phlm.1.1-Jude.1.2/Phlm	ver 1-Jude 2	vv. 1\u2014Jude 2	vv. 1\u2014Jude 2

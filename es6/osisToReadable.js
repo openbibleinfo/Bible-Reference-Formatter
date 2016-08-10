@@ -8,8 +8,8 @@ function getDefaults() {
 		"-": "-",
 		",": ", ",
 		".": " ",
-		"$chapters": Object.freeze(["ch", "chs"]),
-		"$verses": Object.freeze(["v", "vv"]),
+		"$chapters": ["ch", "chs"],
+		"$verses": ["v", "vv"],
 
 		"singleChapterFormat": "bv", // or `b` or `bcv`
 		"singleChapterBooks": Object.freeze(["Obad", "Phlm", "2John", "3John", "Jude", "PrAzar", "SgThree", "Sus", "Bel", "EpJer", "PrMan", "Ps151", "AddPs"]),
@@ -44,6 +44,7 @@ function OsisToReadable() {
 			// Add a separator token if there are more OSIS strings to tokenize. We don't want to add it at the end of the loop, which is why we use `while (true)` at the top.
 			if (osises.length > 0) {
 				tokens.push({
+					osis: ",",
 					type: ",",
 					parts: [],
 					laters: []
@@ -173,7 +174,7 @@ function OsisToReadable() {
 			// If `books` defines a string to use (e.g., with `Ps.$chapters`, maybe you want "Ps. 3" rather than "ch. 3"), use that instead.
 			const arrayToUse = typeof books[`${ part.b }.$chapters`] === "undefined" ? options["$chapters"] : books[`${ part.b }.$chapters`];
 			// Only retun the plural if there's a plural variant to use and there are later chapters.
-			if (arrayToUse.length > 1 && hasMultipleChapters(part, token) === true) {
+			if (arrayToUse.length > 1 && multipleChaptersPosition(part, token) > 0) {
 				return arrayToUse[1];
 			}
 			return arrayToUse[0];
@@ -188,10 +189,17 @@ function OsisToReadable() {
 		});
 		pattern = pattern.replace(/\$b/g, function () {
 			// We know that `part.b` exists in `books` because it would have already thrown an exception in `osisWithContext` or `setContext`.
-			if (books[part.b].length > 1 && hasMultipleChapters(part, token) === true) {
-				return books[part.b][1];
+			const maxPosition = books[part.b].length - 1;
+			// If there's only one possible book name, use that.
+			if (maxPosition === 0) {
+				return books[part.b][0];
 			}
-			return books[part.b][0];
+			// Otherwise, calculate the one that we prefer to use. [0] = singular; [1] = plural; [2] = book on its own.
+			const preferredPosition = multipleChaptersPosition(part, token);
+			if (preferredPosition > maxPosition) {
+				return books[part.b][maxPosition];
+			}
+			return books[part.b][preferredPosition];
 		});
 		// Don't accidentally insert `undefined` into a string.
 		pattern = pattern.replace(/\$c/g, typeof part.c === "string" ? part.c : "");
@@ -199,15 +207,20 @@ function OsisToReadable() {
 		return pattern;
 	}
 
-	// If a range or sequence has multiple chapters, we may want to change the output: `chapters 1-2` rather than `chapter 1-2`, for example.
-	function hasMultipleChapters(part, token) {
+	// If a range or sequence has multiple chapters, we may want to change the output: `chapters 1-2` rather than `chapter 1-2`, for example. The return value is 0-2, indicating which `books[osis][]` is preferred.
+	function multipleChaptersPosition(part, token) {
+		// If we're looking at a whole book and there are multiple chapters in the book, we know there are multiple chapters.
+		if (token.type === "b" && !isSingleChapterBook(part.b)) {
+			// It's a book on its own, so prefer the full-book abbreviation if available.
+			return 2;
+		}
 		// If we're currently looking at a chapter, include it in our calculations.
 		let later = part.type === "c" ? "c" : "";
 		// All the part types until the next book.
 		later += part.laters.join("") + "," + token.laters.join(",");
 		// A chapter range always has multiple chapters.
 		if (later.indexOf("-c") >= 0) {
-			return true;
+			return 1;
 		}
 		// An unusual situation, like `Ps.149-Prov.1` or `Ps.150-Prov.1`. In the first case, we want to use the plural; in the second, we want to use the singular. `later` only has a `-b` if it's in the current `part`--`token.laters` ends before it reaches the next book in a sequence.
 		if (part.b === "Ps" && later.indexOf("-b") >= 0) {
@@ -216,19 +229,19 @@ function OsisToReadable() {
 				if (otherPart.type === "c") {
 					// If it's less than the number of Psalms, we know that more than one chapter is involved.
 					if (parseInt(otherPart.c, 10) < options.maxPs) {
-						return true;
+						return 1;
 					}
 					// Once we've looked at the chapter, we don't need to look any further. We know this situation doesn't apply.
 					break;
 				}
 			}
-			return false;
+			return 0;
 		}
 		// If there are two or more chapter instances in a sequence, we know there are multiple chapters. "cc" = "", "", ""
 		if (later.split("c").length > 2) {
-			return true;
+			return 1;
 		}
-		return false;
+		return 0;
 	}
 
 	// Possibly handle `verse 1` and `verses 1-2` differently.
@@ -295,10 +308,13 @@ function OsisToReadable() {
 	// Create a sequence `token.parts` with the keys we'll need later.
 	function annotateSequenceToken(token, prevToken, tokens) {
 		const prevPart = prevToken.parts[prevToken.parts.length - 1];
+		// If preceded or followed by a range, only use the parts closest to the sequence token: `bcv-cv,bc-v` returns the subType `cv,bc`.
+		const prevTypes = prevToken.type.split("-");
+		const nextTypes = tokens[0].type.split("-");
 		token.parts = [{
 			type: ",",
 			// Indicates the preceding and following token types so that we can join different types differently if we want.
-			subType: `${ prevToken.type },${ tokens[0].type }`,
+			subType: `${ prevTypes.pop() },${ nextTypes[0] }`,
 			b: prevPart.b,
 			c: prevPart.c,
 			v: prevPart.v,
@@ -391,6 +407,7 @@ function OsisToReadable() {
 		parts.push(makeRangePart(startToken, endToken));
 
 		const token = {
+			osis: osis,
 			type: `${ startToken.type }-${ endToken.type }`,
 			// Add the end `parts` to the array.
 			parts: parts.concat(endToken.parts),
@@ -432,6 +449,7 @@ function OsisToReadable() {
 			throw `Unknown OSIS book: "${ b }" (${ osis })"`;
 		}
 		const out = {
+			osis: osis,
 			type: "",
 			parts: [],
 			laters: []
@@ -496,8 +514,6 @@ function OsisToReadable() {
 			// If we want to omit the chapter reference in a single-chapter book.
 			if (omitChapter === true) {
 				subType = "b.v";
-				// `b1` means a single-chapter book.
-				out.type = "b1";
 				// It's a single-chapter book, but there's no end verse.
 			} else if (isSingleChapter === true) {
 				// `b1` means a single-chapter book.
@@ -626,8 +642,8 @@ function OsisToReadable() {
 			if (Array.isArray(value) === false) {
 				throw `books["${ key }"] should be an array: ${ Object.prototype.toString.call(value) }.`;
 			}
-			if (value.length < 1 || value.length > 2) {
-				throw `books["${ key }"] should have exactly one or two items. `;
+			if (value.length < 1 || value.length > 3) {
+				throw `books["${ key }"] should have exactly 1, 2, or 3 items. `;
 			}
 			books[key] = value;
 		}
