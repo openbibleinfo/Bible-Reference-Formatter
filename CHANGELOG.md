@@ -1,8 +1,9 @@
 # Changelog
 
-## August 9, 2016
+## August 11, 2016
 
-Finish NIV type annotations.
+1. Finish NIV type annotations.
+2. Add browser-specific support back to IE10 (`js/`).
 
 ## August 8, 2016
 

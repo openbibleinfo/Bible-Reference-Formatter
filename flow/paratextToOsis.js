@@ -1,6 +1,5 @@
 /* @flow */
 "use strict";
-(function() : void {
 
 const paratexts: { [key: string]: string } = Object.freeze({"GEN": "Gen", "EXO": "Exod", "LEV": "Lev", "NUM": "Num", "DEU": "Deut", "JOS": "Josh", "JDG": "Judg", "RUT": "Ruth", "1SA": "1Sam", "2SA": "2Sam", "1KI": "1Kgs", "2KI": "2Kgs", "1CH": "1Chr", "2CH": "2Chr", "EZR": "Ezra", "NEH": "Neh", "EST": "Esth", "JOB": "Job", "PSA": "Ps", "PRO": "Prov", "ECC": "Eccl", "SNG": "Song", "ISA": "Isa", "JER": "Jer", "LAM": "Lam", "EZK": "Ezek", "DAN": "Dan", "HOS": "Hos", "JOL": "Joel", "AMO": "Amos", "OBA": "Obad", "JON": "Jonah", "MIC": "Mic", "NAM": "Nah", "HAB": "Hab", "ZEP": "Zeph", "HAG": "Hag", "ZEC": "Zech", "MAL": "Mal", "MAT": "Matt", "MRK": "Mark", "LUK": "Luke", "JHN": "John", "ACT": "Acts", "ROM": "Rom", "1CO": "1Cor", "2CO": "2Cor", "GAL": "Gal", "EPH": "Eph", "PHP": "Phil", "COL": "Col", "1TH": "1Thess", "2TH": "2Thess", "1TI": "1Tim", "2TI": "2Tim", "TIT": "Titus", "PHM": "Phlm", "HEB": "Heb", "JAS": "Jas", "1PE": "1Pet", "2PE": "2Pet", "1JN": "1John", "2JN": "2John", "3JN": "3John", "JUD": "Jude", "REV": "Rev", "TOB": "Tob", "JDT": "Jdt", "ESG": "EsthGr", "ADE": "AddEsth", "WIS": "Wis", "SIR": "Sir", "BAR": "Bar", "LJE": "EpJer", "DAG": "DanGr", "S3Y": "PrAzar", "SUS": "Sus", "BEL": "Bel", "1MA": "1Macc", "2MA": "2Macc", "3MA": "3Macc", "4MA": "4Macc", "MAN": "PrMan", "1ES": "1Esd", "2ES": "2Esd", "PS2": "AddPs"})
 // Some subset of "MAT 1:2-MRK 3:4"
@@ -18,7 +17,8 @@ function paratextToOsis(paratext: string) : string {
 	const parts: Array<string> = paratext.split(",")
 	const osises: Array<string> = []
 	// Handle each item in the list individually. Context doesn't propagate across comma boundaries.
-	for (const part: string of parts) {
+	for (let i: number = 0, max: number = parts.length; i < max; i++) {
+		const part: string = parts[i]
 		// Throws an exception on failure.
 		validateFormat(part)
 		osises.push(partToOsis(part))
@@ -105,4 +105,3 @@ function splitPart(paratext: string) : Array<string> {
 }
 
 module.exports = paratextToOsis
-}).call(this)

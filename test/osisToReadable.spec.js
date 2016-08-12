@@ -139,12 +139,21 @@ describe("Basic parsing", function() {
 		expect(c.toReadable("Ps.3.2,Ps.1.3,Ps.1.4", "Ps.1-Ps.3")).toEqual("v. 2; 1:3, 4")
 	})
 
-	it ("should handle start contexts", function () {
+	it ("should handle chapter start contexts", function () {
 		expect(c.toReadable("Matt.2-Matt.2.3", "Matt.1")).toEqual("ch. 2-v. 3")
 		expect(c.toReadable("Matt.2-Matt.3.3", "Matt.1")).toEqual("chs. 2\u20133:3")
 		expect(c.toReadable("Matt.2-Matt.3.3,Matt.4", "Matt.1")).toEqual("chs. 2\u20133:3; ch. 4")
 		expect(c.toReadable("Matt.2-Matt.3,Matt.4", "Matt.1")).toEqual("chs. 2\u20133; 4")
 		expect(c.toReadable("Matt.2,Matt.4", "Matt.1")).toEqual("chs. 2; 4")
+	})
+
+	it ("should handle verse start contexts", function () {
+		expect(c.toReadable("Matt.1.2-Matt.2.3", "Matt.1")).toEqual("vv. 2\u20132:3")
+		expect(c.toReadable("Matt.1.2-Matt.1.3", "Matt.1")).toEqual("vv. 2-3")
+		expect(c.toReadable("Matt.1.2-Matt.1.3,Matt.1.4", "Matt.1")).toEqual("vv. 2-3, 4")
+		expect(c.toReadable("Matt.1.2-Matt.1.3,Matt.4", "Matt.1")).toEqual("vv. 2-3; ch. 4")
+		expect(c.toReadable("Matt.1.2,Matt.1.4", "Matt.1")).toEqual("vv. 2, 4")
+		expect(c.toReadable("Ps.2.2,Ps.2.3", "Ps.2")).toEqual("vv. 2, 3")
 	})
 })
 

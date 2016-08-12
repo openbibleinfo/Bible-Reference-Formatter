@@ -5,26 +5,24 @@ interface OsisToReadableInterface {
 }
 type OptionsType = {
 	// Required options.
-	b: string;
-	c: string;
-	v: string;
+	"b": string;
+	"c": string;
+	"v": string;
 	"-": string;
 	",": string;
 	".": string;
 	"$chapters": Array<string>;
 	"$verses": Array<string>;
-	singleChapterFormat: "b" | "bv" | "bcv";
-	singleChapterBooks: Array<string>;
-	Ps151Format: "b" | "bc";
-	maxPs: number;
+	"singleChapterFormat": "b" | "bv" | "bcv";
+	"singleChapterBooks": Array<string>;
+	"Ps151Format": "b" | "bc";
+	"maxPs": number;
 
 	/*
-	Possible token types.
+	Possible non-range token types. These tokens all appear at the beginning of a request when provided a context. The values given here appear before the first text. For example, setting `{"^v": "$verses "}` would lead `.toReadable("Matt.1.2", "Matt.1") to output `v 2`.
+
+	The following token types aren't directly formattable. Instead, the format of the individual part controls the output: bc bcv bv cv
 	*/
-	"bc"?: string;
-	"bcv"?: string;
-	"bv"?: string;
-	"cv"?: string;
 	"^c"?: string;
 	"^cv"?: string;
 	"^v"?: string;

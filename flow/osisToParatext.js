@@ -1,6 +1,6 @@
 /* @flow */
 "use strict";
-(function() : void {
+
 const osisToReadable: () => OsisToReadableInterface = require("./osisToReadable")
 const converter: OsisToReadableInterface = new osisToReadable
 
@@ -32,4 +32,3 @@ function osisToParatext(osis: string) : string {
 }
 
 module.exports = osisToParatext
-}).call(this)

@@ -114,7 +114,7 @@ const styles = Object.freeze({
 	}
 });
 
-function convertOsisToReadable(style, osis, context) {
+function convertOsis(style, osis, context) {
 	if (style !== currentStyle) {
 		setStyle(style);
 	}
@@ -130,4 +130,4 @@ function setStyle(style) {
 	currentStyle = style;
 }
 
-module.exports = convertOsisToReadable;
+module.exports = convertOsis;

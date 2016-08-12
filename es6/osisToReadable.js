@@ -12,7 +12,7 @@ function getDefaults() {
 		"$verses": ["v", "vv"],
 
 		"singleChapterFormat": "bv", // or `b` or `bcv`
-		"singleChapterBooks": Object.freeze(["Obad", "Phlm", "2John", "3John", "Jude", "PrAzar", "SgThree", "Sus", "Bel", "EpJer", "PrMan", "Ps151", "AddPs"]),
+		"singleChapterBooks": ["Obad", "Phlm", "2John", "3John", "Jude", "PrAzar", "SgThree", "Sus", "Bel", "EpJer", "PrMan", "Ps151", "AddPs"],
 
 		"Ps151Format": "bc", // or `b`
 		"maxPs": 150
@@ -115,8 +115,8 @@ function OsisToReadable() {
 
 		// Most of the time, iterate over its `parts` to build the output string.
 		const out = [];
-		for (const part of token.parts) {
-			out.push(formatPart(token, part));
+		for (let i = 0, max = token.parts.length; i < max; i++) {
+			out.push(formatPart(token, token.parts[i]));
 		}
 		return out.join("");
 	}
@@ -222,10 +222,11 @@ function OsisToReadable() {
 		if (later.indexOf("-c") >= 0) {
 			return 1;
 		}
-		// An unusual situation, like `Ps.149-Prov.1` or `Ps.150-Prov.1`. In the first case, we want to use the plural; in the second, we want to use the singular. `later` only has a `-b` if it's in the current `part`--`token.laters` ends before it reaches the next book in a sequence.
+		// An unusual situation, a Psalms range into another book (e.g., `Ps.149-Prov.1` or `Ps.150-Prov.1`). In the first case, we want to use the plural; in the second, we want to use the singular. `later` only has a `-b` if it's in the current `part`--`token.laters` ends before it reaches the next book in a sequence.
 		if (part.b === "Ps" && later.indexOf("-b") >= 0) {
 			// Find the chapter number.
-			for (const otherPart of token.parts) {
+			for (let i = 0, max = token.parts.length; i < max; i++) {
+				const otherPart = token.parts[i];
 				if (otherPart.type === "c") {
 					// If it's less than the number of Psalms, we know that more than one chapter is involved.
 					if (parseInt(otherPart.c, 10) < options.maxPs) {
@@ -246,8 +247,9 @@ function OsisToReadable() {
 
 	// Possibly handle `verse 1` and `verses 1-2` differently.
 	function hasMultipleVerses(part, token) {
-		// All the part types until the next book.
-		const later = part.laters.join("") + "," + token.laters.join(",");
+		// If we're currently looking at a verse, include it in our calculations.
+		let later = part.type === "v" ? "v" : "";
+		later += part.laters.join("") + "," + token.laters.join(",");
 		// We only care about the current chapter.
 		let [thisChapter] = later.split("c");
 		// If there's a range, we know there are multiple verses.
@@ -287,21 +289,17 @@ function OsisToReadable() {
 
 	// Add data to a single token that we can't derive elsewehre.
 	function annotateToken(token, tokens, i) {
-		token.isFirst = false;
-		if (i === 0) {
-			token.isFirst = true;
-			// The first `part.type` could be `c` or `v` if `osisToReadable()` is provided a start context.
-			if (token.parts[0].type !== "b") {
-				// `c` or `v` or `cv`
-				const [pre] = token.type.split("-");
-				let prefix = "";
-				// Note that we're dealing with a single-chapter book in case we want to handle it differently.
-				if (isSingleChapterBook(token.parts[0].b)) {
-					prefix = "b1";
-				}
-				// Set the `subType` (`c` and `v` don't normally have a `subType`) for later use.
-				token.parts[0].subType = `${ prefix }^${ pre }`;
+		// The first `part.type` could be `c` or `v` if `osisToReadable()` is provided a start context.
+		if (i === 0 && token.parts[0].type !== "b") {
+			// `c` or `v` or `cv`
+			const [pre] = token.type.split("-");
+			let prefix = "";
+			// Note that we're dealing with a single-chapter book in case we want to handle it differently.
+			if (isSingleChapterBook(token.parts[0].b)) {
+				prefix = "b1";
 			}
+			// Set the `subType` (`c` and `v` don't normally have a `subType`) for later use.
+			token.parts[0].subType = `${ prefix }^${ pre }`;
 		}
 	}
 
@@ -335,7 +333,8 @@ function OsisToReadable() {
 			keepCheckingBooks = true;
 		}
 
-		for (const laterToken of tokens) {
+		for (let i = 0, max = tokens.length; i < max; i++) {
+			const laterToken = tokens[i];
 			let laterType = laterToken.type;
 			// Doing it this way avoids possible leading and trailing `,`.
 			if (laterType === ",") {
@@ -377,16 +376,17 @@ function OsisToReadable() {
 	// Add `laters` to each `token.parts`.
 	function annotateTokenParts(parts) {
 		let laters = [];
+		const max = parts.length;
 		// First we need to know what all the `laters` are.
-		for (const part of parts) {
-			laters.push(part.type);
+		for (let i = 0; i < max; i++) {
+			laters.push(parts[i].type);
 		}
 		// Then we can add them to each `part`.
-		for (const part of parts) {
+		for (let i = 0; i < max; i++) {
 			// The first element is the current type.
 			laters.shift();
 			// Create a copy rather than a reference and remove spacing parts (`.`).
-			part.laters = laters.filter(function (value) {
+			parts[i].laters = laters.filter(function (value) {
 				return value !== ".";
 			});
 		}
@@ -594,7 +594,7 @@ function OsisToReadable() {
 		osis = normalizeOsis(osis);
 		// Use the end value of the range if there is one.
 		if (osis.indexOf("-") >= 0) {
-			const [start, end] = osis.split("-");
+			const [, end] = osis.split("-");
 			return setContext(end);
 		}
 		const [b, c, v] = osis.split(".");
@@ -621,8 +621,10 @@ function OsisToReadable() {
 		if (userOptions == null) {
 			return;
 		}
-		// We want to ensure type consistency, so we don't just use `Object.assign`.
-		for (const key of Object.keys(userOptions)) {
+		// We want to ensure type consistency, so we don't just use `Object.assign`. Flow complains if we just iterate over `Object.keys()`.
+		const userKeys = Object.keys(userOptions);
+		for (let i = 0, max = userKeys.length; i < max; i++) {
+			const key = userKeys[i];
 			const defaultType = typeof options[key];
 			// If it's not in `defaults`, or if its type matches, set it.
 			if (defaultType === "undefined" || typeof userOptions[key] === defaultType) {
@@ -637,7 +639,7 @@ function OsisToReadable() {
 	// Set valid books and abbreviations. It takes an object where each key is the OSIS book (e.g., `Matt`), and each value is a one- or two-item array. The first item is the book name to use, and the second item is the book name to use for plural cases. For example: `{"Ps": ["Psalm", "Psalms"]`. You can also use a special key of the type `OSIS.$chapters` (e.g., `Ps.$chapters`), which overrides any chapter abbreviations. For example, `{"Ps": ["Ps.", "Pss."]` could result in `Psalms 1:2, Pss. 3, 4` if given the OSIS `Ps.1.2,Ps.3,Ps.4`.
 	function setBooks(userBooks) {
 		books = {};
-		for (const key of Object.keys(userBooks)) {
+		Object.keys(userBooks).forEach(function (key) {
 			const value = userBooks[key];
 			if (Array.isArray(value) === false) {
 				throw `books["${ key }"] should be an array: ${ Object.prototype.toString.call(value) }.`;
@@ -646,7 +648,7 @@ function OsisToReadable() {
 				throw `books["${ key }"] should have exactly 1, 2, or 3 items. `;
 			}
 			books[key] = value;
-		}
+		});
 	}
 
 	return {

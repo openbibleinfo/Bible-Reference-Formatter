@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+
+<script src="../js/osisToReadable.js" charset="utf-8"></script>
+<script src="../js/paratextToOsis.js" charset="utf-8"></script>
+<script src="../js/en.js" charset="utf-8"></script>
+<script src="../js/osisToParatext.js" charset="utf-8"></script>
+
+<script>
+	var osisToReadable = new OsisToReadable
+	osisToReadable.setBooks({Phlm:["Phlm"]})
+	console.log(osisToReadable.toReadable("Phlm.1.2"))
+	console.log(paratextToOsis("PHM 1:2"))
+	console.log(osisToEn("niv-long", "Phlm.1.2"))
+	console.log(osisToParatext("Phlm.1.2"))
+</script>
+
+</head>
+<body>
+</body>
+</html>
