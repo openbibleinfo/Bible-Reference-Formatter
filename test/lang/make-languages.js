@@ -1,4 +1,5 @@
 "use strict"
+/* global require, console */
 const fs = require("fs")
 const dataPath = "."
 const outPath = ".."
@@ -21,7 +22,7 @@ function writeTests(lang, describes) {
 			let func = []
 			let osises = JSON.stringify(it.osises)
 			osises = osises.replace(/\\\\u/g, "\\u")
-			func.push(`\tit (${JSON.stringify(it.it)}, function() {`)
+			func.push(`\tit(${JSON.stringify(it.it)}, function() {`)
 			func.push(`\tloopTest(${osises})`)
 			func.push("})")
 			out.push(func.join("\n\t"))
@@ -29,7 +30,7 @@ function writeTests(lang, describes) {
 		out.push("})\n")
 	}
 	out.push("describe(\"Not switching styles\", function() {")
-	out.push("\tit (\"should work when not switching styles\", function() {")
+	out.push("\tit(\"should work when not switching styles\", function() {")
 	const heading = headings[headings.length - 1]
 	out.push(`\t\texpect(() => convert(${JSON.stringify(heading)}, \"Matt.1\")).not.toThrow()`)
 	out.push(`\t\texpect(() => convert(${JSON.stringify(heading)}, \"Matt.2\")).not.toThrow()`)
@@ -61,7 +62,7 @@ function makeDescribes(langFile) {
 		}
 		const osis = fields.osis
 		if (osis.length === 0) {
-			console.log(`Warning: osis is empty. Skipping.`)
+			console.log("Warning: osis is empty. Skipping.")
 			continue
 		}
 		describes[lastDescribe]["it"][lastIt]["osises"][osis] = {}

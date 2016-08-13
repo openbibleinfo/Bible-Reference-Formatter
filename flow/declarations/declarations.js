@@ -11,6 +11,7 @@ type OptionsType = {
 	"-": string;
 	",": string;
 	".": string;
+	"c.v": string;
 	"$chapters": Array<string>;
 	"$verses": Array<string>;
 	"singleChapterFormat": "b" | "bv" | "bcv";
@@ -21,7 +22,7 @@ type OptionsType = {
 	/*
 	Possible non-range token types. These tokens all appear at the beginning of a request when provided a context. The values given here appear before the first text. For example, setting `{"^v": "$verses "}` would lead `.toReadable("Matt.1.2", "Matt.1") to output `v 2`.
 
-	The following token types aren't directly formattable. Instead, the format of the individual part controls the output: bc bcv bv cv
+	The token types (bc bcv bv cv) aren't directly formattable. Instead, the format of the individual part controls the output.
 	*/
 	"^c"?: string;
 	"^cv"?: string;
@@ -178,9 +179,8 @@ type OptionsType = {
 	"b.c"?: string;
 	"b.v"?: string;
 	"b1.c"?: string;
-	// no `b1.v`: that's `b.v`
-	"c.v"?: string;
-
+	// No `b1.v`: that's `b.v`.
+	// `c.v` is already defined above.
 }
 
 type BooksType = {

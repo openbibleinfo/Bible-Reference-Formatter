@@ -1,0 +1,195 @@
+{
+    "parser": "babel-eslint",
+    "plugins": [
+        "flowtype"
+    ],
+    "env": {
+        "browser": false,
+        "es6": true
+    },
+    "extends": "eslint:recommended",
+    "rules": {
+        "indent": [
+            "error",
+            "tab",
+            {
+                "SwitchCase": 1
+            }
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "double"
+        ],
+        "semi": [
+            "error",
+            "never"
+        ],
+        "prefer-const": ["error", {
+            "destructuring": "any",
+            "ignoreReadBeforeAssign": false
+        }],
+        "no-extra-parens": [
+            "error",
+            "functions"
+        ],
+        "no-template-curly-in-string": [
+            "error"
+        ],
+        "no-unsafe-negation": [
+            "error"
+        ],
+        "array-callback-return": [
+            "error"
+        ],
+        "curly": [
+            "error",
+            "all"
+        ],
+        "dot-notation": [
+            "error"
+        ],
+        "eqeqeq": [
+            "error",
+            "always",
+            {
+                "null": "never"
+            }
+        ],
+        "no-else-return": [
+            "error"
+        ],
+        "no-unmodified-loop-condition": [
+            "error"
+        ],
+        "no-useless-concat": [
+            "error"
+        ],
+        "radix": [
+            "error",
+            "always"
+        ],
+        "array-bracket-spacing": [
+            "error",
+            "never"
+        ],
+        "block-spacing": [
+            "error",
+            "always"
+        ],
+        "brace-style": [
+            "error",
+            "1tbs"
+        ],
+        "camelcase": [
+            "error"
+        ],
+        "comma-spacing": [
+            "error"
+        ],
+        "comma-style": [
+            "error"
+        ],
+        "computed-property-spacing": [
+            "error",
+            "never"
+        ],
+        "eol-last": [
+            "error",
+            "unix"
+        ],
+        "func-call-spacing": [
+            "error",
+            "never"
+        ],
+        "key-spacing": [
+            "error"
+        ],
+        "keyword-spacing": [
+            "error"
+        ],
+        "linebreak-style": [
+            "error"
+        ],
+        "no-lonely-if": [
+            "error"
+        ],
+        "object-curly-newline": [
+            "error",
+            {
+                "minProperties": 1
+            }
+        ],
+        "operator-assignment": [
+            "error",
+            "always"
+        ],
+        "padded-blocks": [
+            "error",
+            "never"
+        ],
+        "quote-props": [
+            "error",
+            "consistent"
+        ],
+        "space-before-blocks": [
+            "error",
+            "always"
+        ],
+        "space-before-function-paren": [
+            "error",
+            "never"
+        ],
+        "space-in-parens": [
+            "error",
+            "never"
+        ],
+        "spaced-comment": [
+            "error",
+            "always"
+        ],
+        "no-var": [
+            "error"
+        ],
+        "object-shorthand": [
+            "error",
+            "always"
+        ],
+        "template-curly-spacing": [
+            "error",
+            "never"
+        ],
+
+        "flowtype/define-flow-type": 1,
+        "flowtype/require-parameter-type": 1,
+        "flowtype/require-return-type": [
+            1,
+            "always",
+            {
+                "annotateUndefined": "always"
+            }
+        ],
+        "flowtype/space-after-type-colon": [
+            1,
+            "always"
+        ],
+        "flowtype/space-before-type-colon": [
+            1,
+            "never"
+        ],
+        "flowtype/type-id-match": [
+            1,
+            "^([A-Z][a-z0-9]+)+Type$"
+        ],
+        "flowtype/use-flow-type": 1,
+        "flowtype/valid-syntax": 1
+    },
+    "settings": {
+        "flowtype": {
+            "onlyFilesWithFlowAnnotation": true
+        }
+    }
+}

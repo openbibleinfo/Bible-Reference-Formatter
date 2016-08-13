@@ -1,10 +1,14 @@
-"use strict";
+"use strict"
+/* global require, describe, it, expect */
 const osisToReadable = require("../es6/osisToReadable")
 const c = new osisToReadable
-const books = {"Gen": ["Gen"], "Exod": ["Exod"], "Lev": ["Lev"], "Num": ["Num"], "Deut": ["Deut"], "Josh": ["Josh"], "Judg": ["Judg"], "Ruth": ["Ruth"], "1Sam": ["1Sam"], "2Sam": ["2Sam"], "1Kgs": ["1Kgs"], "2Kgs": ["2Kgs"], "1Chr": ["1Chr"], "2Chr": ["2Chr"], "Ezra": ["Ezra"], "Neh": ["Neh"], "Esth": ["Esth"], "Job": ["Job"], "Ps": ["Ps"], "Prov": ["Prov"], "Eccl": ["Eccl"], "Song": ["Song"], "Isa": ["Isa"], "Jer": ["Jer"], "Lam": ["Lam"], "Ezek": ["Ezek"], "Dan": ["Dan"], "Hos": ["Hos"], "Joel": ["Joel"], "Amos": ["Amos"], "Obad": ["Obad"], "Jonah": ["Jonah"], "Mic": ["Mic"], "Nah": ["Nah"], "Hab": ["Hab"], "Zeph": ["Zeph"], "Hag": ["Hag"], "Zech": ["Zech"], "Mal": ["Mal"], "Matt": ["Matt"], "Mark": ["Mark"], "Luke": ["Luke"], "John": ["John"], "Acts": ["Acts"], "Rom": ["Rom"], "1Cor": ["1Cor"], "2Cor": ["2Cor"], "Gal": ["Gal"], "Eph": ["Eph"], "Phil": ["Phil"], "Col": ["Col"], "1Thess": ["1Thess"], "2Thess": ["2Thess"], "1Tim": ["1Tim"], "2Tim": ["2Tim"], "Titus": ["Titus"], "Phlm": ["Phlm"], "Heb": ["Heb"], "Jas": ["Jas"], "1Pet": ["1Pet"], "2Pet": ["2Pet"], "1John": ["1John"], "2John": ["2John"], "3John": ["3John"], "Jude": ["Jude"], "Rev": ["Rev"], "Tob": ["Tob"], "Jdt": ["Jdt"], "GkEsth": ["GkEsth"], "EsthGr": ["EsthGr"], "AddEsth": ["AddEsth"], "Wis": ["Wis"], "Sir": ["Sir"], "Bar": ["Bar"], "EpJer": ["EpJer"], "DanGr": ["DanGr"], "SgThree": ["SgThree"], "PrAzar": ["PrAzar"], "Sus": ["Sus"], "Bel": ["Bel"], "1Macc": ["1Macc"], "2Macc": ["2Macc"], "3Macc": ["3Macc"], "4Macc": ["4Macc"], "PrMan": ["PrMan"], "1Esd": ["1Esd"], "2Esd": ["2Esd"], "Ps151": ["Ps151"], "AddPs": ["AddPs"]}
+const books = {
+	"Gen": ["Gen"], "Exod": ["Exod"], "Lev": ["Lev"], "Num": ["Num"], "Deut": ["Deut"], "Josh": ["Josh"], "Judg": ["Judg"], "Ruth": ["Ruth"], "1Sam": ["1Sam"], "2Sam": ["2Sam"], "1Kgs": ["1Kgs"], "2Kgs": ["2Kgs"], "1Chr": ["1Chr"], "2Chr": ["2Chr"], "Ezra": ["Ezra"], "Neh": ["Neh"], "Esth": ["Esth"], "Job": ["Job"], "Ps": ["Ps"], "Prov": ["Prov"], "Eccl": ["Eccl"], "Song": ["Song"], "Isa": ["Isa"], "Jer": ["Jer"], "Lam": ["Lam"], "Ezek": ["Ezek"], "Dan": ["Dan"], "Hos": ["Hos"], "Joel": ["Joel"], "Amos": ["Amos"], "Obad": ["Obad"], "Jonah": ["Jonah"], "Mic": ["Mic"], "Nah": ["Nah"], "Hab": ["Hab"], "Zeph": ["Zeph"], "Hag": ["Hag"], "Zech": ["Zech"], "Mal": ["Mal"], "Matt": ["Matt"], "Mark": ["Mark"], "Luke": ["Luke"], "John": ["John"], "Acts": ["Acts"], "Rom": ["Rom"], "1Cor": ["1Cor"], "2Cor": ["2Cor"], "Gal": ["Gal"], "Eph": ["Eph"], "Phil": ["Phil"], "Col": ["Col"], "1Thess": ["1Thess"], "2Thess": ["2Thess"], "1Tim": ["1Tim"], "2Tim": ["2Tim"], "Titus": ["Titus"], "Phlm": ["Phlm"], "Heb": ["Heb"], "Jas": ["Jas"], "1Pet": ["1Pet"], "2Pet": ["2Pet"], "1John": ["1John"], "2John": ["2John"], "3John": ["3John"], "Jude": ["Jude"], "Rev": ["Rev"], "Tob": ["Tob"], "Jdt": ["Jdt"], "GkEsth": ["GkEsth"], "EsthGr": ["EsthGr"], "AddEsth": ["AddEsth"], "Wis": ["Wis"], "Sir": ["Sir"], "Bar": ["Bar"], "EpJer": ["EpJer"], "DanGr": ["DanGr"], "SgThree": ["SgThree"], "PrAzar": ["PrAzar"], "Sus": ["Sus"], "Bel": ["Bel"], "1Macc": ["1Macc"], "2Macc": ["2Macc"], "3Macc": ["3Macc"], "4Macc": ["4Macc"], "PrMan": ["PrMan"], "1Esd": ["1Esd"], "2Esd": ["2Esd"], "Ps151": ["Ps151"], "AddPs": ["AddPs"]
+}
 c.setBooks(books)
 c.setOptions({
 	".": ".",
+	"c.v": ".",
 	",": ",",
 	"$chapters": ["$b"],
 	"$verses": ["$b.$c"],
@@ -19,13 +23,13 @@ c.setOptions({
 })
 
 describe("Initialization", function() {
-	it ("should initialize", function() {
+	it("should initialize", function() {
 		expect(c.toReadable("Matt")).toEqual("Matt")
 	})
 })
 
 describe("Round trips", function() {
-	it ("should round-trip single books", function() {
+	it("should round-trip single books", function() {
 		const starts = ["", ".2", ".2.3"]
 		const ends = ["", ".2", ".2.3", ".4", ".4.5"]
 		for (const book of Object.keys(books)) {
@@ -38,16 +42,14 @@ describe("Round trips", function() {
 					const start = book + startSuffix
 					for (const endSuffix of ends) {
 						const end = book + endSuffix
-					expect(c.toReadable(`${start}${joiner}${end}`)).toEqual(`${start}${joiner}${end}`)
+						expect(c.toReadable(`${start}${joiner}${end}`)).toEqual(`${start}${joiner}${end}`)
 					}
 				}
 			}
 		}
 	})
 
-	it ("should round-trip multiple books", function() {
-		const starts = ["", ".2", ".2.3"]
-		const ends = ["", ".2", ".2.3", ".4", ".4.5"]
+	it("should round-trip multiple books", function() {
 		const tests = [
 			"Matt-Mark",
 			"Matt-Mark.1",

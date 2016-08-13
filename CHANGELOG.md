@@ -1,9 +1,15 @@
 # Changelog
 
+## August 12, 2016
+
+1. Add ESV and NLT output formats.
+2. Pass eslint checks.
+3. Expand readme with more explanation of how to use `osisToReadable.js`.
+
 ## August 11, 2016
 
-1. Finish NIV type annotations.
-2. Add browser-specific support back to IE10 (`js/`).
+1. Finish NIV output formats.
+2. Add browser-specific support for IE10 and modern browsers (`js/`).
 
 ## August 8, 2016
 

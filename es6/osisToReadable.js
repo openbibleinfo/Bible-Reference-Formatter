@@ -8,6 +8,7 @@ function getDefaults() {
 		"-": "-",
 		",": ", ",
 		".": " ",
+		"c.v": ":",
 		"$chapters": ["ch", "chs"],
 		"$verses": ["v", "vv"],
 
@@ -36,7 +37,7 @@ function OsisToReadable() {
 		// Separate the supplied OSISes into individual OSIS references.
 		const osises = osisString.split(",");
 		const tokens = [];
-		while (true) {
+		while (osises.length > 0) {
 			// Make sure we're dealing with a valid OSIS string. It throws an exception if there's a problem.
 			const osis = normalizeOsis(osises.shift());
 			// Tokenize the OSIS string.
@@ -49,8 +50,6 @@ function OsisToReadable() {
 					parts: [],
 					laters: []
 				});
-			} else {
-				break;
 			}
 		}
 		return tokensToReadable(tokens);
@@ -138,7 +137,7 @@ function OsisToReadable() {
 			case ".":
 			case "-":
 			case ",":
-			// `default` is only here to satisfy code coverage. There are no other cases.
+			// Falls through. `default` is only here to satisfy code coverage. There are no other cases.
 			default:
 				return formatVariable(getBestOption(part.type, part.subType), part, token);
 		}
@@ -146,10 +145,11 @@ function OsisToReadable() {
 
 	// `options` can contain partial matches: `bc-bc`, `bc-b`, `c-bc`, `c-b`, `-bc`, `-b`, and `-` all match a `bc-bc` string. Take the best match that exists in options.
 	function getBestOption(splitChar, option) {
-		let [pre, postChars] = option.split(splitChar);
+		let [pre, post] = option.split(splitChar);
+		const postChars = post;
 		// Start by matching the full string. Progressively remove ending possibilities and then beginning possibilities. For `bc-bc`, it tries to find options in the following order, knowing that the last one, the `splitChar` on its own, will always match: `bc-bc`, `bc-b`, `c-bc`, `c-b`, `-bc`, `-` 
 		for (let i = 0, length = pre.length; i <= length; i++) {
-			let post = postChars;
+			post = postChars;
 			while (post.length > 0) {
 				if (typeof options[`${ pre }${ splitChar }${ post }`] === "string") {
 					return `${ pre }${ splitChar }${ post }`;
@@ -172,7 +172,7 @@ function OsisToReadable() {
 		// Replace `$chapters` with a literal value like `ch.` or `chs.` It's a RegExp rather than a string to allow the `/g` flag.
 		pattern = pattern.replace(/\$chapters/g, function () {
 			// If `books` defines a string to use (e.g., with `Ps.$chapters`, maybe you want "Ps. 3" rather than "ch. 3"), use that instead.
-			const arrayToUse = typeof books[`${ part.b }.$chapters`] === "undefined" ? options["$chapters"] : books[`${ part.b }.$chapters`];
+			const arrayToUse = typeof books[`${ part.b }.$chapters`] === "undefined" ? options.$chapters : books[`${ part.b }.$chapters`];
 			// Only retun the plural if there's a plural variant to use and there are later chapters.
 			if (arrayToUse.length > 1 && multipleChaptersPosition(part, token) > 0) {
 				return arrayToUse[1];
@@ -182,10 +182,10 @@ function OsisToReadable() {
 		// It's a RegExp rather than a string to allow the `/g` flag.
 		pattern = pattern.replace(/\$verses/g, function () {
 			// Unlike `$chapters`, `$verses` doesn't require a check inside `books` since `Ps.1.2-Ps.1.3` is going to be `vv. 2-3`.
-			if (options["$verses"].length > 1 && hasMultipleVerses(part, token) === true) {
-				return options["$verses"][1];
+			if (options.$verses.length > 1 && hasMultipleVerses(part, token) === true) {
+				return options.$verses[1];
 			}
-			return options["$verses"][0];
+			return options.$verses[0];
 		});
 		pattern = pattern.replace(/\$b/g, function () {
 			// We know that `part.b` exists in `books` because it would have already thrown an exception in `osisWithContext` or `setContext`.
@@ -251,7 +251,7 @@ function OsisToReadable() {
 		let later = part.type === "v" ? "v" : "";
 		later += part.laters.join("") + "," + token.laters.join(",");
 		// We only care about the current chapter.
-		let [thisChapter] = later.split("c");
+		const [thisChapter] = later.split("c");
 		// If there's a range, we know there are multiple verses.
 		if (thisChapter.indexOf("-") >= 0) {
 			return true;
@@ -335,7 +335,7 @@ function OsisToReadable() {
 
 		for (let i = 0, max = tokens.length; i < max; i++) {
 			const laterToken = tokens[i];
-			let laterType = laterToken.type;
+			const laterType = laterToken.type;
 			// Doing it this way avoids possible leading and trailing `,`.
 			if (laterType === ",") {
 				continue;
@@ -375,7 +375,7 @@ function OsisToReadable() {
 
 	// Add `laters` to each `token.parts`.
 	function annotateTokenParts(parts) {
-		let laters = [];
+		const laters = [];
 		const max = parts.length;
 		// First we need to know what all the `laters` are.
 		for (let i = 0; i < max; i++) {
@@ -407,7 +407,7 @@ function OsisToReadable() {
 		parts.push(makeRangePart(startToken, endToken));
 
 		const token = {
-			osis: osis,
+			osis,
 			type: `${ startToken.type }-${ endToken.type }`,
 			// Add the end `parts` to the array.
 			parts: parts.concat(endToken.parts),
@@ -449,7 +449,7 @@ function OsisToReadable() {
 			throw `Unknown OSIS book: "${ b }" (${ osis })"`;
 		}
 		const out = {
-			osis: osis,
+			osis,
 			type: "",
 			parts: [],
 			laters: []
@@ -470,9 +470,9 @@ function OsisToReadable() {
 		out.parts.push({
 			type: "v",
 			subType: "",
-			b: b,
-			c: c,
-			v: v,
+			b,
+			c,
+			v,
 			laters: []
 		});
 		context.v = parseInt(v, 10);
@@ -488,7 +488,7 @@ function OsisToReadable() {
 			out.parts.push({
 				type: "b",
 				subType: "",
-				b: b,
+				b,
 				laters: []
 			});
 			return false;
@@ -501,7 +501,7 @@ function OsisToReadable() {
 			out.parts.push({
 				type: "b",
 				subType: "",
-				b: b,
+				b,
 				laters: []
 			});
 			out.type = "b";
@@ -522,8 +522,8 @@ function OsisToReadable() {
 			// We know there's a chapter, so insert the joiner.
 			out.parts.push({
 				type: ".",
-				subType: subType,
-				b: b,
+				subType,
+				b,
 				laters: []
 			});
 		}
@@ -542,8 +542,8 @@ function OsisToReadable() {
 				out.parts.push({
 					type: "c",
 					subType: "",
-					b: b,
-					c: c,
+					b,
+					c,
 					laters: []
 				});
 				out.type += "c";
@@ -555,7 +555,7 @@ function OsisToReadable() {
 				out.parts.push({
 					type: ".",
 					subType: "c.v",
-					b: b,
+					b,
 					laters: []
 				});
 			}
@@ -575,7 +575,7 @@ function OsisToReadable() {
 			throw `Invalid osis format: '${ osis }'`;
 		}
 		// If we want to treat Ps151 as just another Psalm (so `Ps151.1.2` might output `Psalm 151:2`).
-		if (options["Ps151Format"] === "bc") {
+		if (options.Ps151Format === "bc") {
 			// Remove the chapter and treat it as `Ps.151`.
 			osis = osis.replace(/(?:Ps151|AddPs)(?:\.\d+\b)?/g, "Ps.151");
 		}
@@ -585,7 +585,11 @@ function OsisToReadable() {
 	// Given an optional string context, create a `context` obect.
 	function setContext(osis) {
 		// We always only want these three keys. Flow doesn't like calling `Object.seal`, however.
-		const out = { b: "", c: 0, v: 0 };
+		const out = {
+			b: "",
+			c: 0,
+			v: 0
+		};
 		// There's no provided context.
 		if (osis == null) {
 			return out;
@@ -652,10 +656,11 @@ function OsisToReadable() {
 	}
 
 	return {
-		toReadable: toReadable,
-		setOptions: setOptions,
-		setBooks: setBooks
+		toReadable,
+		setOptions,
+		setBooks
 	};
 }
 
+/* global module */
 module.exports = OsisToReadable;

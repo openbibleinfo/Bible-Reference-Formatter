@@ -1,4 +1,5 @@
-"use strict";
+"use strict"
+/* global require, describe, it, expect */
 const convert = require("../es6/$LANG")
 
 function loopTest(osises) {

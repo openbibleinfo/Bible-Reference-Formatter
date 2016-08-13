@@ -1,4 +1,5 @@
-"use strict";
+"use strict"
+/* global require, describe, it, expect */
 const osisToReadable = require("../es6/osisToReadable")
 const c = new osisToReadable
 c.setBooks({"Matt": ["Matt"], "Mark": ["Mark"], "Phlm": ["Phlm"], "Jude": ["Jude"]})
@@ -34,7 +35,7 @@ const vars = {
 }
 
 function formatCheck(check) {
-	for (const pattern of Object.keys(vars).sort(function(a, b) { if (a.length > b.length) return -1; if (a.length === b.length) return 0; return 1;})) {
+	for (const pattern of Object.keys(vars).sort(function(a, b) {if (a.length > b.length) return -1; if (a.length === b.length) return 0; return 1})) {
 		let escaped = pattern.replace("^", "\\^")
 		check = check.replace(RegExp(escaped, "g"), vars[pattern])
 	}
@@ -61,7 +62,7 @@ function checkResults(expectedResult, formats) {
 }
 
 describe("Individuals", function() {
-	it ("should handle positives", function() {
+	it("should handle positives", function() {
 		checkResults(true, {
 			"b": [["start:b", {"b":"#"}], ["start:bc", {"b":"#"}], ["start:bcv", {"b":"#"}]],
 			"bc": [["start:bc", {"b.c":"#"}]],
@@ -80,7 +81,7 @@ describe("Individuals", function() {
 		})
 	})
 
-	it ("should handle negatives", function() {
+	it("should handle negatives", function() {
 		checkResults(false, {
 			"b1^c": [["b1^c", {"singleChapterFormat":"b", "b1^c": "#"}, "start:bv"]],
 			"b1^cv": [["b1^cv", {"singleChapterFormat":"bv", "b1^cv": "#"}, "b1^b"], ["b1^cv", {"singleChapterFormat":"b", "b1^cv": "#"}, "b1^b"]],
@@ -89,7 +90,7 @@ describe("Individuals", function() {
 })
 
 describe("Ranges", function() {
-	it ("should handle generic positives", function() {
+	it("should handle generic positives", function() {
 		checkResults(true, {
 			"-": [["start:b-end:b", {"-":"#"}]],
 			"-b": [["start:b-end:b", {"-b":"#"}], ["start:b-end:bc", {"-b":"#"}], ["start:b-end:bcv", {"-bcv":"#"}]],
@@ -101,7 +102,7 @@ describe("Ranges", function() {
 		})
 	})
 
-	it ("should handle generic negatives", function() {
+	it("should handle generic negatives", function() {
 		checkResults(false, {
 			"-b": [["start:b-end:cv", {"-b":"#"}]],
 			"-bc": [["start:bc-end:c", {"-b":"#"}]],
@@ -109,7 +110,7 @@ describe("Ranges", function() {
 		})
 	})
 
-	it ("should handle `b-` positives", function() {
+	it("should handle `b-` positives", function() {
 		checkResults(true, {
 			"b-b": [["start:b-end:b", {"b-b":"#"}], ["start:b-end:bc", {"b-b":"#"}], ["start:b-end:bcv", {"b-b":"#"}]],
 			"b-bc": [["start:b-end:bc", {"b-bc":"#"}], ["start:b-end:bcv", {"b-bc":"#"}]],
@@ -121,7 +122,7 @@ describe("Ranges", function() {
 		})
 	})
 
-	it ("should handle `b-` negatives", function() {
+	it("should handle `b-` negatives", function() {
 		checkResults(false, {
 			"b-bc": [["start:b-end:b", {"b-bc":"#"}]],
 			"b-bcv": [["start:b-end:bc", {"b-bcv":"#"}]],
@@ -131,7 +132,7 @@ describe("Ranges", function() {
 		})
 	})
 
-	it ("should handle `bc-` positives", function() {
+	it("should handle `bc-` positives", function() {
 		checkResults(true, {
 			"bc-b": [["start:bc-end:b", {"bc-b":"#"}], ["start:bc-end:bc", {"bc-b":"#"}], ["start:bc-end:bcv", {"bc-b":"#"}]],
 			"bc-bc": [["start:bc-end:bc", {"bc-bc":"#"}], ["start:bc-end:bcv", {"bc-bc":"#"}]],
@@ -143,7 +144,7 @@ describe("Ranges", function() {
 		})
 	})
 
-	it ("should handle `bcv-` positives", function() {
+	it("should handle `bcv-` positives", function() {
 		checkResults(true, {
 			"bcv-b": [["start:bcv-end:b", {"bcv-b":"#"}], ["start:bcv-end:bc", {"bcv-b":"#"}], ["start:bcv-end:bcv", {"bcv-b":"#"}]],
 			"bcv-bc": [["start:bcv-end:bc", {"bcv-bc":"#"}], ["start:bcv-end:bcv", {"bcv-bc":"#"}]],
@@ -155,13 +156,13 @@ describe("Ranges", function() {
 		})
 	})
 
-	it ("should handle `bcv-` negatives", function() {
+	it("should handle `bcv-` negatives", function() {
 		checkResults(false, {
 			"bcv-v": [["b1^cv-end:bv", {"bcv-v":"#", "singleChapterFormat": "bv"}], ["b1^cv-end:bv", {"bcv-v":"#", "singleChapterFormat": "b"}]],
 		})
 	})
 
-	it ("should handle `bv-` positives", function() {
+	it("should handle `bv-` positives", function() {
 		checkResults(true, {
 			"bv-b": [["start:bv-end:b", {"bv-b":"#"}], ["start:bv-end:bc", {"bv-b":"#"}], ["start:bv-end:bcv", {"bv-b":"#"}]],
 			"bv-bc": [["start:bv-end:bc", {"bv-bc":"#"}], ["start:bv-end:bcv", {"bv-bc":"#"}]],
@@ -172,14 +173,14 @@ describe("Ranges", function() {
 		})
 	})
 
-	it ("should handle `bv-` negatives", function() {
+	it("should handle `bv-` negatives", function() {
 		checkResults(false, {
-			"bv-cv": [["start:bv-Phlm.2.1", {"bv-cv":"#", "singleChapterFormat": "bcv"}]], // It isn't possible to make this range happen.
+			"bv-cv": [["start:bv-Phlm.2.1", {"bv-cv":"#", "singleChapterFormat": "bcv"}]], // itisn't possible to make this range happen.
 			"bv-v": [["start:bv-end:bv", {"bv-v":"#", "singleChapterFormat": "bcv"}]],
 		})
 	})
 
-	it ("should handle `c-` positives", function() {
+	it("should handle `c-` positives", function() {
 		checkResults(true, {
 			"c-b": [["start:c-end:b", {"c-b":"#"}], ["start:c-end:bc", {"c-b":"#"}], ["start:c-end:bcv", {"c-b":"#"}]],
 			"c-bc": [["start:c-end:bc", {"c-bc":"#"}], ["start:bc-end:bcv", {"c-bc":"#"}]],
@@ -191,7 +192,7 @@ describe("Ranges", function() {
 		})
 	})
 
-	it ("should handle `cv-` positives", function() {
+	it("should handle `cv-` positives", function() {
 		checkResults(true, {
 			"cv-b": [["start:cv-end:b", {"cv-b":"#"}], ["start:cv-end:bc", {"cv-b":"#"}], ["start:cv-end:bcv", {"cv-b":"#"}]],
 			"cv-bc": [["start:cv-end:bc", {"cv-bc":"#"}], ["start:cv-end:bcv", {"cv-bc":"#"}]],
@@ -203,14 +204,14 @@ describe("Ranges", function() {
 		})
 	})
 
-	it ("should handle `cv-` negatives", function() {
+	it("should handle `cv-` negatives", function() {
 		checkResults(false, {
 			"cv-v": [["b1^cv-end:bv", {"cv-v":"#", "singleChapterFormat": "bv"}], ["b1^cv-end:bv", {"cv-v":"#", "singleChapterFormat": "b"}]],
 		})
 	})
 
 
-	it ("should handle `v-` positives", function() {
+	it("should handle `v-` positives", function() {
 		checkResults(true, {
 			"v-b": [["start:v-end:b", {"v-b":"#"}], ["start:v-end:bc", {"v-b":"#"}], ["start:v-end:bcv", {"v-b":"#"}]],
 			"v-bc": [["start:v-end:bc", {"v-bc":"#"}], ["start:v-end:bcv", {"v-bc":"#"}]],
@@ -223,37 +224,37 @@ describe("Ranges", function() {
 	})
 
 	// `^` properties never appear for ranges.
-	it ("should handle `^c-` negatives", function() {
+	it("should handle `^c-` negatives", function() {
 		checkResults(false, {
 			"^c-v": [["^c-end:^v", {"^c-v":"#"}, "start:bc"]],
 		})
 	})
 
-	it ("should handle `^cv-` negatives", function() {
+	it("should handle `^cv-` negatives", function() {
 		checkResults(false, {
 			"^cv-v": [["^cv-end:^v", {"^cv-v":"#"}, "start:bc"]],
 		})
 	})
 
-	it ("should handle `^v-` negatives", function() {
+	it("should handle `^v-` negatives", function() {
 		checkResults(false, {
 			"^v-v": [["^cv-end:^v", {"^cv-v":"#"}, "start:bc"]],
 		})
 	})
 
-	it ("should handle `b1^c-` negatives", function() {
+	it("should handle `b1^c-` negatives", function() {
 		checkResults(false, {
 			"b1^c-v": [["b1^c-end:bv", {"b1^c-v":"#", "singleChapterFormat":"bcv"}, "b1^b"]],
 		})
 	})
 
-	it ("should handle `b1^cv-` negatives", function() {
+	it("should handle `b1^cv-` negatives", function() {
 		checkResults(false, {
 			"b1^cv-v": [["b1^v-end:bv", {"b1^cv-v":"#", "singleChapterFormat":"bcv"}, "b1^b"]],
 		})
 	})
 
-	it ("should handle `b1^v-` negatives", function() {
+	it("should handle `b1^v-` negatives", function() {
 		checkResults(false, {
 			"b1^v-v": [["b1^v-end:bv", {"b1^v-v":"#", "singleChapterFormat":"bv"}, "b1^b"]],
 		})
@@ -261,7 +262,7 @@ describe("Ranges", function() {
 })
 
 describe("Sequences", function() {
-	it ("should handle generic positives", function() {
+	it("should handle generic positives", function() {
 		checkResults(true, {
 			",": [["start:b,end:b", {",":"#"}]],
 			",b": [["start:b,end:b", {",b":"#"}], ["start:b,end:bc", {",b":"#"}], ["start:b,end:bcv", {",bcv":"#"}]],
@@ -273,7 +274,7 @@ describe("Sequences", function() {
 		})
 	})
 
-	it ("should handle generic negatives", function() {
+	it("should handle generic negatives", function() {
 		checkResults(false, {
 			",b": [["start:b,end:cv", {",b":"#"}]],
 			",bc": [["start:bc,end:c", {",b":"#"}]],
@@ -281,7 +282,7 @@ describe("Sequences", function() {
 		})
 	})
 
-	it ("should handle `b,` positives", function() {
+	it("should handle `b,` positives", function() {
 		checkResults(true, {
 			"b,b": [["start:b,end:b", {"b,b":"#"}], ["start:b,end:bc", {"b,b":"#"}], ["start:b,end:bcv", {"b,b":"#"}]],
 			"b,bc": [["start:b,end:bc", {"b,bc":"#"}], ["start:b,end:bcv", {"b,bc":"#"}]],
@@ -293,7 +294,7 @@ describe("Sequences", function() {
 		})
 	})
 
-	it ("should handle `b,` negatives", function() {
+	it("should handle `b,` negatives", function() {
 		checkResults(false, {
 			"b,bc": [["start:b,end:b", {"b,bc":"#"}]],
 			"b,bcv": [["start:b,end:bc", {"b,bcv":"#"}]],
@@ -303,7 +304,7 @@ describe("Sequences", function() {
 		})
 	})
 
-	it ("should handle `bc,` positives", function() {
+	it("should handle `bc,` positives", function() {
 		checkResults(true, {
 			"bc,b": [["start:bc,end:b", {"bc,b":"#"}], ["start:bc,end:bc", {"bc,b":"#"}], ["start:bc,end:bcv", {"bc,b":"#"}]],
 			"bc,bc": [["start:bc,end:bc", {"bc,bc":"#"}], ["start:bc,end:bcv", {"bc,bc":"#"}]],
@@ -315,7 +316,7 @@ describe("Sequences", function() {
 		})
 	})
 
-	it ("should handle `bcv,` positives", function() {
+	it("should handle `bcv,` positives", function() {
 		checkResults(true, {
 			"bcv,b": [["start:bcv,end:b", {"bcv,b":"#"}], ["start:bcv,end:bc", {"bcv,b":"#"}], ["start:bcv,end:bcv", {"bcv,b":"#"}]],
 			"bcv,bc": [["start:bcv,end:bc", {"bcv,bc":"#"}], ["start:bcv,end:bcv", {"bcv,bc":"#"}]],
@@ -327,13 +328,13 @@ describe("Sequences", function() {
 		})
 	})
 
-	it ("should handle `bcv,` negatives", function() {
+	it("should handle `bcv,` negatives", function() {
 		checkResults(false, {
 			"bcv,v": [["b1^cv,end:bv", {"bcv,v":"#", "singleChapterFormat": "bv"}], ["b1^cv,end:bv", {"bcv,v":"#", "singleChapterFormat": "b"}]],
 		})
 	})
 
-	it ("should handle `bv,` positives", function() {
+	it("should handle `bv,` positives", function() {
 		checkResults(true, {
 			"bv,b": [["start:bv,end:b", {"bv,b":"#"}], ["start:bv,end:bc", {"bv,b":"#"}], ["start:bv,end:bcv", {"bv,b":"#"}]],
 			"bv,bc": [["start:bv,end:bc", {"bv,bc":"#"}], ["start:bv,end:bcv", {"bv,bc":"#"}]],
@@ -344,14 +345,14 @@ describe("Sequences", function() {
 		})
 	})
 
-	it ("should handle `bv,` negatives", function() {
+	it("should handle `bv,` negatives", function() {
 		checkResults(false, {
 			"bv,cv": [["start:bv,Phlm.2.1", {"bv,cv":"#", "singleChapterFormat": "bcv"}]], // It isn't possible to make this sequence happen.
 			"bv,v": [["start:bv,end:bv", {"bv,v":"#", "singleChapterFormat": "bcv"}]],
 		})
 	})
 
-	it ("should handle `c,` positives", function() {
+	it("should handle `c,` positives", function() {
 		checkResults(true, {
 			"c,b": [["start:c,end:b", {"c,b":"#"}], ["start:c,end:bc", {"c,b":"#"}], ["start:c,end:bcv", {"c,b":"#"}]],
 			"c,bc": [["start:c,end:bc", {"c,bc":"#"}], ["start:bc,end:bcv", {"c,bc":"#"}]],
@@ -363,7 +364,7 @@ describe("Sequences", function() {
 		})
 	})
 
-	it ("should handle `cv,` positives", function() {
+	it("should handle `cv,` positives", function() {
 		checkResults(true, {
 			"cv,b": [["start:cv,end:b", {"cv,b":"#"}], ["start:cv,end:bc", {"cv,b":"#"}], ["start:cv,end:bcv", {"cv,b":"#"}]],
 			"cv,bc": [["start:cv,end:bc", {"cv,bc":"#"}], ["start:cv,end:bcv", {"cv,bc":"#"}]],
@@ -375,14 +376,14 @@ describe("Sequences", function() {
 		})
 	})
 
-	it ("should handle `cv,` negatives", function() {
+	it("should handle `cv,` negatives", function() {
 		checkResults(false, {
 			"cv,v": [["b1^cv,end:bv", {"cv,v":"#", "singleChapterFormat": "bv"}], ["b1^cv,end:bv", {"cv,v":"#", "singleChapterFormat": "b"}]],
 		})
 	})
 
 
-	it ("should handle `v,` positives", function() {
+	it("should handle `v,` positives", function() {
 		checkResults(true, {
 			"v,b": [["start:v,end:b", {"v,b":"#"}], ["start:v,end:bc", {"v,b":"#"}], ["start:v,end:bcv", {"v,b":"#"}]],
 			"v,bc": [["start:v,end:bc", {"v,bc":"#"}], ["start:v,end:bcv", {"v,bc":"#"}]],
@@ -395,37 +396,37 @@ describe("Sequences", function() {
 	})
 
 	// `^` properties never appear for sequences.
-	it ("should handle `^c,` negatives", function() {
+	it("should handle `^c,` negatives", function() {
 		checkResults(false, {
 			"^c,v": [["^c,end:^v", {"^c,v":"#"}, "start:bc"]],
 		})
 	})
 
-	it ("should handle `^cv,` negatives", function() {
+	it("should handle `^cv,` negatives", function() {
 		checkResults(false, {
 			"^cv,v": [["^cv,end:^v", {"^cv,v":"#"}, "start:bc"]],
 		})
 	})
 
-	it ("should handle `^v,` negatives", function() {
+	it("should handle `^v,` negatives", function() {
 		checkResults(false, {
 			"^v,v": [["^cv,end:^v", {"^cv,v":"#"}, "start:bc"]],
 		})
 	})
 
-	it ("should handle `b1^c,` negatives", function() {
+	it("should handle `b1^c,` negatives", function() {
 		checkResults(false, {
 			"b1^c,v": [["b1^c,end:bv", {"b1^c,v":"#", "singleChapterFormat":"bcv"}, "b1^b"]],
 		})
 	})
 
-	it ("should handle `b1^cv,` negatives", function() {
+	it("should handle `b1^cv,` negatives", function() {
 		checkResults(false, {
 			"b1^cv,v": [["b1^v,end:bv", {"b1^cv,v":"#", "singleChapterFormat":"bcv"}, "b1^b"]],
 		})
 	})
 
-	it ("should handle `b1^v,` negatives", function() {
+	it("should handle `b1^v,` negatives", function() {
 		checkResults(false, {
 			"b1^v,v": [["b1^v,end:bv", {"b1^v,v":"#", "singleChapterFormat":"bv"}, "b1^b"]],
 		})
@@ -433,58 +434,58 @@ describe("Sequences", function() {
 })
 
 describe("Separators", function() {
-	it ("should handle generic positives", function() {
+	it("should handle generic positives", function() {
 		checkResults(true, {
 			".": [["start:bc", {".":"#"}]],
 			".c": [["start:bc", {".c":"#"}], ["start:b-end:bv", {".c":"#", "singleChapterFormat": "bcv"}]],
-			".v": [["start:bcv", {".v":"#"}]],
+			".v": [["start:bv", {".v":"#"}]],
 		})
 	})
 
-	it ("should handle generic negatives", function() {
+	it("should handle generic negatives", function() {
 		checkResults(false, {
 			".c": [["start:b-end:cv", {".c":"#"}], ["start:b-end:bv", {".c":"#", "singleChapterFormat": "bv"}], ["start:b-end:bv", {".c":"#", "singleChapterFormat": "b"}]],
-			".v": [["start:bc-end:v", {".v":"#"}]],
+			".v": [["start:bcv", {".v":"#"}], ["start:bc-end:v", {".v":"#"}]],
 		})
 	})
 
-	it ("should handle `b.c` positives", function() {
+	it("should handle `b.c` positives", function() {
 		checkResults(true, {
 			"b.c": [["start:bc", {"b.c":"#"}], ["start:bcv", {"b.c":"#"}]],
 		})
 	})
 
-	it ("should handle `b.c` negatives", function() {
+	it("should handle `b.c` negatives", function() {
 		checkResults(false, {
 			"b.c": [["start:b-end:cv", {".c":"#"}]],
 		})
 	})
 
-	it ("should handle `b1.c` positives", function() {
+	it("should handle `b1.c` positives", function() {
 		checkResults(true, {
 			"b1.c": [["b1^c", {"b1.c":"#"}], ["b1^v", {"b1.c":"#","singleChapterFormat": "bcv"}]],
 		})
 	})
 
-	it ("should handle `b.c` negatives", function() {
+	it("should handle `b.c` negatives", function() {
 		checkResults(false, {
 			"b1.c": [["b1^v", {"b1.c":"#","singleChapterFormat": "bv"}], ["b1^v", {"b1.c":"#","singleChapterFormat": "b"}]],
 		})
 	})
 
-	it ("should handle `c.v` positives", function() {
+	it("should handle `c.v` positives", function() {
 		checkResults(true, {
 			"c.v": [["start:bcv", {"c.v":"#"}], ["start:b-end:cv", {"c.v":"#"}]],
 		})
 	})
 
-	it ("should handle `^c.v` negatives", function() {
+	it("should handle `^c.v` negatives", function() {
 		checkResults(false, {
 			"^c.v": [["start:bcv", {"b1^c.v":"#"}, "^c"], ["b1^v", {"b1^c.v":"#","singleChapterFormat":"bcv"}, "b1^b"]],
 		})
 	})
 
-	it ("should handle `b1^c.v` negatives", function() {
+	it("should handle `b1^c.v` negatives", function() {
 		checkResults(false, {
 			"b1^c.v": [["b1^v", {"b1^c.v":"#","singleChapterFormat":"bcv"}, "b1^b"]],
 		})

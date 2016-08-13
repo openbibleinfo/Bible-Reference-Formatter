@@ -36,4 +36,7 @@ webpack --optimize-minimize --output-library=osisToParatext es5/osisToParatext.j
 rm es5/*
 rmdir es5
 
+cd test/lang
+node make-languages.js
+cd ../..
 istanbul cover jasmine-node test/
