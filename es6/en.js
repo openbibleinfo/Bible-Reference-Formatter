@@ -2,8 +2,8 @@
 
 /* global require, module */
 
-const osisToReadable = require("./osisToReadable");
-const converter = new osisToReadable();
+const OsisFormatter = require("./osisFormatter");
+const osisFormatter = new OsisFormatter();
 let currentStyle = "";
 
 const styles = Object.freeze({
@@ -12,20 +12,18 @@ const styles = Object.freeze({
 			",": "; ",
 			"b,c": "; $chapters ",
 			"b,v": "; $b ",
-			"c,v": "; $verses ",
-			"v,v": ",",
+			"c,v": "; $c:",
 			"v,c": "; $chapters ",
 			"v,cv": "; ",
+			"v,v": ",",
 			"$chapters": ["ch.", "chs."],
 			"$verses": ["v.", "vv."],
 			"singleChapterFormat": "b",
-			"c.v": ":",
 			",b": "; ",
 			",c": "; ",
 			"-": "\u2014",
 			"b-c": "\u2014$chapters ",
 			"b-v": "\u2014$b ",
-			"b-b1c": "\u2014$b ",
 			"c-v": "\u2014$c:",
 			"v-c": "\u2014$chapters ",
 			"v-cv": "\u2014",
@@ -50,14 +48,13 @@ const styles = Object.freeze({
 			",": "; ",
 			"b,c": "; $chapters ",
 			"b,v": "; $b ",
-			"c,v": "; $verses ",
-			"v,v": ",",
+			"c,v": "; $c:",
 			"v,c": "; $chapters ",
 			"v,cv": "; ",
+			"v,v": ",",
 			"$chapters": ["ch.", "chs."],
 			"$verses": ["v.", "vv."],
 			"singleChapterFormat": "b",
-			"c.v": ":",
 			",b": "; ",
 			",c": "; ",
 			"-": "\u2014",
@@ -87,13 +84,12 @@ const styles = Object.freeze({
 			"b,c": "; $b ",
 			"b,v": "; $b ",
 			"c,v": "; $c:",
-			"v,v": ", ",
 			"v,c": "; $chapters ", // see Gen.10.15
 			"v,cv": "; ",
+			"v,v": ", ",
 			"$chapters": ["$b"],
 			"$verses": ["ver"], // see Gen.18.2 for plural
 			"singleChapterFormat": "b",
-			"c.v": ":",
 			",b": "; ",
 			",c": "; ",
 			"-": "-",
@@ -121,20 +117,18 @@ const styles = Object.freeze({
 			",": "; ",
 			"b,c": "; $chapters ",
 			"b,v": "; $b ",
-			"c,v": "; $verses ",
-			"v,v": ", ",
+			"c,v": "; $c:",
 			"v,c": "; $chapters ",
 			"v,cv": "; ",
+			"v,v": ", ",
 			"$chapters": ["ch", "chs"],
 			"$verses": ["v", "vv"],
 			"singleChapterFormat": "b",
-			"c.v": ":",
 			",b": "; ",
 			",c": "; ",
 			"-": "\u2014",
 			"b-c": "\u2014$chapters ",
 			"b-v": "\u2014$b ",
-			"b-b1c": "\u2014$b ",
 			"c-v": "\u2014$c:",
 			"v-c": "\u2014$chapters ",
 			"v-cv": "\u2014",
@@ -158,20 +152,18 @@ const styles = Object.freeze({
 			",": "; ",
 			"b,c": "; $chapters ",
 			"b,v": "; $b ",
-			"c,v": "; $verses ",
-			"v,v": ", ",
+			"c,v": "; $c:",
 			"v,c": "; $chapters ",
 			"v,cv": "; ",
+			"v,v": ", ",
 			"$chapters": ["ch", "chs"],
 			"$verses": ["v", "vv"],
 			"singleChapterFormat": "b",
-			"c.v": ":",
 			",b": "; ",
 			",c": "; ",
 			"-": "\u2014",
 			"b-c": "\u2014$chapters ",
 			"b-v": "\u2014$b ",
-			"b-b1c": "\u2014$b ",
 			"c-v": "\u2014$c:",
 			"v-c": "\u2014$chapters ",
 			"v-cv": "\u2014",
@@ -196,20 +188,18 @@ const styles = Object.freeze({
 			",": "; ",
 			"b,c": "; $chapters ",
 			"b,v": "; $b ",
-			"c,v": "; $verses ",
-			"v,v": ", ",
+			"c,v": "; $c:",
 			"v,c": "; $chapters ",
 			"v,cv": "; ",
+			"v,v": ", ",
 			"$chapters": ["ch.", "chs."],
 			"$verses": ["v.", "vv."],
 			"singleChapterFormat": "b",
-			"c.v": ":",
 			",b": "; ",
 			",c": "; ",
 			"-": "\u2014",
 			"b-c": "\u2014$chapters ",
 			"b-v": "\u2014$b ",
-			"b-b1c": "\u2014$b ",
 			"c-v": "\u2014$c:",
 			"v-c": "\u2014$chapters ",
 			"v-cv": "\u2014",
@@ -233,20 +223,18 @@ const styles = Object.freeze({
 			",": "; ",
 			"b,c": "; $chapters ",
 			"b,v": "; $b ",
-			"c,v": "; $verses ",
-			"v,v": ", ",
+			"c,v": "; $c:",
 			"v,c": "; $chapters ",
 			"v,cv": "; ",
+			"v,v": ", ",
 			"$chapters": ["ch.", "chs."],
 			"$verses": ["v.", "vv."],
 			"singleChapterFormat": "b",
-			"c.v": ":",
 			",b": "; ",
 			",c": "; ",
 			"-": "\u2014",
 			"b-c": "\u2014$chapters ",
 			"b-v": "\u2014$b ",
-			"b-b1c": "\u2014$b ",
 			"c-v": "\u2014$c:",
 			"v-c": "\u2014$chapters ",
 			"v-cv": "\u2014",
@@ -267,20 +255,20 @@ const styles = Object.freeze({
 	}
 });
 
-function convertOsis(style, osis, context) {
+function formatOsis(style, osis, context) {
 	if (style !== currentStyle) {
 		setStyle(style);
 	}
-	return converter.toReadable(osis, context);
+	return osisFormatter.format(osis, context);
 }
 
 function setStyle(style) {
 	if (typeof styles[style] === "undefined") {
 		throw `Unknown style: ${ style }. Please choose: ${ Object.keys(styles).join(", ") }`;
 	}
-	converter.setBooks(styles[style].books);
-	converter.setOptions(styles[style].options);
+	osisFormatter.setBooks(styles[style].books);
+	osisFormatter.setOptions(styles[style].options);
 	currentStyle = style;
 }
 
-module.exports = convertOsis;
+module.exports = formatOsis;

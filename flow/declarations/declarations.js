@@ -1,5 +1,5 @@
-interface OsisToReadableInterface {
-	toReadable(osis: string, context?: string): string;
+interface OsisFormatterInterface {
+	format(osis: string, context?: string): string;
 	setBooks(books: BooksType): void;
 	setOptions(options: Object): void;
 }
@@ -20,7 +20,7 @@ type OptionsType = {
 	"maxPs": number;
 
 	/*
-	Possible non-range token types. These tokens all appear at the beginning of a request when provided a context. The values given here appear before the first text. For example, setting `{"^v": "$verses "}` would lead `.toReadable("Matt.1.2", "Matt.1") to output `v 2`.
+	Possible non-range token types. These tokens all appear at the beginning of a request when provided a context. The values given here appear before the first text. For example, setting `{"^v": "$verses "}` would lead `.format("Matt.1.2", "Matt.1") to output `v 2`.
 
 	The token types (bc bcv bv cv) aren't directly formattable. Instead, the format of the individual part controls the output.
 	*/

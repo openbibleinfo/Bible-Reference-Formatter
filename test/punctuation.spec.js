@@ -1,8 +1,8 @@
 "use strict"
 /* global require, describe, it, expect */
-const osisToReadable = require("../es6/osisToReadable")
-const c = new osisToReadable
-c.setBooks({"Matt": ["Matt"], "Mark": ["Mark"], "Phlm": ["Phlm"], "Jude": ["Jude"]})
+const OsisFormatter = require("../es6/osisFormatter")
+const f = new OsisFormatter
+f.setBooks({"Matt": ["Matt"], "Mark": ["Mark"], "Phlm": ["Phlm"], "Jude": ["Jude"]})
 
 const vars = {
 	"start:b": "Matt",
@@ -53,9 +53,8 @@ function checkResults(expectedResult, formats) {
 			if (typeof context === "string") {
 				context = formatCheck(context)
 			}
-			c.setOptions(options)
-			//console.log(" ", c.toReadable(check, context))
-			const result = c.toReadable(check, context).indexOf("#") >= 0
+			f.setOptions(options)
+			const result = f.format(check, context).indexOf("#") >= 0
 			expect(result).toEqual(expectedResult)
 		}
 	}

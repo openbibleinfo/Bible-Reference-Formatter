@@ -1,19 +1,19 @@
 "use strict"
 /* global require, describe, it, expect */
-const convert = require("../es6/en")
+const osisToLang = require("../es6/en")
 
 function loopTest(osises) {
 	for (const osisKey of Object.keys(osises)) {
 		const [osis, context] = osisKey.split("/")
 		for (const style of Object.keys(osises[osisKey])) {
-			expect(convert(style, osis, context)).toEqual(osises[osisKey][style])
+			expect(osisToLang(style, osis, context)).toEqual(osises[osisKey][style])
 		}
 	}
 }
 
 describe("Exceptions", function() {
 	it("should throw when given an invalid style", function() {
-		expect(() => convert("INVALID STYLE", "Matt.1")).toThrow()
+		expect(() => osisToLang("INVALID STYLE", "Matt.1")).toThrow()
 	})
 })
 
@@ -169,7 +169,7 @@ describe("`bc` sequences", function() {
 		loopTest({"Gen.1,Gen":{"esv-long":"Genesis 1; Genesis","esv-short":"Gen. 1; Gen.","niv-long":"Genesis 1; Genesis","niv-short":"Gen 1; Gen","niv-shortest":"Ge 1; Ge","nlt-long":"Genesis 1; Genesis","nlt-short":"Gen 1; Gen"},"Gen.1,Gen.2":{"esv-long":"Genesis 1; 2","esv-short":"Gen. 1; 2","niv-long":"Genesis 1; 2","niv-short":"Gen 1; 2","niv-shortest":"Ge 1; 2","nlt-long":"Genesis 1; 2","nlt-short":"Gen 1; 2"},"Gen.1,Gen.2.3":{"esv-long":"Genesis 1; 2:3","esv-short":"Gen. 1; 2:3","niv-long":"Genesis 1; 2:3","niv-short":"Gen 1; 2:3","niv-shortest":"Ge 1; 2:3","nlt-long":"Genesis 1; 2:3","nlt-short":"Gen 1; 2:3"}})
 	})
 	it("should handle `bc, same bc`", function() {
-		loopTest({"Gen.1,Gen.1":{"esv-long":"Genesis 1; 1","esv-short":"Gen. 1; 1","niv-long":"Genesis 1; 1","niv-short":"Gen 1; 1","niv-shortest":"Ge 1; 1","nlt-long":"Genesis 1; 1","nlt-short":"Gen 1; 1"},"Gen.1,Gen.1.2":{"esv-long":"Genesis 1; v. 2","esv-short":"Gen. 1; v. 2","niv-long":"Genesis 1; v. 2","niv-short":"Gen 1; v. 2","niv-shortest":"Ge 1; 1:2","nlt-long":"Genesis 1; v 2","nlt-short":"Gen 1; v 2"}})
+		loopTest({"Gen.1,Gen.1":{"esv-long":"Genesis 1; 1","esv-short":"Gen. 1; 1","niv-long":"Genesis 1; 1","niv-short":"Gen 1; 1","niv-shortest":"Ge 1; 1","nlt-long":"Genesis 1; 1","nlt-short":"Gen 1; 1"},"Gen.1,Gen.1.2":{"esv-long":"Genesis 1; 1:2","esv-short":"Gen. 1; 1:2","niv-long":"Genesis 1; 1:2","niv-short":"Gen 1; 1:2","niv-shortest":"Ge 1; 1:2","nlt-long":"Genesis 1; 1:2","nlt-short":"Gen 1; 1:2"}})
 	})
 	it("should handle `bc, different b`", function() {
 		loopTest({"Gen.1,Matt":{"esv-long":"Genesis 1; Matthew","esv-short":"Gen. 1; Matt.","niv-long":"Genesis 1; Matthew","niv-short":"Gen 1; Matt","niv-shortest":"Ge 1; Mt","nlt-long":"Genesis 1; Matthew","nlt-short":"Gen 1; Matt"},"Gen.1,Matt.2":{"esv-long":"Genesis 1; Matthew 2","esv-short":"Gen. 1; Matt. 2","niv-long":"Genesis 1; Matthew 2","niv-short":"Gen 1; Matt 2","niv-shortest":"Ge 1; Mt 2","nlt-long":"Genesis 1; Matthew 2","nlt-short":"Gen 1; Matt 2"},"Gen.1,Matt.2.3":{"esv-long":"Genesis 1; Matthew 2:3","esv-short":"Gen. 1; Matt. 2:3","niv-long":"Genesis 1; Matthew 2:3","niv-short":"Gen 1; Matt 2:3","niv-shortest":"Ge 1; Mt 2:3","nlt-long":"Genesis 1; Matthew 2:3","nlt-short":"Gen 1; Matt 2:3"}})
@@ -250,7 +250,7 @@ describe("Context", function() {
 
 describe("Not switching styles", function() {
 	it("should work when not switching styles", function() {
-		expect(() => convert("esv-long", "Matt.1")).not.toThrow()
-		expect(() => convert("esv-long", "Matt.2")).not.toThrow()
+		expect(() => osisToLang("esv-long", "Matt.1")).not.toThrow()
+		expect(() => osisToLang("esv-long", "Matt.2")).not.toThrow()
 	})
 })

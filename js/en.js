@@ -49,8 +49,8 @@ var osisToEn =
 
 	/* global require, module */
 
-	var osisToReadable = __webpack_require__(1);
-	var converter = new osisToReadable();
+	var OsisFormatter = __webpack_require__(1);
+	var osisFormatter = new OsisFormatter();
 	var currentStyle = "";
 
 	var styles = Object.freeze({
@@ -59,20 +59,18 @@ var osisToEn =
 				",": "; ",
 				"b,c": "; $chapters ",
 				"b,v": "; $b ",
-				"c,v": "; $verses ",
-				"v,v": ",",
+				"c,v": "; $c:",
 				"v,c": "; $chapters ",
 				"v,cv": "; ",
+				"v,v": ",",
 				"$chapters": ["ch.", "chs."],
 				"$verses": ["v.", "vv."],
 				"singleChapterFormat": "b",
-				"c.v": ":",
 				",b": "; ",
 				",c": "; ",
 				"-": "—",
 				"b-c": "—$chapters ",
 				"b-v": "—$b ",
-				"b-b1c": "—$b ",
 				"c-v": "—$c:",
 				"v-c": "—$chapters ",
 				"v-cv": "—",
@@ -97,14 +95,13 @@ var osisToEn =
 				",": "; ",
 				"b,c": "; $chapters ",
 				"b,v": "; $b ",
-				"c,v": "; $verses ",
-				"v,v": ",",
+				"c,v": "; $c:",
 				"v,c": "; $chapters ",
 				"v,cv": "; ",
+				"v,v": ",",
 				"$chapters": ["ch.", "chs."],
 				"$verses": ["v.", "vv."],
 				"singleChapterFormat": "b",
-				"c.v": ":",
 				",b": "; ",
 				",c": "; ",
 				"-": "—",
@@ -134,13 +131,12 @@ var osisToEn =
 				"b,c": "; $b ",
 				"b,v": "; $b ",
 				"c,v": "; $c:",
-				"v,v": ", ",
 				"v,c": "; $chapters ", // see Gen.10.15
 				"v,cv": "; ",
+				"v,v": ", ",
 				"$chapters": ["$b"],
 				"$verses": ["ver"], // see Gen.18.2 for plural
 				"singleChapterFormat": "b",
-				"c.v": ":",
 				",b": "; ",
 				",c": "; ",
 				"-": "-",
@@ -168,20 +164,18 @@ var osisToEn =
 				",": "; ",
 				"b,c": "; $chapters ",
 				"b,v": "; $b ",
-				"c,v": "; $verses ",
-				"v,v": ", ",
+				"c,v": "; $c:",
 				"v,c": "; $chapters ",
 				"v,cv": "; ",
+				"v,v": ", ",
 				"$chapters": ["ch", "chs"],
 				"$verses": ["v", "vv"],
 				"singleChapterFormat": "b",
-				"c.v": ":",
 				",b": "; ",
 				",c": "; ",
 				"-": "—",
 				"b-c": "—$chapters ",
 				"b-v": "—$b ",
-				"b-b1c": "—$b ",
 				"c-v": "—$c:",
 				"v-c": "—$chapters ",
 				"v-cv": "—",
@@ -205,20 +199,18 @@ var osisToEn =
 				",": "; ",
 				"b,c": "; $chapters ",
 				"b,v": "; $b ",
-				"c,v": "; $verses ",
-				"v,v": ", ",
+				"c,v": "; $c:",
 				"v,c": "; $chapters ",
 				"v,cv": "; ",
+				"v,v": ", ",
 				"$chapters": ["ch", "chs"],
 				"$verses": ["v", "vv"],
 				"singleChapterFormat": "b",
-				"c.v": ":",
 				",b": "; ",
 				",c": "; ",
 				"-": "—",
 				"b-c": "—$chapters ",
 				"b-v": "—$b ",
-				"b-b1c": "—$b ",
 				"c-v": "—$c:",
 				"v-c": "—$chapters ",
 				"v-cv": "—",
@@ -243,20 +235,18 @@ var osisToEn =
 				",": "; ",
 				"b,c": "; $chapters ",
 				"b,v": "; $b ",
-				"c,v": "; $verses ",
-				"v,v": ", ",
+				"c,v": "; $c:",
 				"v,c": "; $chapters ",
 				"v,cv": "; ",
+				"v,v": ", ",
 				"$chapters": ["ch.", "chs."],
 				"$verses": ["v.", "vv."],
 				"singleChapterFormat": "b",
-				"c.v": ":",
 				",b": "; ",
 				",c": "; ",
 				"-": "—",
 				"b-c": "—$chapters ",
 				"b-v": "—$b ",
-				"b-b1c": "—$b ",
 				"c-v": "—$c:",
 				"v-c": "—$chapters ",
 				"v-cv": "—",
@@ -280,20 +270,18 @@ var osisToEn =
 				",": "; ",
 				"b,c": "; $chapters ",
 				"b,v": "; $b ",
-				"c,v": "; $verses ",
-				"v,v": ", ",
+				"c,v": "; $c:",
 				"v,c": "; $chapters ",
 				"v,cv": "; ",
+				"v,v": ", ",
 				"$chapters": ["ch.", "chs."],
 				"$verses": ["v.", "vv."],
 				"singleChapterFormat": "b",
-				"c.v": ":",
 				",b": "; ",
 				",c": "; ",
 				"-": "—",
 				"b-c": "—$chapters ",
 				"b-v": "—$b ",
-				"b-b1c": "—$b ",
 				"c-v": "—$c:",
 				"v-c": "—$chapters ",
 				"v-cv": "—",
@@ -314,23 +302,23 @@ var osisToEn =
 		}
 	});
 
-	function convertOsis(style, osis, context) {
+	function formatOsis(style, osis, context) {
 		if (style !== currentStyle) {
 			setStyle(style);
 		}
-		return converter.toReadable(osis, context);
+		return osisFormatter.format(osis, context);
 	}
 
 	function setStyle(style) {
 		if (typeof styles[style] === "undefined") {
 			throw "Unknown style: " + style + ". Please choose: " + Object.keys(styles).join(", ");
 		}
-		converter.setBooks(styles[style].books);
-		converter.setOptions(styles[style].options);
+		osisFormatter.setBooks(styles[style].books);
+		osisFormatter.setOptions(styles[style].options);
 		currentStyle = style;
 	}
 
-	module.exports = convertOsis;
+	module.exports = formatOsis;
 
 
 /***/ },
@@ -363,7 +351,7 @@ var osisToEn =
 		};
 	}
 
-	function OsisToReadable() {
+	function OsisFormatter() {
 		// Some subset of "Matt.1.2-Mark.3.4"
 		var osisFormat = /^[1-5A-Za-z]{2,}(?:\.\d{1,3}(?:\.\d{1,3})?)?(?:-[1-5A-Za-z]{2,}(?:\.\d{1,3}(?:\.\d{1,3})?)?)?$/;
 
@@ -371,9 +359,9 @@ var osisToEn =
 		var options = getDefaults();
 
 		// Convert an OSIS string, and an optional OSIS context, to human-readable form. Aim for the shortest understandable string: `Matt.1-Matt.2` might become `Matthew 1-2`.
-		function toReadable(osisString, osisContext) {
+		function format(osisString, osisContext) {
 			if (typeof osisString !== "string") {
-				throw "osisToReadable: first argument must be a string.";
+				throw "OsisFormatter.format(): first argument must be a string.";
 			}
 			// Create a context object, using the supplied context (if available).
 			var context = setContext(osisContext);
@@ -395,11 +383,11 @@ var osisToEn =
 					});
 				}
 			}
-			return tokensToReadable(tokens);
+			return formatTokens(tokens);
 		}
 
 		// Format an array of tokens in a sequence.
-		function tokensToReadable(tokens) {
+		function formatTokens(tokens) {
 			// Calculate data that we may need about future tokens in the sequence.
 			tokens = annotateTokens(tokens);
 			var out = [];
@@ -409,7 +397,7 @@ var osisToEn =
 				if (typeof token.bookSequence !== "undefined") {
 					out.push(formatBookSequence(token, tokens));
 				} else {
-					out.push(tokenToReadable(token));
+					out.push(formatToken(token));
 				}
 			}
 			return out.join("");
@@ -417,10 +405,10 @@ var osisToEn =
 
 		// If given a sequence like `1John,2John`, we may want to turn that into `1 and 2 John`.
 		function formatBookSequence(token, tokens) {
-			// Really, we've already checked this, but we'll make Flow happy at the cost of losing 100% code coverage because the following `if` statement is never false. Most of the time the `while` loop won't return, so we still drop down to `tokenToReadable()`.
+			// Really, we've already checked this, but we'll make Flow happy at the cost of losing 100% code coverage because the following `if` statement is never false. Most of the time the `while` loop won't return, so we still drop down to `formatToken()`.
 			var sequenceArray = token.bookSequence;
 			if (typeof sequenceArray !== "undefined") {
-				// The `sequenceArray` includes the current token. If `length === 1`, then the only item left in the array is the current token, which we pass to `tokenToReadable()`.
+				// The `sequenceArray` includes the current token. If `length === 1`, then the only item left in the array is the current token, which we pass to `formatToken()`.
 				while (sequenceArray.length > 1) {
 					// Look for a comma-joined sequence in `books`.
 					var _bookSequence = sequenceArray.join(",");
@@ -434,7 +422,7 @@ var osisToEn =
 				}
 			}
 			// Otherwise, there was no match, so handle the token as usual.
-			return tokenToReadable(token);
+			return formatToken(token);
 		}
 
 		// Remove the number of items in the sequence. Let's say there are three items: `["1John", "2John", "3John"]`. `1John` is the current token, which is already gone from the array. That means we need to hop ahead two books, or `3 - 1`, to prevent us from stringifying the token again.
@@ -449,7 +437,7 @@ var osisToEn =
 		}
 
 		// Format a single token.
-		function tokenToReadable(token) {
+		function formatToken(token) {
 			// First check to see if we have a book range to handle specially (`1John-2John` might become `1-2 John`).
 			if (typeof token.bookRange === "string" && typeof books[token.bookRange] !== "undefined" && typeof books[token.bookRange][0] === "string") {
 				return books[token.bookRange][0];
@@ -469,7 +457,7 @@ var osisToEn =
 			switch (part.type) {
 				case "c":
 				case "v":
-					// If we specify a specific format for this `subType`, then calculate the value to prepend to the final output. For example, `^v` when a verse appears first in a string (when `osisToReadable()` has a `context`) might want a `vv. ` prefix.
+					// If we specify a specific format for this `subType`, then calculate the value to prepend to the final output. For example, `^v` when a verse appears first in a string (when `format()` has a `context`) might want a `vv. ` prefix.
 					if (part.subType !== "" && typeof options[part.subType] !== "undefined") {
 						prefix = formatVariable(part.subType, part, token);
 					}
@@ -644,7 +632,7 @@ var osisToEn =
 
 		// Add data to a single token that we can't derive elsewehre.
 		function annotateToken(token, tokens, i) {
-			// The first `part.type` could be `c` or `v` if `osisToReadable()` is provided a start context.
+			// The first `part.type` could be `c` or `v` if `format()` is provided a start context.
 			if (i === 0 && token.parts[0].type !== "b") {
 				// `c` or `v` or `cv`
 				var _token$type$split = token.type.split("-");
@@ -1031,7 +1019,7 @@ var osisToEn =
 			}
 		}
 
-		// Set valid books and abbreviations. It takes an object where each key is the OSIS book (e.g., `Matt`), and each value is a one- or two-item array. The first item is the book name to use, and the second item is the book name to use for plural cases. For example: `{"Ps": ["Psalm", "Psalms"]`. You can also use a special key of the type `OSIS.$chapters` (e.g., `Ps.$chapters`), which overrides any chapter abbreviations. For example, `{"Ps": ["Ps.", "Pss."]` could result in `Psalms 1:2, Pss. 3, 4` if given the OSIS `Ps.1.2,Ps.3,Ps.4`.
+		// Set valid books and abbreviations. It takes an object where each key is the OSIS book (e.g., `Matt`), and each value is a one- or two-item array. The first item is the book name to use, and the second item is the book name to use for plural cases. For example: `{"Ps": ["Psalm", "Psalms"]}`. You can also use a special key of the type `OSIS.$chapters` (e.g., `Ps.$chapters`), which overrides any chapter abbreviations. For example, `{"Ps": ["Ps.", "Pss."]` could result in `Psalms 1:2, Pss. 3, 4` if given the OSIS `Ps.1.2,Ps.3,Ps.4`.
 		function setBooks(userBooks) {
 			books = {};
 			Object.keys(userBooks).forEach(function (key) {
@@ -1047,14 +1035,14 @@ var osisToEn =
 		}
 
 		return {
-			toReadable: toReadable,
+			format: format,
 			setOptions: setOptions,
 			setBooks: setBooks
 		};
 	}
 
 	/* global module */
-	module.exports = OsisToReadable;
+	module.exports = OsisFormatter;
 
 
 /***/ }

@@ -151,7 +151,7 @@ Book names	should match unusual book names	Song	SS	Song	Song of Songs	Song	Song 
 		Gen.1,Gen.2	Ge 1; 2	Gen 1; 2	Genesis 1; 2	Gen 1; 2	Genesis 1; 2	Gen. 1; 2	Genesis 1; 2
 		Gen.1,Gen.2.3	Ge 1; 2:3	Gen 1; 2:3	Genesis 1; 2:3	Gen 1; 2:3	Genesis 1; 2:3	Gen. 1; 2:3	Genesis 1; 2:3
 	should handle `bc, same bc`	Gen.1,Gen.1	Ge 1; 1	Gen 1; 1	Genesis 1; 1	Gen 1; 1	Genesis 1; 1	Gen. 1; 1	Genesis 1; 1
-		Gen.1,Gen.1.2	Ge 1; 1:2	Gen 1; v. 2	Genesis 1; v. 2	Gen 1; v 2	Genesis 1; v 2	Gen. 1; v. 2	Genesis 1; v. 2
+		Gen.1,Gen.1.2	Ge 1; 1:2	Gen 1; 1:2	Genesis 1; 1:2	Gen 1; 1:2	Genesis 1; 1:2	Gen. 1; 1:2	Genesis 1; 1:2
 	should handle `bc, different b`	Gen.1,Matt	Ge 1; Mt	Gen 1; Matt	Genesis 1; Matthew	Gen 1; Matt	Genesis 1; Matthew	Gen. 1; Matt.	Genesis 1; Matthew
 		Gen.1,Matt.2	Ge 1; Mt 2	Gen 1; Matt 2	Genesis 1; Matthew 2	Gen 1; Matt 2	Genesis 1; Matthew 2	Gen. 1; Matt. 2	Genesis 1; Matthew 2
 		Gen.1,Matt.2.3	Ge 1; Mt 2:3	Gen 1; Matt 2:3	Genesis 1; Matthew 2:3	Gen 1; Matt 2:3	Genesis 1; Matthew 2:3	Gen. 1; Matt. 2:3	Genesis 1; Matthew 2:3
@@ -212,4 +212,3 @@ Context	should handle `b^c`	Gen.1/Gen	Ge 1	ch. 1	ch. 1	ch 1	ch 1	ch. 1	ch. 1
 	should handle `b1^c`	Phlm.1/Phlm	Phm	Phlm	Philemon	Phlm	Philemon	Philem.	Philemon
 	should handle `b1^v`	Phlm.1.1-Phlm.1.2/Phlm	ver 1-2	vv. 1\u20132	vv. 1\u20132	vv 1\u20132	vv 1\u20132	vv. 1\u20132	vv. 1\u20132
 		Phlm.1.1-Jude.1.2/Phlm	ver 1-Jude 2	vv. 1\u2014Jude 2	vv. 1\u2014Jude 2	vv 1\u2014Jude 2	vv 1\u2014Jude 2	vv. 1\u2014Jude 2	vv. 1\u2014Jude 2
-									

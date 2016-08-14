@@ -32,8 +32,8 @@ function writeTests(lang, describes) {
 	out.push("describe(\"Not switching styles\", function() {")
 	out.push("\tit(\"should work when not switching styles\", function() {")
 	const heading = headings[headings.length - 1]
-	out.push(`\t\texpect(() => convert(${JSON.stringify(heading)}, \"Matt.1\")).not.toThrow()`)
-	out.push(`\t\texpect(() => convert(${JSON.stringify(heading)}, \"Matt.2\")).not.toThrow()`)
+	out.push(`\t\texpect(() => osisToLang(${JSON.stringify(heading)}, \"Matt.1\")).not.toThrow()`)
+	out.push(`\t\texpect(() => osisToLang(${JSON.stringify(heading)}, \"Matt.2\")).not.toThrow()`)
 	out.push("\t})\n})\n")
 	let outString = template.replace(/\$LANG/, lang)
 	outString += out.join("\n")
