@@ -347,6 +347,39 @@ describe("Build Your Own Output Style", function() {
 		expect(formatter.format("Gen.1.2,Gen.1.3")).toEqual("Genesis 1:2,3")
 	})
 
+	it("should handle Ending Sequences", function() {
+		formatter.setBooks({
+			"Gen": ["Genesis"],
+			"Phlm": ["Philemon"],
+			"1John": ["1 John"],
+			"2John": ["2 John"],
+			"3John": ["3 John"],
+			"1John,2John,3John": ["1, 2, and 3 John"],
+		})
+		formatter.setOptions({
+			",": "; ",
+			"v,c": "; $chapters ",
+			"v,cv": "; ",
+			"v,v": ",",
+			"$chapters": ["ch.", "chs."],
+			"&": " and ",
+			"v&c": " and $chapters ",
+			"v&cv": " and ",
+			",&": "; and ",
+			"v,&c": "; and $chapters ",
+			"v,&cv": " and ",
+			"v,&v": ", and "
+		})
+		expect(formatter.format("Gen.1,Gen.3")).toEqual("Genesis 1 and 3")
+		expect(formatter.format("Gen.1.2,Gen.3")).toEqual("Genesis 1:2 and ch. 3")
+		expect(formatter.format("Gen.1.2,Gen.1.4")).toEqual("Genesis 1:2 and 4")
+		expect(formatter.format("Gen.1,Gen.3,Gen.5")).toEqual("Genesis 1; 3; and 5")
+		expect(formatter.format("Gen.1.2,Gen.1.4,Gen.3")).toEqual("Genesis 1:2,4; and ch. 3")
+		expect(formatter.format("Gen.1.2,Gen.1.4,Gen.1.6")).toEqual("Genesis 1:2,4, and 6")
+		expect(formatter.format("Gen,1John,2John,3John")).toEqual("Genesis and 1, 2, and 3 John")
+		expect(formatter.format("Gen,Phlm,1John,2John,3John")).toEqual("Genesis; Philemon; and 1, 2, and 3 John")
+	})
+
 	it("should handle Start Contexts", function() {
 		formatter.setBooks({
 			"Gen": ["Genesis"],

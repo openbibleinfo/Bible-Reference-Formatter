@@ -268,6 +268,23 @@ describe("Setting options", function() {
 		expect(f.format("Heb")).toEqual("Heb. P.")
 		expect(f.format("Phlm")).toEqual("Philem.")
 	})
+
+	it("should handle `&` options", function() {
+		setOptions({"&": " and ", "v&c": " and $chapters ", "v,c": ", $chapters "})
+		expect(f.format("Gen.1,Gen.2")).toEqual("Gen. 1 and 2")
+		expect(f.format("Gen.1.2,Gen.3")).toEqual("Gen. 1:2 and ch. 3")
+		expect(f.format("Gen.1.2,1John,2John")).toEqual("Gen. 1:2 and 1 and 2 John")
+		expect(f.format("Gen.1.2,1John,2John,Ps")).toEqual("Gen. 1:2; 1 and 2 John; Psalms")
+	})
+
+	it("should handle `,&` options", function() {
+		setOptions({",&": "; and ", "v,&c": " and $chapters ", "v,c": ", $chapters ", "v,&v": ", and "})
+		expect(f.format("Gen.1,Gen.2")).toEqual("Gen. 1; 2")
+		expect(f.format("Gen.1.2,Gen.3")).toEqual("Gen. 1:2, ch. 3")
+		expect(f.format("Gen.1.2,1John,2John")).toEqual("Gen. 1:2; 1 and 2 John")
+		expect(f.format("Gen.1.2,Ps,1John,2John")).toEqual("Gen. 1:2; Psalms; and 1 and 2 John")
+		expect(f.format("Gen.1.2,Gen.1.3,Gen.1.4")).toEqual("Gen. 1:2, 3, and 4")
+	})
 })
 
 describe("Psalm 151", function() {
@@ -394,7 +411,7 @@ describe("Multiple books by themselves", function() {
 	})
 })
 
-describe("setBooks", function() {
+describe(".setBooks()", function() {
 	beforeEach(function() {
 		setOptions()
 	})
@@ -412,4 +429,15 @@ describe("setBooks", function() {
 		expect(() => f.setBooks({"a": ["b", "c", "d", "e"]})).toThrow()
 	})
 	resetBooks()
+})
+
+describe(".tokenize()", function() {
+	beforeEach(function() {
+		resetBooks()
+		setOptions()
+	})
+
+	it("should tokenize a book", function() {
+		expect(f.tokenize("Gen")).toEqual({"tokens":[{"osis":"Gen","type":"b","parts":[{"type":"b","subType":"","b":"Gen","laters":[]}],"laters":[],"format":"Gen."}]})
+	})
 })

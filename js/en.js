@@ -66,8 +66,6 @@ var osisToEn =
 				"$chapters": ["ch.", "chs."],
 				"$verses": ["v.", "vv."],
 				"singleChapterFormat": "b",
-				",b": "; ",
-				",c": "; ",
 				"-": "—",
 				"b-c": "—$chapters ",
 				"b-v": "—$b ",
@@ -81,13 +79,137 @@ var osisToEn =
 			},
 			// Many DC book names come from Zondervan's Christian Writer's Manual of Style. https://books.google.com/books?id=qC8XIEFdyYAC&pg=PA21&dq=%22S+of+III+Ch%22&hl=en&sa=X&ved=0ahUKEwiasYy5nbzOAhVJLyYKHYkZBbQQ6AEIHjAA#v=onepage&q=%22S%20of%20III%20Ch%22&f=false
 			books: {
-				"Gen": ["Genesis"], "Exod": ["Exodus"], "Lev": ["Leviticus"], "Num": ["Numbers"], "Deut": ["Deuteronomy"], "Josh": ["Joshua"], "Judg": ["Judges"], "Ruth": ["Ruth"], "1Sam": ["1 Samuel"], "2Sam": ["2 Samuel"], "1Kgs": ["1 Kings"], "2Kgs": ["2 Kings"], "1Chr": ["1 Chronicles"], "2Chr": ["2 Chronicles"], "Ezra": ["Ezra"], "Neh": ["Nehemiah"], "Esth": ["Esther"], "Job": ["Job"], "Ps": ["Psalm", "Psalms"], "Prov": ["Proverbs"], "Eccl": ["Ecclesiastes"], "Song": ["Song of Songs"], "Isa": ["Isaiah"], "Jer": ["Jeremiah"], "Lam": ["Lamentations"], "Ezek": ["Ezekiel"], "Dan": ["Daniel"], "Hos": ["Hosea"], "Joel": ["Joel"], "Amos": ["Amos"], "Obad": ["Obadiah"], "Jonah": ["Jonah"], "Mic": ["Micah"], "Nah": ["Nahum"], "Hab": ["Habakkuk"], "Zeph": ["Zephaniah"], "Hag": ["Haggai"], "Zech": ["Zechariah"], "Mal": ["Malachi"], "Matt": ["Matthew"], "Mark": ["Mark"], "Luke": ["Luke"], "John": ["John"], "Acts": ["Acts"], "Rom": ["Romans"], "1Cor": ["1 Corinthians"], "2Cor": ["2 Corinthians"], "Gal": ["Galatians"], "Eph": ["Ephesians"], "Phil": ["Philippians"], "Col": ["Colossians"], "1Thess": ["1 Thessalonians"], "2Thess": ["2 Thessalonians"], "1Tim": ["1 Timothy"], "2Tim": ["2 Timothy"], "Titus": ["Titus"], "Phlm": ["Philemon"], "Heb": ["Hebrews"], "Jas": ["James"], "1Pet": ["1 Peter"], "2Pet": ["2 Peter"], "1John": ["1 John"], "2John": ["2 John"], "3John": ["3 John"], "Jude": ["Jude"], "Rev": ["Revelation"], "Tob": ["Tobit"], "Jdt": ["Judith"], "GkEsth": ["Greek Esther"], "EsthGr": ["Greek Esther"], "AddEsth": ["Rest of Esther"], "Wis": ["Wisdom of Solomon"], "Sir": ["Sirach"], "Bar": ["Baruch"], "EpJer": ["Epistle of Jeremiah"], "DanGr": ["Greek Daniel"], "SgThree": ["Song of the Three Holy Children"], "PrAzar": ["Prayer of Azariah"], "Sus": ["Susanna"], "Bel": ["Bel and the Dragon"], "1Macc": ["1 Maccabees"], "2Macc": ["2 Maccabees"], "3Macc": ["3 Maccabees"], "4Macc": ["4 Maccabees"], "PrMan": ["Prayer of Manasseh"], "1Esd": ["1 Esdras"], "2Esd": ["2 Esdras"], "Ps151": ["Psalm 151"], "AddPs": ["Psalm 151"],
+				"Gen": ["Genesis"],
+				"Exod": ["Exodus"],
+				"Lev": ["Leviticus"],
+				"Num": ["Numbers"],
+				"Deut": ["Deuteronomy"],
+				"Josh": ["Joshua"],
+				"Judg": ["Judges"],
+				"Ruth": ["Ruth"],
+				"1Sam": ["1 Samuel"],
+				"2Sam": ["2 Samuel"],
+				"1Kgs": ["1 Kings"],
+				"2Kgs": ["2 Kings"],
+				"1Chr": ["1 Chronicles"],
+				"2Chr": ["2 Chronicles"],
+				"Ezra": ["Ezra"],
+				"Neh": ["Nehemiah"],
+				"Esth": ["Esther"],
+				"Job": ["Job"],
+				"Ps": ["Psalm", "Psalms"],
+				"Prov": ["Proverbs"],
+				"Eccl": ["Ecclesiastes"],
+				"Song": ["Song of Songs"],
+				"Isa": ["Isaiah"],
+				"Jer": ["Jeremiah"],
+				"Lam": ["Lamentations"],
+				"Ezek": ["Ezekiel"],
+				"Dan": ["Daniel"],
+				"Hos": ["Hosea"],
+				"Joel": ["Joel"],
+				"Amos": ["Amos"],
+				"Obad": ["Obadiah"],
+				"Jonah": ["Jonah"],
+				"Mic": ["Micah"],
+				"Nah": ["Nahum"],
+				"Hab": ["Habakkuk"],
+				"Zeph": ["Zephaniah"],
+				"Hag": ["Haggai"],
+				"Zech": ["Zechariah"],
+				"Mal": ["Malachi"],
+				"Matt": ["Matthew"],
+				"Mark": ["Mark"],
+				"Luke": ["Luke"],
+				"John": ["John"],
+				"Acts": ["Acts"],
+				"Rom": ["Romans"],
+				"1Cor": ["1 Corinthians"],
+				"2Cor": ["2 Corinthians"],
+				"Gal": ["Galatians"],
+				"Eph": ["Ephesians"],
+				"Phil": ["Philippians"],
+				"Col": ["Colossians"],
+				"1Thess": ["1 Thessalonians"],
+				"2Thess": ["2 Thessalonians"],
+				"1Tim": ["1 Timothy"],
+				"2Tim": ["2 Timothy"],
+				"Titus": ["Titus"],
+				"Phlm": ["Philemon"],
+				"Heb": ["Hebrews"],
+				"Jas": ["James"],
+				"1Pet": ["1 Peter"],
+				"2Pet": ["2 Peter"],
+				"1John": ["1 John"],
+				"2John": ["2 John"],
+				"3John": ["3 John"],
+				"Jude": ["Jude"],
+				"Rev": ["Revelation"],
+				"Tob": ["Tobit"],
+				"Jdt": ["Judith"],
+				"GkEsth": ["Greek Esther"],
+				"EsthGr": ["Greek Esther"],
+				"AddEsth": ["Rest of Esther"],
+				"Wis": ["Wisdom of Solomon"],
+				"Sir": ["Sirach"],
+				"Bar": ["Baruch"],
+				"EpJer": ["Epistle of Jeremiah"],
+				"DanGr": ["Greek Daniel"],
+				"SgThree": ["Song of the Three Holy Children"],
+				"PrAzar": ["Prayer of Azariah"],
+				"Sus": ["Susanna"],
+				"Bel": ["Bel and the Dragon"],
+				"1Macc": ["1 Maccabees"],
+				"2Macc": ["2 Maccabees"],
+				"3Macc": ["3 Maccabees"],
+				"4Macc": ["4 Maccabees"],
+				"PrMan": ["Prayer of Manasseh"],
+				"1Esd": ["1 Esdras"],
+				"2Esd": ["2 Esdras"],
+				"Ps151": ["Psalm 151"],
+				"AddPs": ["Psalm 151"],
 				// Psalms
 				"Ps.$chapters": ["Psalm", "Psalms"],
 				// Ranges
-				"1Sam-2Sam": ["1—2 Samuel"], "1Kgs-2Kgs": ["1—2 Kings"], "1Chr-2Chr": ["1—2 Chronicles"], "1Cor-2Cor": ["1—2 Corinthians"], "1Thess-2Thess": ["1—2 Thessalonians"], "1Tim-2Tim": ["1—2 Timothy"], "1Pet-2Pet": ["1—2 Peter"], "1John-2John": ["1—2 John"], "1John-3John": ["1—3 John"], "2John-3John": ["2—3 John"], "1Macc-2Macc": ["1—2 Maccabees"], "1Macc-3Macc": ["1—3 Maccabees"], "1Macc-4Macc": ["1—4 Maccabees"], "2Macc-3Macc": ["2—3 Maccabees"], "2Macc-4Macc": ["2—4 Maccabees"], "3Macc-4Macc": ["3—4 Maccabees"], "1Esd-2Esd": ["1—2 Esdras"],
+				"1Sam-2Sam": ["1—2 Samuel"],
+				"1Kgs-2Kgs": ["1—2 Kings"],
+				"1Chr-2Chr": ["1—2 Chronicles"],
+				"1Cor-2Cor": ["1—2 Corinthians"],
+				"1Thess-2Thess": ["1—2 Thessalonians"],
+				"1Tim-2Tim": ["1—2 Timothy"],
+				"1Pet-2Pet": ["1—2 Peter"],
+				"1John-2John": ["1—2 John"],
+				"1John-3John": ["1—3 John"],
+				"2John-3John": ["2—3 John"],
+				"1Macc-2Macc": ["1—2 Maccabees"],
+				"1Macc-3Macc": ["1—3 Maccabees"],
+				"1Macc-4Macc": ["1—4 Maccabees"],
+				"2Macc-3Macc": ["2—3 Maccabees"],
+				"2Macc-4Macc": ["2—4 Maccabees"],
+				"3Macc-4Macc": ["3—4 Maccabees"],
+				"1Esd-2Esd": ["1—2 Esdras"],
 				// Sequences
-				"1Sam,2Sam": ["1 and 2 Samuel"], "1Kgs,2Kgs": ["1 and 2 Kings"], "1Chr,2Chr": ["1 and 2 Chronicles"], "1Cor,2Cor": ["1 and 2 Corinthians"], "1Thess,2Thess": ["1 and 2 Thessalonians"], "1Tim,2Tim": ["1 and 2 Timothy"], "1Pet,2Pet": ["1 and 2 Peter"], "1John,2John": ["1 and 2 John"], "1John,3John": ["1 and 3 John"], "2John,3John": ["2 and 3 John"], "1Macc,2Macc": ["1 and 2 Maccabees"], "1Macc,2Macc,3Macc": ["1, 2, and 3 Maccabees"], "1Macc,2Macc,3Macc,4Macc": ["1, 2, 3, and 4 Maccabees"], "1Macc,3Macc": ["1 and 3 Maccabees"], "1Macc,3Macc,4Macc": ["1, 3, and 4 Maccabees"], "1Macc,4Macc": ["1 and 4 Maccabees"], "2Macc,3Macc": ["2 and 3 Maccabees"], "2Macc,3Macc,4Macc": ["2, 3, and 4 Maccabees"], "2Macc,4Macc": ["2 and 4 Maccabees"], "3Macc,4Macc": ["3 and 4 Maccabees"], "1Esd,2Esd": ["1 and 2 Esdras"]
+				"1Sam,2Sam": ["1 and 2 Samuel"],
+				"1Kgs,2Kgs": ["1 and 2 Kings"],
+				"1Chr,2Chr": ["1 and 2 Chronicles"],
+				"1Cor,2Cor": ["1 and 2 Corinthians"],
+				"1Thess,2Thess": ["1 and 2 Thessalonians"],
+				"1Tim,2Tim": ["1 and 2 Timothy"],
+				"1Pet,2Pet": ["1 and 2 Peter"],
+				"1John,2John": ["1 and 2 John"],
+				"1John,3John": ["1 and 3 John"],
+				"2John,3John": ["2 and 3 John"],
+				"1Macc,2Macc": ["1 and 2 Maccabees"],
+				"1Macc,2Macc,3Macc": ["1, 2, and 3 Maccabees"],
+				"1Macc,2Macc,3Macc,4Macc": ["1, 2, 3, and 4 Maccabees"],
+				"1Macc,3Macc": ["1 and 3 Maccabees"],
+				"1Macc,3Macc,4Macc": ["1, 3, and 4 Maccabees"],
+				"1Macc,4Macc": ["1 and 4 Maccabees"],
+				"2Macc,3Macc": ["2 and 3 Maccabees"],
+				"2Macc,3Macc,4Macc": ["2, 3, and 4 Maccabees"],
+				"2Macc,4Macc": ["2 and 4 Maccabees"],
+				"3Macc,4Macc": ["3 and 4 Maccabees"],
+				"1Esd,2Esd": ["1 and 2 Esdras"]
 			}
 		},
 		"niv-short": {
@@ -102,8 +224,6 @@ var osisToEn =
 				"$chapters": ["ch.", "chs."],
 				"$verses": ["v.", "vv."],
 				"singleChapterFormat": "b",
-				",b": "; ",
-				",c": "; ",
 				"-": "—",
 				"b-c": "—$chapters ",
 				"b-v": "—$b ",
@@ -116,13 +236,138 @@ var osisToEn =
 				"^v": "$verses "
 			},
 			books: {
-				"Gen": ["Gen"], "Exod": ["Exod"], "Lev": ["Lev"], "Num": ["Num"], "Deut": ["Deut"], "Josh": ["Josh"], "Judg": ["Judg"], "Ruth": ["Ruth"], "1Sam": ["1 Sam"], "2Sam": ["2 Sam"], "1Kgs": ["1 Kgs"], "2Kgs": ["2 Kgs"], "1Chr": ["1 Chr"], "2Chr": ["2 Chr"], "Ezra": ["Ezra"], "Neh": ["Neh"], "Esth": ["Esth"], "Job": ["Job"], "Ps": ["Ps", "Pss"], "Prov": ["Prov"], "Eccl": ["Eccl"], "Song": ["Song"], "Isa": ["Isa"], "Jer": ["Jer"], "Lam": ["Lam"], "Ezek": ["Ezek"], "Dan": ["Dan"], "Hos": ["Hos"], "Joel": ["Joel"], "Amos": ["Amos"], "Obad": ["Obad"], "Jonah": ["Jonah"], "Mic": ["Mic"], "Nah": ["Nah"], "Hab": ["Hab"], "Zeph": ["Zeph"], "Hag": ["Hag"], "Zech": ["Zech"], "Mal": ["Mal"], "Matt": ["Matt"], "Mark": ["Mark"], "Luke": ["Luke"], "John": ["John"], "Acts": ["Acts"], "Rom": ["Rom"], "1Cor": ["1 Cor"], "2Cor": ["2 Cor"], "Gal": ["Gal"], "Eph": ["Eph"], "Phil": ["Phil"], "Col": ["Col"], "1Thess": ["1 Thess"], "2Thess": ["2 Thess"], "1Tim": ["1 Tim"], "2Tim": ["2 Tim"], "Titus": ["Titus"], "Phlm": ["Phlm"], "Heb": ["Heb"], "Jas": ["Jas"], "1Pet": ["1 Pet"], "2Pet": ["2 Pet"], "1John": ["1 John"], "2John": ["2 John"], "3John": ["3 John"], "Jude": ["Jude"], "Rev": ["Rev"], "Tob": ["Tobit"], "Jdt": ["Judith"], "GkEsth": ["Gr Esth"], "EsthGr": ["Gr Esth"], "AddEsth": ["Rest of Esth"], "Wis": ["Wisd Sol"], "Sir": ["Sir"], "Bar": ["Bar"], "EpJer": ["Ep Jer"], "DanGr": ["Gr Dan"], "SgThree": ["S of III Ch"], "PrAzar": ["Pr Azar"], "Sus": ["Sus"], "Bel": ["Bel"], "1Macc": ["1 Macc"], "2Macc": ["2 Macc"], "3Macc": ["3 Macc"], "4Macc": ["4 Macc"], "PrMan": ["Pr Man"], "1Esd": ["1 Esd"], "2Esd": ["2 Esd"], "Ps151": ["Ps151"], "AddPs": ["Ps151"],
+				"Gen": ["Gen"],
+				"Exod": ["Exod"],
+				"Lev": ["Lev"],
+				"Num": ["Num"],
+				"Deut": ["Deut"],
+				"Josh": ["Josh"],
+				"Judg": ["Judg"],
+				"Ruth": ["Ruth"],
+				"1Sam": ["1 Sam"],
+				"2Sam": ["2 Sam"],
+				"1Kgs": ["1 Kgs"],
+				"2Kgs": ["2 Kgs"],
+				"1Chr": ["1 Chr"],
+				"2Chr": ["2 Chr"],
+				"Ezra": ["Ezra"],
+				"Neh": ["Neh"],
+				"Esth": ["Esth"],
+				"Job": ["Job"],
+				"Ps": ["Ps", "Pss"],
+				"Prov": ["Prov"],
+				"Eccl": ["Eccl"],
+				"Song": ["Song"],
+				"Isa": ["Isa"],
+				"Jer": ["Jer"],
+				"Lam": ["Lam"],
+				"Ezek": ["Ezek"],
+				"Dan": ["Dan"],
+				"Hos": ["Hos"],
+				"Joel": ["Joel"],
+				"Amos": ["Amos"],
+				"Obad": ["Obad"],
+				"Jonah": ["Jonah"],
+				"Mic": ["Mic"],
+				"Nah": ["Nah"],
+				"Hab": ["Hab"],
+				"Zeph": ["Zeph"],
+				"Hag": ["Hag"],
+				"Zech": ["Zech"],
+				"Mal": ["Mal"],
+				"Matt": ["Matt"],
+				"Mark": ["Mark"],
+				"Luke": ["Luke"],
+				"John": ["John"],
+				"Acts": ["Acts"],
+				"Rom": ["Rom"],
+				"1Cor": ["1 Cor"],
+				"2Cor": ["2 Cor"],
+				"Gal": ["Gal"],
+				"Eph": ["Eph"],
+				"Phil": ["Phil"],
+				"Col": ["Col"],
+				"1Thess": ["1 Thess"],
+				"2Thess": ["2 Thess"],
+				"1Tim": ["1 Tim"],
+				"2Tim": ["2 Tim"],
+				"Titus": ["Titus"],
+				"Phlm": ["Phlm"],
+				"Heb": ["Heb"],
+				"Jas": ["Jas"],
+				"1Pet": ["1 Pet"],
+				"2Pet": ["2 Pet"],
+				"1John": ["1 John"],
+				"2John": ["2 John"],
+				"3John": ["3 John"],
+				"Jude": ["Jude"],
+				"Rev": ["Rev"],
+				"Tob": ["Tobit"],
+				"Jdt": ["Judith"],
+				"GkEsth": ["Gr Esth"],
+				"EsthGr": ["Gr Esth"],
+				"AddEsth": ["Rest of Esth"],
+				"Wis": ["Wisd Sol"],
+				"Sir": ["Sir"],
+				"Bar": ["Bar"],
+				"EpJer": ["Ep Jer"],
+				"DanGr": ["Gr Dan"],
+				"SgThree": ["S of III Ch"],
+				"PrAzar": ["Pr Azar"],
+				"Sus": ["Sus"],
+				"Bel": ["Bel"],
+				"1Macc": ["1 Macc"],
+				"2Macc": ["2 Macc"],
+				"3Macc": ["3 Macc"],
+				"4Macc": ["4 Macc"],
+				"PrMan": ["Pr Man"],
+				"1Esd": ["1 Esd"],
+				"2Esd": ["2 Esd"],
+				"Ps151": ["Ps151"],
+				"AddPs": ["Ps151"],
 				// Psalms
 				"Ps.$chapters": ["Ps", "Pss"],
 				// Ranges
-				"1Sam-2Sam": ["1—2 Sam"], "1Kgs-2Kgs": ["1—2 Kgs"], "1Chr-2Chr": ["1—2 Chr"], "1Cor-2Cor": ["1—2 Cor"], "1Thess-2Thess": ["1—2 Thess"], "1Tim-2Tim": ["1—2 Tim"], "1Pet-2Pet": ["1—2 Pet"], "1John-2John": ["1—2 John"], "1John-3John": ["1—3 John"], "2John-3John": ["2—3 John"], "1Macc-2Macc": ["1—2 Macc"], "1Macc-3Macc": ["1—3 Macc"], "1Macc-4Macc": ["1—4 Macc"], "2Macc-3Macc": ["2—3 Macc"], "2Macc-4Macc": ["2—4 Macc"], "3Macc-4Macc": ["3—4 Macc"], "1Esd-2Esd": ["1—2 Esd"],
+				"1Sam-2Sam": ["1—2 Sam"],
+				"1Kgs-2Kgs": ["1—2 Kgs"],
+				"1Chr-2Chr": ["1—2 Chr"],
+				"1Cor-2Cor": ["1—2 Cor"],
+				"1Thess-2Thess": ["1—2 Thess"],
+				"1Tim-2Tim": ["1—2 Tim"],
+				"1Pet-2Pet": ["1—2 Pet"],
+				"1John-2John": ["1—2 John"],
+				"1John-3John": ["1—3 John"],
+				"2John-3John": ["2—3 John"],
+				"1Macc-2Macc": ["1—2 Macc"],
+				"1Macc-3Macc": ["1—3 Macc"],
+				"1Macc-4Macc": ["1—4 Macc"],
+				"2Macc-3Macc": ["2—3 Macc"],
+				"2Macc-4Macc": ["2—4 Macc"],
+				"3Macc-4Macc": ["3—4 Macc"],
+				"1Esd-2Esd": ["1—2 Esd"],
 				// Sequences
-				"1Sam,2Sam": ["1 and 2 Sam"], "1Kgs,2Kgs": ["1 and 2 Kgs"], "1Chr,2Chr": ["1 and 2 Chr"], "1Cor,2Cor": ["1 and 2 Cor"], "1Thess,2Thess": ["1 and 2 Thess"], "1Tim,2Tim": ["1 and 2 Tim"], "1Pet,2Pet": ["1 and 2 Pet"], "1John,2John": ["1 and 2 John"], "1John,2John,3John": ["1, 2, and 3 John"], "1John,3John": ["1 and 3 John"], "2John,3John": ["2 and 3 John"], "1Macc,2Macc": ["1 and 2 Macc"], "1Macc,2Macc,3Macc": ["1, 2, and 3 Macc"], "1Macc,2Macc,3Macc,4Macc": ["1, 2, 3, and 4 Macc"], "1Macc,3Macc": ["1 and 3 Macc"], "1Macc,3Macc,4Macc": ["1, 3, and 4 Macc"], "1Macc,4Macc": ["1 and 4 Macc"], "2Macc,3Macc": ["2 and 3 Macc"], "2Macc,3Macc,4Macc": ["2, 3, and 4 Macc"], "2Macc,4Macc": ["2 and 4 Macc"], "3Macc,4Macc": ["3 and 4 Macc"], "1Esd,2Esd": ["1 and 2 Esd"]
+				"1Sam,2Sam": ["1 and 2 Sam"],
+				"1Kgs,2Kgs": ["1 and 2 Kgs"],
+				"1Chr,2Chr": ["1 and 2 Chr"],
+				"1Cor,2Cor": ["1 and 2 Cor"],
+				"1Thess,2Thess": ["1 and 2 Thess"],
+				"1Tim,2Tim": ["1 and 2 Tim"],
+				"1Pet,2Pet": ["1 and 2 Pet"],
+				"1John,2John": ["1 and 2 John"],
+				"1John,2John,3John": ["1, 2, and 3 John"],
+				"1John,3John": ["1 and 3 John"],
+				"2John,3John": ["2 and 3 John"],
+				"1Macc,2Macc": ["1 and 2 Macc"],
+				"1Macc,2Macc,3Macc": ["1, 2, and 3 Macc"],
+				"1Macc,2Macc,3Macc,4Macc": ["1, 2, 3, and 4 Macc"],
+				"1Macc,3Macc": ["1 and 3 Macc"],
+				"1Macc,3Macc,4Macc": ["1, 3, and 4 Macc"],
+				"1Macc,4Macc": ["1 and 4 Macc"],
+				"2Macc,3Macc": ["2 and 3 Macc"],
+				"2Macc,3Macc,4Macc": ["2, 3, and 4 Macc"],
+				"2Macc,4Macc": ["2 and 4 Macc"],
+				"3Macc,4Macc": ["3 and 4 Macc"],
+				"1Esd,2Esd": ["1 and 2 Esd"]
 			}
 		},
 		"niv-shortest": {
@@ -137,8 +382,6 @@ var osisToEn =
 				"$chapters": ["$b"],
 				"$verses": ["ver"], // see Gen.18.2 for plural
 				"singleChapterFormat": "b",
-				",b": "; ",
-				",c": "; ",
 				"-": "-",
 				"b-c": "-$chapters ",
 				"b-v": "-$b ",
@@ -150,11 +393,115 @@ var osisToEn =
 				"^v": "$verses "
 			},
 			books: {
-				"Gen": ["Ge"], "Exod": ["Ex"], "Lev": ["Lev"], "Num": ["Nu"], "Deut": ["Dt"], "Josh": ["Jos"], "Judg": ["Jdg"], "Ruth": ["Ru"], "1Sam": ["1Sa"], "2Sam": ["2Sa"], "1Kgs": ["1Ki"], "2Kgs": ["2Ki"], "1Chr": ["1Ch"], "2Chr": ["2Ch"], "Ezra": ["Ezr"], "Neh": ["Ne"], "Esth": ["Est"], "Job": ["Job"], "Ps": ["Ps"], "Prov": ["Pr"], "Eccl": ["Ecc"], "Song": ["SS"], "Isa": ["Isa"], "Jer": ["Jer"], "Lam": ["La"], "Ezek": ["Eze"], "Dan": ["Da"], "Hos": ["Hos"], "Joel": ["Joel"], "Amos": ["Am"], "Obad": ["Ob"], "Jonah": ["Jnh"], "Mic": ["Mic"], "Nah": ["Na"], "Hab": ["Hab"], "Zeph": ["Zep"], "Hag": ["Hag"], "Zech": ["Zec"], "Mal": ["Mal"], "Matt": ["Mt"], "Mark": ["Mk"], "Luke": ["Lk"], "John": ["Jn"], "Acts": ["Ac"], "Rom": ["Ro"], "1Cor": ["1Co"], "2Cor": ["2Co"], "Gal": ["Gal"], "Eph": ["Eph"], "Phil": ["Php"], "Col": ["Col"], "1Thess": ["1Th"], "2Thess": ["2Th"], "1Tim": ["1Ti"], "2Tim": ["2Ti"], "Titus": ["Titus"], "Phlm": ["Phm"], "Heb": ["Heb"], "Jas": ["Jas"], "1Pet": ["1Pe"], "2Pet": ["2Pe"], "1John": ["1Jn"], "2John": ["2Jn"], "3John": ["3Jn"], "Jude": ["Jude"], "Rev": ["Rev"], "Tob": ["Tb"], "Jdt": ["Jth"], "GkEsth": ["Gr Est"], "EsthGr": ["Gr Est"], "AddEsth": ["RE"], "Wis": ["WS"], "Sir": ["Sir"], "Bar": ["Bar"], "EpJer": ["Ep Jer"], "DanGr": ["Gr Da"], "SgThree": ["STHC"], "PrAzar": ["PrAz"], "Sus": ["Sus"], "Bel": ["Bel"], "1Macc": ["1Mc"], "2Macc": ["2Mc"], "3Macc": ["3Mc"], "4Macc": ["4Mc"], "PrMan": ["PrM"], "1Esd": ["1Es"], "2Esd": ["2Es"], "Ps151": ["Ps 151"], "AddPs": ["Ps 151"],
+				"Gen": ["Ge"],
+				"Exod": ["Ex"],
+				"Lev": ["Lev"],
+				"Num": ["Nu"],
+				"Deut": ["Dt"],
+				"Josh": ["Jos"],
+				"Judg": ["Jdg"],
+				"Ruth": ["Ru"],
+				"1Sam": ["1Sa"],
+				"2Sam": ["2Sa"],
+				"1Kgs": ["1Ki"],
+				"2Kgs": ["2Ki"],
+				"1Chr": ["1Ch"],
+				"2Chr": ["2Ch"],
+				"Ezra": ["Ezr"],
+				"Neh": ["Ne"],
+				"Esth": ["Est"],
+				"Job": ["Job"],
+				"Ps": ["Ps"],
+				"Prov": ["Pr"],
+				"Eccl": ["Ecc"],
+				"Song": ["SS"],
+				"Isa": ["Isa"],
+				"Jer": ["Jer"],
+				"Lam": ["La"],
+				"Ezek": ["Eze"],
+				"Dan": ["Da"],
+				"Hos": ["Hos"],
+				"Joel": ["Joel"],
+				"Amos": ["Am"],
+				"Obad": ["Ob"],
+				"Jonah": ["Jnh"],
+				"Mic": ["Mic"],
+				"Nah": ["Na"],
+				"Hab": ["Hab"],
+				"Zeph": ["Zep"],
+				"Hag": ["Hag"],
+				"Zech": ["Zec"],
+				"Mal": ["Mal"],
+				"Matt": ["Mt"],
+				"Mark": ["Mk"],
+				"Luke": ["Lk"],
+				"John": ["Jn"],
+				"Acts": ["Ac"],
+				"Rom": ["Ro"],
+				"1Cor": ["1Co"],
+				"2Cor": ["2Co"],
+				"Gal": ["Gal"],
+				"Eph": ["Eph"],
+				"Phil": ["Php"],
+				"Col": ["Col"],
+				"1Thess": ["1Th"],
+				"2Thess": ["2Th"],
+				"1Tim": ["1Ti"],
+				"2Tim": ["2Ti"],
+				"Titus": ["Titus"],
+				"Phlm": ["Phm"],
+				"Heb": ["Heb"],
+				"Jas": ["Jas"],
+				"1Pet": ["1Pe"],
+				"2Pet": ["2Pe"],
+				"1John": ["1Jn"],
+				"2John": ["2Jn"],
+				"3John": ["3Jn"],
+				"Jude": ["Jude"],
+				"Rev": ["Rev"],
+				"Tob": ["Tb"],
+				"Jdt": ["Jth"],
+				"GkEsth": ["Gr Est"],
+				"EsthGr": ["Gr Est"],
+				"AddEsth": ["RE"],
+				"Wis": ["WS"],
+				"Sir": ["Sir"],
+				"Bar": ["Bar"],
+				"EpJer": ["Ep Jer"],
+				"DanGr": ["Gr Da"],
+				"SgThree": ["STHC"],
+				"PrAzar": ["PrAz"],
+				"Sus": ["Sus"],
+				"Bel": ["Bel"],
+				"1Macc": ["1Mc"],
+				"2Macc": ["2Mc"],
+				"3Macc": ["3Mc"],
+				"4Macc": ["4Mc"],
+				"PrMan": ["PrM"],
+				"1Esd": ["1Es"],
+				"2Esd": ["2Es"],
+				"Ps151": ["Ps 151"],
+				"AddPs": ["Ps 151"],
 				// Psalms
 				"Ps.$chapters": ["Ps"],
 				// Ranges
-				"1Sam-2Sam": ["1-2Sa"], "1Kgs-2Kgs": ["1-2Ki"], "1Chr-2Chr": ["1-2Ch"], "1Cor-2Cor": ["1-2Co"], "1Thess-2Thess": ["1-2Th"], "1Tim-2Tim": ["1-2Ti"], "1Pet-2Pet": ["1-2Pe"], "1John-2John": ["1-2Jn"], "1John-3John": ["1-3Jn"], "2John-3John": ["2-3Jn"], "1Macc-2Macc": ["1-2Mc"], "1Macc-3Macc": ["1-3Mc"], "1Macc-4Macc": ["1-4Mc"], "2Macc-3Macc": ["2-3Mc"], "2Macc-4Macc": ["2-4Mc"], "3Macc-4Macc": ["3-4Mc"], "1Esd-2Esd": ["1-2Es"]
+				"1Sam-2Sam": ["1-2Sa"],
+				"1Kgs-2Kgs": ["1-2Ki"],
+				"1Chr-2Chr": ["1-2Ch"],
+				"1Cor-2Cor": ["1-2Co"],
+				"1Thess-2Thess": ["1-2Th"],
+				"1Tim-2Tim": ["1-2Ti"],
+				"1Pet-2Pet": ["1-2Pe"],
+				"1John-2John": ["1-2Jn"],
+				"1John-3John": ["1-3Jn"],
+				"2John-3John": ["2-3Jn"],
+				"1Macc-2Macc": ["1-2Mc"],
+				"1Macc-3Macc": ["1-3Mc"],
+				"1Macc-4Macc": ["1-4Mc"],
+				"2Macc-3Macc": ["2-3Mc"],
+				"2Macc-4Macc": ["2-4Mc"],
+				"3Macc-4Macc": ["3-4Mc"],
+				"1Esd-2Esd": ["1-2Es"]
 				// No sequences
 			}
 		},
@@ -171,8 +518,6 @@ var osisToEn =
 				"$chapters": ["ch", "chs"],
 				"$verses": ["v", "vv"],
 				"singleChapterFormat": "b",
-				",b": "; ",
-				",c": "; ",
 				"-": "—",
 				"b-c": "—$chapters ",
 				"b-v": "—$b ",
@@ -185,13 +530,137 @@ var osisToEn =
 				"^v": "$verses "
 			},
 			books: {
-				"Gen": ["Genesis"], "Exod": ["Exodus"], "Lev": ["Leviticus"], "Num": ["Numbers"], "Deut": ["Deuteronomy"], "Josh": ["Joshua"], "Judg": ["Judges"], "Ruth": ["Ruth"], "1Sam": ["1 Samuel"], "2Sam": ["2 Samuel"], "1Kgs": ["1 Kings"], "2Kgs": ["2 Kings"], "1Chr": ["1 Chronicles"], "2Chr": ["2 Chronicles"], "Ezra": ["Ezra"], "Neh": ["Nehemiah"], "Esth": ["Esther"], "Job": ["Job"], "Ps": ["Psalm", "Psalms"], "Prov": ["Proverbs"], "Eccl": ["Ecclesiastes"], "Song": ["Song of Songs"], "Isa": ["Isaiah"], "Jer": ["Jeremiah"], "Lam": ["Lamentations"], "Ezek": ["Ezekiel"], "Dan": ["Daniel"], "Hos": ["Hosea"], "Joel": ["Joel"], "Amos": ["Amos"], "Obad": ["Obadiah"], "Jonah": ["Jonah"], "Mic": ["Micah"], "Nah": ["Nahum"], "Hab": ["Habakkuk"], "Zeph": ["Zephaniah"], "Hag": ["Haggai"], "Zech": ["Zechariah"], "Mal": ["Malachi"], "Matt": ["Matthew"], "Mark": ["Mark"], "Luke": ["Luke"], "John": ["John"], "Acts": ["Acts"], "Rom": ["Romans"], "1Cor": ["1 Corinthians"], "2Cor": ["2 Corinthians"], "Gal": ["Galatians"], "Eph": ["Ephesians"], "Phil": ["Philippians"], "Col": ["Colossians"], "1Thess": ["1 Thessalonians"], "2Thess": ["2 Thessalonians"], "1Tim": ["1 Timothy"], "2Tim": ["2 Timothy"], "Titus": ["Titus"], "Phlm": ["Philemon"], "Heb": ["Hebrews"], "Jas": ["James"], "1Pet": ["1 Peter"], "2Pet": ["2 Peter"], "1John": ["1 John"], "2John": ["2 John"], "3John": ["3 John"], "Jude": ["Jude"], "Rev": ["Revelation"], "Tob": ["Tobit"], "Jdt": ["Judith"], "GkEsth": ["Greek Esther"], "EsthGr": ["Greek Esther"], "AddEsth": ["Additions to Esther"], "Wis": ["Wisdom of Solomon"], "Sir": ["Sirach"], "Bar": ["Baruch"], "EpJer": ["Epistle of Jeremiah"], "DanGr": ["Greek Daniel"], "SgThree": ["Song of the Three Jews"], "PrAzar": ["Prayer of Azariah"], "Sus": ["Susanna"], "Bel": ["Bel and the Dragon"], "1Macc": ["1 Maccabees"], "2Macc": ["2 Maccabees"], "3Macc": ["3 Maccabees"], "4Macc": ["4 Maccabees"], "PrMan": ["Prayer of Manasseh"], "1Esd": ["1 Esdras"], "2Esd": ["2 Esdras"], "Ps151": ["Psalm 151"], "AddPs": ["Psalm 151"],
+				"Gen": ["Genesis"],
+				"Exod": ["Exodus"],
+				"Lev": ["Leviticus"],
+				"Num": ["Numbers"],
+				"Deut": ["Deuteronomy"],
+				"Josh": ["Joshua"],
+				"Judg": ["Judges"],
+				"Ruth": ["Ruth"],
+				"1Sam": ["1 Samuel"],
+				"2Sam": ["2 Samuel"],
+				"1Kgs": ["1 Kings"],
+				"2Kgs": ["2 Kings"],
+				"1Chr": ["1 Chronicles"],
+				"2Chr": ["2 Chronicles"],
+				"Ezra": ["Ezra"],
+				"Neh": ["Nehemiah"],
+				"Esth": ["Esther"],
+				"Job": ["Job"],
+				"Ps": ["Psalm", "Psalms"],
+				"Prov": ["Proverbs"],
+				"Eccl": ["Ecclesiastes"],
+				"Song": ["Song of Songs"],
+				"Isa": ["Isaiah"],
+				"Jer": ["Jeremiah"],
+				"Lam": ["Lamentations"],
+				"Ezek": ["Ezekiel"],
+				"Dan": ["Daniel"],
+				"Hos": ["Hosea"],
+				"Joel": ["Joel"],
+				"Amos": ["Amos"],
+				"Obad": ["Obadiah"],
+				"Jonah": ["Jonah"],
+				"Mic": ["Micah"],
+				"Nah": ["Nahum"],
+				"Hab": ["Habakkuk"],
+				"Zeph": ["Zephaniah"],
+				"Hag": ["Haggai"],
+				"Zech": ["Zechariah"],
+				"Mal": ["Malachi"],
+				"Matt": ["Matthew"],
+				"Mark": ["Mark"],
+				"Luke": ["Luke"],
+				"John": ["John"],
+				"Acts": ["Acts"],
+				"Rom": ["Romans"],
+				"1Cor": ["1 Corinthians"],
+				"2Cor": ["2 Corinthians"],
+				"Gal": ["Galatians"],
+				"Eph": ["Ephesians"],
+				"Phil": ["Philippians"],
+				"Col": ["Colossians"],
+				"1Thess": ["1 Thessalonians"],
+				"2Thess": ["2 Thessalonians"],
+				"1Tim": ["1 Timothy"],
+				"2Tim": ["2 Timothy"],
+				"Titus": ["Titus"],
+				"Phlm": ["Philemon"],
+				"Heb": ["Hebrews"],
+				"Jas": ["James"],
+				"1Pet": ["1 Peter"],
+				"2Pet": ["2 Peter"],
+				"1John": ["1 John"],
+				"2John": ["2 John"],
+				"3John": ["3 John"],
+				"Jude": ["Jude"],
+				"Rev": ["Revelation"],
+				"Tob": ["Tobit"],
+				"Jdt": ["Judith"],
+				"GkEsth": ["Greek Esther"],
+				"EsthGr": ["Greek Esther"],
+				"AddEsth": ["Additions to Esther"],
+				"Wis": ["Wisdom of Solomon"],
+				"Sir": ["Sirach"],
+				"Bar": ["Baruch"],
+				"EpJer": ["Epistle of Jeremiah"],
+				"DanGr": ["Greek Daniel"],
+				"SgThree": ["Song of the Three Jews"],
+				"PrAzar": ["Prayer of Azariah"],
+				"Sus": ["Susanna"],
+				"Bel": ["Bel and the Dragon"],
+				"1Macc": ["1 Maccabees"],
+				"2Macc": ["2 Maccabees"],
+				"3Macc": ["3 Maccabees"],
+				"4Macc": ["4 Maccabees"],
+				"PrMan": ["Prayer of Manasseh"],
+				"1Esd": ["1 Esdras"],
+				"2Esd": ["2 Esdras"],
+				"Ps151": ["Psalm 151"],
+				"AddPs": ["Psalm 151"],
 				// Psalms
 				"Ps.$chapters": ["Psalm", "Psalms"],
 				// Ranges
-				"1Sam-2Sam": ["1—2 Samuel"], "1Kgs-2Kgs": ["1—2 Kings"], "1Chr-2Chr": ["1—2 Chronicles"], "1Cor-2Cor": ["1—2 Corinthians"], "1Thess-2Thess": ["1—2 Thessalonians"], "1Tim-2Tim": ["1—2 Timothy"], "1Pet-2Pet": ["1—2 Peter"], "1John-2John": ["1—2 John"], "1John-3John": ["1—3 John"], "2John-3John": ["2—3 John"], "1Macc-2Macc": ["1—2 Maccabees"], "1Macc-3Macc": ["1—3 Maccabees"], "1Macc-4Macc": ["1—4 Maccabees"], "2Macc-3Macc": ["2—3 Maccabees"], "2Macc-4Macc": ["2—4 Maccabees"], "3Macc-4Macc": ["3—4 Maccabees"], "1Esd-2Esd": ["1—2 Esdras"],
+				"1Sam-2Sam": ["1—2 Samuel"],
+				"1Kgs-2Kgs": ["1—2 Kings"],
+				"1Chr-2Chr": ["1—2 Chronicles"],
+				"1Cor-2Cor": ["1—2 Corinthians"],
+				"1Thess-2Thess": ["1—2 Thessalonians"],
+				"1Tim-2Tim": ["1—2 Timothy"],
+				"1Pet-2Pet": ["1—2 Peter"],
+				"1John-2John": ["1—2 John"],
+				"1John-3John": ["1—3 John"],
+				"2John-3John": ["2—3 John"],
+				"1Macc-2Macc": ["1—2 Maccabees"],
+				"1Macc-3Macc": ["1—3 Maccabees"],
+				"1Macc-4Macc": ["1—4 Maccabees"],
+				"2Macc-3Macc": ["2—3 Maccabees"],
+				"2Macc-4Macc": ["2—4 Maccabees"],
+				"3Macc-4Macc": ["3—4 Maccabees"],
+				"1Esd-2Esd": ["1—2 Esdras"],
 				// Sequences
-				"1Sam,2Sam": ["1 and 2 Samuel"], "1Kgs,2Kgs": ["1 and 2 Kings"], "1Chr,2Chr": ["1 and 2 Chronicles"], "1Cor,2Cor": ["1 and 2 Corinthians"], "1Thess,2Thess": ["1 and 2 Thessalonians"], "1Tim,2Tim": ["1 and 2 Timothy"], "1Pet,2Pet": ["1 and 2 Peter"], "1John,2John": ["1 and 2 John"], "1John,3John": ["1 and 3 John"], "2John,3John": ["2 and 3 John"], "1Macc,2Macc": ["1 and 2 Maccabees"], "1Macc,2Macc,3Macc": ["1, 2, and 3 Maccabees"], "1Macc,2Macc,3Macc,4Macc": ["1, 2, 3, and 4 Maccabees"], "1Macc,3Macc": ["1 and 3 Maccabees"], "1Macc,3Macc,4Macc": ["1, 3, and 4 Maccabees"], "1Macc,4Macc": ["1 and 4 Maccabees"], "2Macc,3Macc": ["2 and 3 Maccabees"], "2Macc,3Macc,4Macc": ["2, 3, and 4 Maccabees"], "2Macc,4Macc": ["2 and 4 Maccabees"], "3Macc,4Macc": ["3 and 4 Maccabees"], "1Esd,2Esd": ["1 and 2 Esdras"]
+				"1Sam,2Sam": ["1 and 2 Samuel"],
+				"1Kgs,2Kgs": ["1 and 2 Kings"],
+				"1Chr,2Chr": ["1 and 2 Chronicles"],
+				"1Cor,2Cor": ["1 and 2 Corinthians"],
+				"1Thess,2Thess": ["1 and 2 Thessalonians"],
+				"1Tim,2Tim": ["1 and 2 Timothy"],
+				"1Pet,2Pet": ["1 and 2 Peter"],
+				"1John,2John": ["1 and 2 John"],
+				"1John,3John": ["1 and 3 John"],
+				"2John,3John": ["2 and 3 John"],
+				"1Macc,2Macc": ["1 and 2 Maccabees"],
+				"1Macc,2Macc,3Macc": ["1, 2, and 3 Maccabees"],
+				"1Macc,2Macc,3Macc,4Macc": ["1, 2, 3, and 4 Maccabees"],
+				"1Macc,3Macc": ["1 and 3 Maccabees"],
+				"1Macc,3Macc,4Macc": ["1, 3, and 4 Maccabees"],
+				"1Macc,4Macc": ["1 and 4 Maccabees"],
+				"2Macc,3Macc": ["2 and 3 Maccabees"],
+				"2Macc,3Macc,4Macc": ["2, 3, and 4 Maccabees"],
+				"2Macc,4Macc": ["2 and 4 Maccabees"],
+				"3Macc,4Macc": ["3 and 4 Maccabees"],
+				"1Esd,2Esd": ["1 and 2 Esdras"]
 			}
 		},
 		"nlt-short": {
@@ -206,8 +675,6 @@ var osisToEn =
 				"$chapters": ["ch", "chs"],
 				"$verses": ["v", "vv"],
 				"singleChapterFormat": "b",
-				",b": "; ",
-				",c": "; ",
 				"-": "—",
 				"b-c": "—$chapters ",
 				"b-v": "—$b ",
@@ -220,13 +687,138 @@ var osisToEn =
 				"^v": "$verses "
 			},
 			books: {
-				"Gen": ["Gen"], "Exod": ["Exod"], "Lev": ["Lev"], "Num": ["Num"], "Deut": ["Deut"], "Josh": ["Josh"], "Judg": ["Judg"], "Ruth": ["Ruth"], "1Sam": ["1 Sam"], "2Sam": ["2 Sam"], "1Kgs": ["1 Kgs"], "2Kgs": ["2 Kgs"], "1Chr": ["1 Chr"], "2Chr": ["2 Chr"], "Ezra": ["Ezra"], "Neh": ["Neh"], "Esth": ["Esth"], "Job": ["Job"], "Ps": ["Ps", "Pss"], "Prov": ["Prov"], "Eccl": ["Eccl"], "Song": ["Song"], "Isa": ["Isa"], "Jer": ["Jer"], "Lam": ["Lam"], "Ezek": ["Ezek"], "Dan": ["Dan"], "Hos": ["Hos"], "Joel": ["Joel"], "Amos": ["Amos"], "Obad": ["Obad"], "Jonah": ["Jonah"], "Mic": ["Mic"], "Nah": ["Nah"], "Hab": ["Hab"], "Zeph": ["Zeph"], "Hag": ["Hag"], "Zech": ["Zech"], "Mal": ["Mal"], "Matt": ["Matt"], "Mark": ["Mark"], "Luke": ["Luke"], "John": ["John"], "Acts": ["Acts"], "Rom": ["Rom"], "1Cor": ["1 Cor"], "2Cor": ["2 Cor"], "Gal": ["Gal"], "Eph": ["Eph"], "Phil": ["Phil"], "Col": ["Col"], "1Thess": ["1 Thes"], "2Thess": ["2 Thes"], "1Tim": ["1 Tim"], "2Tim": ["2 Tim"], "Titus": ["Titus"], "Phlm": ["Phlm"], "Heb": ["Heb"], "Jas": ["Jas"], "1Pet": ["1 Pet"], "2Pet": ["2 Pet"], "1John": ["1 Jn"], "2John": ["2 Jn"], "3John": ["3 Jn"], "Jude": ["Jude"], "Rev": ["Rev"], "Tob": ["Tb"], "Jdt": ["Jdt"], "GkEsth": ["Gr Esth"], "EsthGr": ["Gr Esth"], "AddEsth": ["Add Esth"], "Wis": ["Wisd Sol"], "Sir": ["Sir"], "Bar": ["Bar"], "EpJer": ["Ep Jer"], "DanGr": ["Gr Dan"], "SgThree": ["Pr Azar"], "PrAzar": ["Pr Azar"], "Sus": ["Sus"], "Bel": ["Bel"], "1Macc": ["1 Macc"], "2Macc": ["2 Macc"], "3Macc": ["3 Macc"], "4Macc": ["4 Macc"], "PrMan": ["Pr Man"], "1Esd": ["1 Esd"], "2Esd": ["2 Esd"], "Ps151": ["Ps151"], "AddPs": ["Ps151"],
+				"Gen": ["Gen"],
+				"Exod": ["Exod"],
+				"Lev": ["Lev"],
+				"Num": ["Num"],
+				"Deut": ["Deut"],
+				"Josh": ["Josh"],
+				"Judg": ["Judg"],
+				"Ruth": ["Ruth"],
+				"1Sam": ["1 Sam"],
+				"2Sam": ["2 Sam"],
+				"1Kgs": ["1 Kgs"],
+				"2Kgs": ["2 Kgs"],
+				"1Chr": ["1 Chr"],
+				"2Chr": ["2 Chr"],
+				"Ezra": ["Ezra"],
+				"Neh": ["Neh"],
+				"Esth": ["Esth"],
+				"Job": ["Job"],
+				"Ps": ["Ps", "Pss"],
+				"Prov": ["Prov"],
+				"Eccl": ["Eccl"],
+				"Song": ["Song"],
+				"Isa": ["Isa"],
+				"Jer": ["Jer"],
+				"Lam": ["Lam"],
+				"Ezek": ["Ezek"],
+				"Dan": ["Dan"],
+				"Hos": ["Hos"],
+				"Joel": ["Joel"],
+				"Amos": ["Amos"],
+				"Obad": ["Obad"],
+				"Jonah": ["Jonah"],
+				"Mic": ["Mic"],
+				"Nah": ["Nah"],
+				"Hab": ["Hab"],
+				"Zeph": ["Zeph"],
+				"Hag": ["Hag"],
+				"Zech": ["Zech"],
+				"Mal": ["Mal"],
+				"Matt": ["Matt"],
+				"Mark": ["Mark"],
+				"Luke": ["Luke"],
+				"John": ["John"],
+				"Acts": ["Acts"],
+				"Rom": ["Rom"],
+				"1Cor": ["1 Cor"],
+				"2Cor": ["2 Cor"],
+				"Gal": ["Gal"],
+				"Eph": ["Eph"],
+				"Phil": ["Phil"],
+				"Col": ["Col"],
+				"1Thess": ["1 Thes"],
+				"2Thess": ["2 Thes"],
+				"1Tim": ["1 Tim"],
+				"2Tim": ["2 Tim"],
+				"Titus": ["Titus"],
+				"Phlm": ["Phlm"],
+				"Heb": ["Heb"],
+				"Jas": ["Jas"],
+				"1Pet": ["1 Pet"],
+				"2Pet": ["2 Pet"],
+				"1John": ["1 Jn"],
+				"2John": ["2 Jn"],
+				"3John": ["3 Jn"],
+				"Jude": ["Jude"],
+				"Rev": ["Rev"],
+				"Tob": ["Tb"],
+				"Jdt": ["Jdt"],
+				"GkEsth": ["Gr Esth"],
+				"EsthGr": ["Gr Esth"],
+				"AddEsth": ["Add Esth"],
+				"Wis": ["Wisd Sol"],
+				"Sir": ["Sir"],
+				"Bar": ["Bar"],
+				"EpJer": ["Ep Jer"],
+				"DanGr": ["Gr Dan"],
+				"SgThree": ["Pr Azar"],
+				"PrAzar": ["Pr Azar"],
+				"Sus": ["Sus"],
+				"Bel": ["Bel"],
+				"1Macc": ["1 Macc"],
+				"2Macc": ["2 Macc"],
+				"3Macc": ["3 Macc"],
+				"4Macc": ["4 Macc"],
+				"PrMan": ["Pr Man"],
+				"1Esd": ["1 Esd"],
+				"2Esd": ["2 Esd"],
+				"Ps151": ["Ps151"],
+				"AddPs": ["Ps151"],
 				// Psalms
 				"Ps.$chapters": ["Ps", "Pss"],
 				// Ranges
-				"1Sam-2Sam": ["1—2 Sam"], "1Kgs-2Kgs": ["1—2 Kgs"], "1Chr-2Chr": ["1—2 Chr"], "1Cor-2Cor": ["1—2 Cor"], "1Thess-2Thess": ["1—2 Thes"], "1Tim-2Tim": ["1—2 Tim"], "1Pet-2Pet": ["1—2 Pet"], "1John-2John": ["1—2 Jn"], "1John-3John": ["1—3 Jn"], "2John-3John": ["2—3 Jn"], "1Macc-2Macc": ["1—2 Macc"], "1Macc-3Macc": ["1—3 Macc"], "1Macc-4Macc": ["1—4 Macc"], "2Macc-3Macc": ["2—3 Macc"], "2Macc-4Macc": ["2—4 Macc"], "3Macc-4Macc": ["3—4 Macc"], "1Esd-2Esd": ["1—2 Esd"],
+				"1Sam-2Sam": ["1—2 Sam"],
+				"1Kgs-2Kgs": ["1—2 Kgs"],
+				"1Chr-2Chr": ["1—2 Chr"],
+				"1Cor-2Cor": ["1—2 Cor"],
+				"1Thess-2Thess": ["1—2 Thes"],
+				"1Tim-2Tim": ["1—2 Tim"],
+				"1Pet-2Pet": ["1—2 Pet"],
+				"1John-2John": ["1—2 Jn"],
+				"1John-3John": ["1—3 Jn"],
+				"2John-3John": ["2—3 Jn"],
+				"1Macc-2Macc": ["1—2 Macc"],
+				"1Macc-3Macc": ["1—3 Macc"],
+				"1Macc-4Macc": ["1—4 Macc"],
+				"2Macc-3Macc": ["2—3 Macc"],
+				"2Macc-4Macc": ["2—4 Macc"],
+				"3Macc-4Macc": ["3—4 Macc"],
+				"1Esd-2Esd": ["1—2 Esd"],
 				// Sequences
-				"1Sam,2Sam": ["1 and 2 Sam"], "1Kgs,2Kgs": ["1 and 2 Kgs"], "1Chr,2Chr": ["1 and 2 Chr"], "1Cor,2Cor": ["1 and 2 Cor"], "1Thess,2Thess": ["1 and 2 Thes"], "1Tim,2Tim": ["1 and 2 Tim"], "1Pet,2Pet": ["1 and 2 Pet"], "1John,2John": ["1 and 2 Jn"], "1John,2John,3John": ["1, 2, and 3 Jn"], "1John,3John": ["1 and 3 Jn"], "2John,3John": ["2 and 3 Jn"], "1Macc,2Macc": ["1 and 2 Macc"], "1Macc,2Macc,3Macc": ["1, 2, and 3 Macc"], "1Macc,2Macc,3Macc,4Macc": ["1, 2, 3, and 4 Macc"], "1Macc,3Macc": ["1 and 3 Macc"], "1Macc,3Macc,4Macc": ["1, 3, and 4 Macc"], "1Macc,4Macc": ["1 and 4 Macc"], "2Macc,3Macc": ["2 and 3 Macc"], "2Macc,3Macc,4Macc": ["2, 3, and 4 Macc"], "2Macc,4Macc": ["2 and 4 Macc"], "3Macc,4Macc": ["3 and 4 Macc"], "1Esd,2Esd": ["1 and 2 Esd"]
+				"1Sam,2Sam": ["1 and 2 Sam"],
+				"1Kgs,2Kgs": ["1 and 2 Kgs"],
+				"1Chr,2Chr": ["1 and 2 Chr"],
+				"1Cor,2Cor": ["1 and 2 Cor"],
+				"1Thess,2Thess": ["1 and 2 Thes"],
+				"1Tim,2Tim": ["1 and 2 Tim"],
+				"1Pet,2Pet": ["1 and 2 Pet"],
+				"1John,2John": ["1 and 2 Jn"],
+				"1John,2John,3John": ["1, 2, and 3 Jn"],
+				"1John,3John": ["1 and 3 Jn"],
+				"2John,3John": ["2 and 3 Jn"],
+				"1Macc,2Macc": ["1 and 2 Macc"],
+				"1Macc,2Macc,3Macc": ["1, 2, and 3 Macc"],
+				"1Macc,2Macc,3Macc,4Macc": ["1, 2, 3, and 4 Macc"],
+				"1Macc,3Macc": ["1 and 3 Macc"],
+				"1Macc,3Macc,4Macc": ["1, 3, and 4 Macc"],
+				"1Macc,4Macc": ["1 and 4 Macc"],
+				"2Macc,3Macc": ["2 and 3 Macc"],
+				"2Macc,3Macc,4Macc": ["2, 3, and 4 Macc"],
+				"2Macc,4Macc": ["2 and 4 Macc"],
+				"3Macc,4Macc": ["3 and 4 Macc"],
+				"1Esd,2Esd": ["1 and 2 Esd"]
 			}
 		},
 		// This format is based on the ESV Study Bible (2008). Some DC books are from the ESV Apocrypha (http://www.cph.org/pdf/012065.pdf).
@@ -242,8 +834,6 @@ var osisToEn =
 				"$chapters": ["ch.", "chs."],
 				"$verses": ["v.", "vv."],
 				"singleChapterFormat": "b",
-				",b": "; ",
-				",c": "; ",
 				"-": "—",
 				"b-c": "—$chapters ",
 				"b-v": "—$b ",
@@ -256,13 +846,137 @@ var osisToEn =
 				"^v": "$verses "
 			},
 			books: {
-				"Gen": ["Genesis"], "Exod": ["Exodus"], "Lev": ["Leviticus"], "Num": ["Numbers"], "Deut": ["Deuteronomy"], "Josh": ["Joshua"], "Judg": ["Judges"], "Ruth": ["Ruth"], "1Sam": ["1 Samuel"], "2Sam": ["2 Samuel"], "1Kgs": ["1 Kings"], "2Kgs": ["2 Kings"], "1Chr": ["1 Chronicles"], "2Chr": ["2 Chronicles"], "Ezra": ["Ezra"], "Neh": ["Nehemiah"], "Esth": ["Esther"], "Job": ["Job"], "Ps": ["Psalm", "Psalms"], "Prov": ["Proverbs"], "Eccl": ["Ecclesiastes"], "Song": ["Song of Solomon"], "Isa": ["Isaiah"], "Jer": ["Jeremiah"], "Lam": ["Lamentations"], "Ezek": ["Ezekiel"], "Dan": ["Daniel"], "Hos": ["Hosea"], "Joel": ["Joel"], "Amos": ["Amos"], "Obad": ["Obadiah"], "Jonah": ["Jonah"], "Mic": ["Micah"], "Nah": ["Nahum"], "Hab": ["Habakkuk"], "Zeph": ["Zephaniah"], "Hag": ["Haggai"], "Zech": ["Zechariah"], "Mal": ["Malachi"], "Matt": ["Matthew"], "Mark": ["Mark"], "Luke": ["Luke"], "John": ["John"], "Acts": ["Acts"], "Rom": ["Romans"], "1Cor": ["1 Corinthians"], "2Cor": ["2 Corinthians"], "Gal": ["Galatians"], "Eph": ["Ephesians"], "Phil": ["Philippians"], "Col": ["Colossians"], "1Thess": ["1 Thessalonians"], "2Thess": ["2 Thessalonians"], "1Tim": ["1 Timothy"], "2Tim": ["2 Timothy"], "Titus": ["Titus"], "Phlm": ["Philemon"], "Heb": ["Hebrews"], "Jas": ["James"], "1Pet": ["1 Peter"], "2Pet": ["2 Peter"], "1John": ["1 John"], "2John": ["2 John"], "3John": ["3 John"], "Jude": ["Jude"], "Rev": ["Revelation"], "Tob": ["Tobit"], "Jdt": ["Judith"], "GkEsth": ["Greek Esther"], "EsthGr": ["Greek Esther"], "AddEsth": ["Additions to Esther"], "Wis": ["Wisdom of Solomon"], "Sir": ["Sirach"], "Bar": ["Baruch"], "EpJer": ["Epistle of Jeremiah"], "DanGr": ["Greek Daniel"], "SgThree": ["Song of the Three Jews"], "PrAzar": ["Prayer of Azariah"], "Sus": ["Susanna"], "Bel": ["Bel and the Dragon"], "1Macc": ["1 Maccabees"], "2Macc": ["2 Maccabees"], "3Macc": ["3 Maccabees"], "4Macc": ["4 Maccabees"], "PrMan": ["Prayer of Manasseh"], "1Esd": ["1 Esdras"], "2Esd": ["2 Esdras"], "Ps151": ["Psalm 151"], "AddPs": ["Psalm 151"],
+				"Gen": ["Genesis"],
+				"Exod": ["Exodus"],
+				"Lev": ["Leviticus"],
+				"Num": ["Numbers"],
+				"Deut": ["Deuteronomy"],
+				"Josh": ["Joshua"],
+				"Judg": ["Judges"],
+				"Ruth": ["Ruth"],
+				"1Sam": ["1 Samuel"],
+				"2Sam": ["2 Samuel"],
+				"1Kgs": ["1 Kings"],
+				"2Kgs": ["2 Kings"],
+				"1Chr": ["1 Chronicles"],
+				"2Chr": ["2 Chronicles"],
+				"Ezra": ["Ezra"],
+				"Neh": ["Nehemiah"],
+				"Esth": ["Esther"],
+				"Job": ["Job"],
+				"Ps": ["Psalm", "Psalms"],
+				"Prov": ["Proverbs"],
+				"Eccl": ["Ecclesiastes"],
+				"Song": ["Song of Solomon"],
+				"Isa": ["Isaiah"],
+				"Jer": ["Jeremiah"],
+				"Lam": ["Lamentations"],
+				"Ezek": ["Ezekiel"],
+				"Dan": ["Daniel"],
+				"Hos": ["Hosea"],
+				"Joel": ["Joel"],
+				"Amos": ["Amos"],
+				"Obad": ["Obadiah"],
+				"Jonah": ["Jonah"],
+				"Mic": ["Micah"],
+				"Nah": ["Nahum"],
+				"Hab": ["Habakkuk"],
+				"Zeph": ["Zephaniah"],
+				"Hag": ["Haggai"],
+				"Zech": ["Zechariah"],
+				"Mal": ["Malachi"],
+				"Matt": ["Matthew"],
+				"Mark": ["Mark"],
+				"Luke": ["Luke"],
+				"John": ["John"],
+				"Acts": ["Acts"],
+				"Rom": ["Romans"],
+				"1Cor": ["1 Corinthians"],
+				"2Cor": ["2 Corinthians"],
+				"Gal": ["Galatians"],
+				"Eph": ["Ephesians"],
+				"Phil": ["Philippians"],
+				"Col": ["Colossians"],
+				"1Thess": ["1 Thessalonians"],
+				"2Thess": ["2 Thessalonians"],
+				"1Tim": ["1 Timothy"],
+				"2Tim": ["2 Timothy"],
+				"Titus": ["Titus"],
+				"Phlm": ["Philemon"],
+				"Heb": ["Hebrews"],
+				"Jas": ["James"],
+				"1Pet": ["1 Peter"],
+				"2Pet": ["2 Peter"],
+				"1John": ["1 John"],
+				"2John": ["2 John"],
+				"3John": ["3 John"],
+				"Jude": ["Jude"],
+				"Rev": ["Revelation"],
+				"Tob": ["Tobit"],
+				"Jdt": ["Judith"],
+				"GkEsth": ["Greek Esther"],
+				"EsthGr": ["Greek Esther"],
+				"AddEsth": ["Additions to Esther"],
+				"Wis": ["Wisdom of Solomon"],
+				"Sir": ["Sirach"],
+				"Bar": ["Baruch"],
+				"EpJer": ["Epistle of Jeremiah"],
+				"DanGr": ["Greek Daniel"],
+				"SgThree": ["Song of the Three Jews"],
+				"PrAzar": ["Prayer of Azariah"],
+				"Sus": ["Susanna"],
+				"Bel": ["Bel and the Dragon"],
+				"1Macc": ["1 Maccabees"],
+				"2Macc": ["2 Maccabees"],
+				"3Macc": ["3 Maccabees"],
+				"4Macc": ["4 Maccabees"],
+				"PrMan": ["Prayer of Manasseh"],
+				"1Esd": ["1 Esdras"],
+				"2Esd": ["2 Esdras"],
+				"Ps151": ["Psalm 151"],
+				"AddPs": ["Psalm 151"],
 				// Psalms
 				"Ps.$chapters": ["Psalm", "Psalms"],
 				// Ranges
-				"1Sam-2Sam": ["1—2 Samuel"], "1Kgs-2Kgs": ["1—2 Kings"], "1Chr-2Chr": ["1—2 Chronicles"], "1Cor-2Cor": ["1—2 Corinthians"], "1Thess-2Thess": ["1—2 Thessalonians"], "1Tim-2Tim": ["1—2 Timothy"], "1Pet-2Pet": ["1—2 Peter"], "1John-2John": ["1—2 John"], "1John-3John": ["1—3 John"], "2John-3John": ["2—3 John"], "1Macc-2Macc": ["1—2 Maccabees"], "1Macc-3Macc": ["1—3 Maccabees"], "1Macc-4Macc": ["1—4 Maccabees"], "2Macc-3Macc": ["2—3 Maccabees"], "2Macc-4Macc": ["2—4 Maccabees"], "3Macc-4Macc": ["3—4 Maccabees"], "1Esd-2Esd": ["1—2 Esdras"],
+				"1Sam-2Sam": ["1—2 Samuel"],
+				"1Kgs-2Kgs": ["1—2 Kings"],
+				"1Chr-2Chr": ["1—2 Chronicles"],
+				"1Cor-2Cor": ["1—2 Corinthians"],
+				"1Thess-2Thess": ["1—2 Thessalonians"],
+				"1Tim-2Tim": ["1—2 Timothy"],
+				"1Pet-2Pet": ["1—2 Peter"],
+				"1John-2John": ["1—2 John"],
+				"1John-3John": ["1—3 John"],
+				"2John-3John": ["2—3 John"],
+				"1Macc-2Macc": ["1—2 Maccabees"],
+				"1Macc-3Macc": ["1—3 Maccabees"],
+				"1Macc-4Macc": ["1—4 Maccabees"],
+				"2Macc-3Macc": ["2—3 Maccabees"],
+				"2Macc-4Macc": ["2—4 Maccabees"],
+				"3Macc-4Macc": ["3—4 Maccabees"],
+				"1Esd-2Esd": ["1—2 Esdras"],
 				// Sequences
-				"1Sam,2Sam": ["1 and 2 Samuel"], "1Kgs,2Kgs": ["1 and 2 Kings"], "1Chr,2Chr": ["1 and 2 Chronicles"], "1Cor,2Cor": ["1 and 2 Corinthians"], "1Thess,2Thess": ["1 and 2 Thessalonians"], "1Tim,2Tim": ["1 and 2 Timothy"], "1Pet,2Pet": ["1 and 2 Peter"], "1John,2John": ["1 and 2 John"], "1John,3John": ["1 and 3 John"], "2John,3John": ["2 and 3 John"], "1Macc,2Macc": ["1 and 2 Maccabees"], "1Macc,2Macc,3Macc": ["1, 2, and 3 Maccabees"], "1Macc,2Macc,3Macc,4Macc": ["1, 2, 3, and 4 Maccabees"], "1Macc,3Macc": ["1 and 3 Maccabees"], "1Macc,3Macc,4Macc": ["1, 3, and 4 Maccabees"], "1Macc,4Macc": ["1 and 4 Maccabees"], "2Macc,3Macc": ["2 and 3 Maccabees"], "2Macc,3Macc,4Macc": ["2, 3, and 4 Maccabees"], "2Macc,4Macc": ["2 and 4 Maccabees"], "3Macc,4Macc": ["3 and 4 Maccabees"], "1Esd,2Esd": ["1 and 2 Esdras"]
+				"1Sam,2Sam": ["1 and 2 Samuel"],
+				"1Kgs,2Kgs": ["1 and 2 Kings"],
+				"1Chr,2Chr": ["1 and 2 Chronicles"],
+				"1Cor,2Cor": ["1 and 2 Corinthians"],
+				"1Thess,2Thess": ["1 and 2 Thessalonians"],
+				"1Tim,2Tim": ["1 and 2 Timothy"],
+				"1Pet,2Pet": ["1 and 2 Peter"],
+				"1John,2John": ["1 and 2 John"],
+				"1John,3John": ["1 and 3 John"],
+				"2John,3John": ["2 and 3 John"],
+				"1Macc,2Macc": ["1 and 2 Maccabees"],
+				"1Macc,2Macc,3Macc": ["1, 2, and 3 Maccabees"],
+				"1Macc,2Macc,3Macc,4Macc": ["1, 2, 3, and 4 Maccabees"],
+				"1Macc,3Macc": ["1 and 3 Maccabees"],
+				"1Macc,3Macc,4Macc": ["1, 3, and 4 Maccabees"],
+				"1Macc,4Macc": ["1 and 4 Maccabees"],
+				"2Macc,3Macc": ["2 and 3 Maccabees"],
+				"2Macc,3Macc,4Macc": ["2, 3, and 4 Maccabees"],
+				"2Macc,4Macc": ["2 and 4 Maccabees"],
+				"3Macc,4Macc": ["3 and 4 Maccabees"],
+				"1Esd,2Esd": ["1 and 2 Esdras"]
 			}
 		},
 		"esv-short": {
@@ -277,8 +991,6 @@ var osisToEn =
 				"$chapters": ["ch.", "chs."],
 				"$verses": ["v.", "vv."],
 				"singleChapterFormat": "b",
-				",b": "; ",
-				",c": "; ",
 				"-": "—",
 				"b-c": "—$chapters ",
 				"b-v": "—$b ",
@@ -291,13 +1003,138 @@ var osisToEn =
 				"^v": "$verses "
 			},
 			books: {
-				"Gen": ["Gen."], "Exod": ["Ex."], "Lev": ["Lev."], "Num": ["Num."], "Deut": ["Deut."], "Josh": ["Josh."], "Judg": ["Judg."], "Ruth": ["Ruth"], "1Sam": ["1 Sam."], "2Sam": ["2 Sam."], "1Kgs": ["1 Kings"], "2Kgs": ["2 Kings"], "1Chr": ["1 Chron."], "2Chr": ["2 Chron."], "Ezra": ["Ezra"], "Neh": ["Neh."], "Esth": ["Est."], "Job": ["Job"], "Ps": ["Ps.", "Pss."], "Prov": ["Prov."], "Eccl": ["Eccles."], "Song": ["Song"], "Isa": ["Isa."], "Jer": ["Jer."], "Lam": ["Lam."], "Ezek": ["Ezek."], "Dan": ["Dan."], "Hos": ["Hos."], "Joel": ["Joel"], "Amos": ["Amos"], "Obad": ["Obad."], "Jonah": ["Jonah"], "Mic": ["Mic."], "Nah": ["Nah."], "Hab": ["Hab."], "Zeph": ["Zeph."], "Hag": ["Hag."], "Zech": ["Zech."], "Mal": ["Mal."], "Matt": ["Matt."], "Mark": ["Mark"], "Luke": ["Luke"], "John": ["John"], "Acts": ["Acts"], "Rom": ["Rom."], "1Cor": ["1 Cor."], "2Cor": ["2 Cor."], "Gal": ["Gal."], "Eph": ["Eph."], "Phil": ["Phil."], "Col": ["Col."], "1Thess": ["1 Thess."], "2Thess": ["2 Thess."], "1Tim": ["1 Tim."], "2Tim": ["2 Tim."], "Titus": ["Titus"], "Phlm": ["Philem."], "Heb": ["Heb."], "Jas": ["James"], "1Pet": ["1 Pet."], "2Pet": ["2 Pet."], "1John": ["1 John"], "2John": ["2 John"], "3John": ["3 John"], "Jude": ["Jude"], "Rev": ["Rev."], "Tob": ["Tob."], "Jdt": ["Jdt."], "GkEsth": ["Gr. Est."], "EsthGr": ["Gr. Est."], "AddEsth": ["Add. Est."], "Wis": ["Wisd. Sol."], "Sir": ["Sir."], "Bar": ["Bar."], "EpJer": ["Ep. Jer."], "DanGr": ["Gr. Dan."], "SgThree": ["Song of the Three Jews"], "PrAzar": ["Pr. Azar."], "Sus": ["Sus."], "Bel": ["Bel and Dragon"], "1Macc": ["1 Macc."], "2Macc": ["2 Macc."], "3Macc": ["3 Macc."], "4Macc": ["4 Macc."], "PrMan": ["Pr. Man."], "1Esd": ["1 Esd."], "2Esd": ["2 Esd."], "Ps151": ["Ps. 151"], "AddPs": ["Ps. 151"],
+				"Gen": ["Gen."],
+				"Exod": ["Ex."],
+				"Lev": ["Lev."],
+				"Num": ["Num."],
+				"Deut": ["Deut."],
+				"Josh": ["Josh."],
+				"Judg": ["Judg."],
+				"Ruth": ["Ruth"],
+				"1Sam": ["1 Sam."],
+				"2Sam": ["2 Sam."],
+				"1Kgs": ["1 Kings"],
+				"2Kgs": ["2 Kings"],
+				"1Chr": ["1 Chron."],
+				"2Chr": ["2 Chron."],
+				"Ezra": ["Ezra"],
+				"Neh": ["Neh."],
+				"Esth": ["Est."],
+				"Job": ["Job"],
+				"Ps": ["Ps.", "Pss."],
+				"Prov": ["Prov."],
+				"Eccl": ["Eccles."],
+				"Song": ["Song"],
+				"Isa": ["Isa."],
+				"Jer": ["Jer."],
+				"Lam": ["Lam."],
+				"Ezek": ["Ezek."],
+				"Dan": ["Dan."],
+				"Hos": ["Hos."],
+				"Joel": ["Joel"],
+				"Amos": ["Amos"],
+				"Obad": ["Obad."],
+				"Jonah": ["Jonah"],
+				"Mic": ["Mic."],
+				"Nah": ["Nah."],
+				"Hab": ["Hab."],
+				"Zeph": ["Zeph."],
+				"Hag": ["Hag."],
+				"Zech": ["Zech."],
+				"Mal": ["Mal."],
+				"Matt": ["Matt."],
+				"Mark": ["Mark"],
+				"Luke": ["Luke"],
+				"John": ["John"],
+				"Acts": ["Acts"],
+				"Rom": ["Rom."],
+				"1Cor": ["1 Cor."],
+				"2Cor": ["2 Cor."],
+				"Gal": ["Gal."],
+				"Eph": ["Eph."],
+				"Phil": ["Phil."],
+				"Col": ["Col."],
+				"1Thess": ["1 Thess."],
+				"2Thess": ["2 Thess."],
+				"1Tim": ["1 Tim."],
+				"2Tim": ["2 Tim."],
+				"Titus": ["Titus"],
+				"Phlm": ["Philem."],
+				"Heb": ["Heb."],
+				"Jas": ["James"],
+				"1Pet": ["1 Pet."],
+				"2Pet": ["2 Pet."],
+				"1John": ["1 John"],
+				"2John": ["2 John"],
+				"3John": ["3 John"],
+				"Jude": ["Jude"],
+				"Rev": ["Rev."],
+				"Tob": ["Tob."],
+				"Jdt": ["Jdt."],
+				"GkEsth": ["Gr. Est."],
+				"EsthGr": ["Gr. Est."],
+				"AddEsth": ["Add. Est."],
+				"Wis": ["Wisd. Sol."],
+				"Sir": ["Sir."],
+				"Bar": ["Bar."],
+				"EpJer": ["Ep. Jer."],
+				"DanGr": ["Gr. Dan."],
+				"SgThree": ["Song of the Three Jews"],
+				"PrAzar": ["Pr. Azar."],
+				"Sus": ["Sus."],
+				"Bel": ["Bel and Dragon"],
+				"1Macc": ["1 Macc."],
+				"2Macc": ["2 Macc."],
+				"3Macc": ["3 Macc."],
+				"4Macc": ["4 Macc."],
+				"PrMan": ["Pr. Man."],
+				"1Esd": ["1 Esd."],
+				"2Esd": ["2 Esd."],
+				"Ps151": ["Ps. 151"],
+				"AddPs": ["Ps. 151"],
 				// Psalms
 				"Ps.$chapters": ["Ps.", "Pss."],
 				// Ranges
-				"1Sam-2Sam": ["1—2 Sam."], "1Kgs-2Kgs": ["1—2 Kings"], "1Chr-2Chr": ["1—2 Chron."], "1Cor-2Cor": ["1—2 Cor."], "1Thess-2Thess": ["1—2 Thess."], "1Tim-2Tim": ["1—2 Tim."], "1Pet-2Pet": ["1—2 Pet."], "1John-2John": ["1—2 John"], "1John-3John": ["1—3 John"], "2John-3John": ["2—3 John"], "1Macc-2Macc": ["1—2 Macc."], "1Macc-3Macc": ["1—3 Macc."], "1Macc-4Macc": ["1—4 Macc."], "2Macc-3Macc": ["2—3 Macc."], "2Macc-4Macc": ["2—4 Macc."], "3Macc-4Macc": ["3—4 Macc."], "1Esd-2Esd": ["1—2 Esd."],
+				"1Sam-2Sam": ["1—2 Sam."],
+				"1Kgs-2Kgs": ["1—2 Kings"],
+				"1Chr-2Chr": ["1—2 Chron."],
+				"1Cor-2Cor": ["1—2 Cor."],
+				"1Thess-2Thess": ["1—2 Thess."],
+				"1Tim-2Tim": ["1—2 Tim."],
+				"1Pet-2Pet": ["1—2 Pet."],
+				"1John-2John": ["1—2 John"],
+				"1John-3John": ["1—3 John"],
+				"2John-3John": ["2—3 John"],
+				"1Macc-2Macc": ["1—2 Macc."],
+				"1Macc-3Macc": ["1—3 Macc."],
+				"1Macc-4Macc": ["1—4 Macc."],
+				"2Macc-3Macc": ["2—3 Macc."],
+				"2Macc-4Macc": ["2—4 Macc."],
+				"3Macc-4Macc": ["3—4 Macc."],
+				"1Esd-2Esd": ["1—2 Esd."],
 				// Sequences
-				"1Sam,2Sam": ["1 and 2 Sam."], "1Kgs,2Kgs": ["1 and 2 Kings"], "1Chr,2Chr": ["1 and 2 Chron."], "1Cor,2Cor": ["1 and 2 Cor."], "1Thess,2Thess": ["1 and 2 Thess."], "1Tim,2Tim": ["1 and 2 Tim."], "1Pet,2Pet": ["1 and 2 Pet."], "1John,2John": ["1 and 2 John"], "1John,2John,3John": ["1, 2, and 3 John"], "1John,3John": ["1 and 3 John"], "2John,3John": ["2 and 3 John"], "1Macc,2Macc": ["1 and 2 Macc."], "1Macc,2Macc,3Macc": ["1, 2, and 3 Macc."], "1Macc,2Macc,3Macc,4Macc": ["1, 2, 3, and 4 Macc."], "1Macc,3Macc": ["1 and 3 Macc."], "1Macc,3Macc,4Macc": ["1, 3, and 4 Macc."], "1Macc,4Macc": ["1 and 4 Macc."], "2Macc,3Macc": ["2 and 3 Macc."], "2Macc,3Macc,4Macc": ["2, 3, and 4 Macc."], "2Macc,4Macc": ["2 and 4 Macc."], "3Macc,4Macc": ["3 and 4 Macc."], "1Esd,2Esd": ["1 and 2 Esd."]
+				"1Sam,2Sam": ["1 and 2 Sam."],
+				"1Kgs,2Kgs": ["1 and 2 Kings"],
+				"1Chr,2Chr": ["1 and 2 Chron."],
+				"1Cor,2Cor": ["1 and 2 Cor."],
+				"1Thess,2Thess": ["1 and 2 Thess."],
+				"1Tim,2Tim": ["1 and 2 Tim."],
+				"1Pet,2Pet": ["1 and 2 Pet."],
+				"1John,2John": ["1 and 2 John"],
+				"1John,2John,3John": ["1, 2, and 3 John"],
+				"1John,3John": ["1 and 3 John"],
+				"2John,3John": ["2 and 3 John"],
+				"1Macc,2Macc": ["1 and 2 Macc."],
+				"1Macc,2Macc,3Macc": ["1, 2, and 3 Macc."],
+				"1Macc,2Macc,3Macc,4Macc": ["1, 2, 3, and 4 Macc."],
+				"1Macc,3Macc": ["1 and 3 Macc."],
+				"1Macc,3Macc,4Macc": ["1, 3, and 4 Macc."],
+				"1Macc,4Macc": ["1 and 4 Macc."],
+				"2Macc,3Macc": ["2 and 3 Macc."],
+				"2Macc,3Macc,4Macc": ["2, 3, and 4 Macc."],
+				"2Macc,4Macc": ["2 and 4 Macc."],
+				"3Macc,4Macc": ["3 and 4 Macc."],
+				"1Esd,2Esd": ["1 and 2 Esd."]
 			}
 		}
 	});
@@ -360,8 +1197,27 @@ var osisToEn =
 
 		// Convert an OSIS string, and an optional OSIS context, to human-readable form. Aim for the shortest understandable string: `Matt.1-Matt.2` might become `Matthew 1-2`.
 		function format(osisString, osisContext) {
+			var tokens = createTokens(osisString, osisContext);
+			return formatTokens(tokens);
+		}
+
+		// Convert an OSIS string, and an optional OSIS context, to a series of tokens for further processing. The number of tokens matches the number of comma-separated OSIS references in the first argument except some of those references produce no output (e.g., `1John,2John` may produce a formatted `1 and 2 John`). In that case, the extra token(s) are in `.subTokens`.
+		function tokenize(osisString, osisContext) {
+			var tokens = createTokens(osisString, osisContext);
+			var out = [];
+			for (var i = 0, max = tokens.length; i < max; i++) {
+				var token = tokens[i];
+				token.format = formatToken(token);
+				out.push(token);
+			}
+			return {
+				tokens: out
+			};
+		}
+
+		function createTokens(osisString, osisContext) {
 			if (typeof osisString !== "string") {
-				throw "OsisFormatter.format(): first argument must be a string.";
+				throw "OsisFormatter: first argument (OSIS) must be a string.";
 			}
 			// Create a context object, using the supplied context (if available).
 			var context = setContext(osisContext);
@@ -383,64 +1239,34 @@ var osisToEn =
 					});
 				}
 			}
-			return formatTokens(tokens);
+			// Calculate data that we may need about future tokens in the sequence.
+			return annotateTokens(tokens);
 		}
 
 		// Format an array of tokens in a sequence.
 		function formatTokens(tokens) {
-			// Calculate data that we may need about future tokens in the sequence.
-			tokens = annotateTokens(tokens);
 			var out = [];
 			// First iterate over each token.
-			while (tokens.length > 0) {
-				var token = tokens.shift();
-				if (typeof token.bookSequence !== "undefined") {
-					out.push(formatBookSequence(token, tokens));
-				} else {
-					out.push(formatToken(token));
-				}
+			for (var i = 0, max = tokens.length; i < max; i++) {
+				out.push(formatToken(tokens[i]));
 			}
 			return out.join("");
 		}
 
-		// If given a sequence like `1John,2John`, we may want to turn that into `1 and 2 John`.
-		function formatBookSequence(token, tokens) {
-			// Really, we've already checked this, but we'll make Flow happy at the cost of losing 100% code coverage because the following `if` statement is never false. Most of the time the `while` loop won't return, so we still drop down to `formatToken()`.
-			var sequenceArray = token.bookSequence;
-			if (typeof sequenceArray !== "undefined") {
-				// The `sequenceArray` includes the current token. If `length === 1`, then the only item left in the array is the current token, which we pass to `formatToken()`.
-				while (sequenceArray.length > 1) {
-					// Look for a comma-joined sequence in `books`.
-					var _bookSequence = sequenceArray.join(",");
-					if (typeof books[_bookSequence] !== "undefined" && typeof books[_bookSequence][0] === "string") {
-						// First remove future tokens that we've already taken care of in this sequence.
-						removeBookSequenceTokens(sequenceArray.length, tokens);
-						// And then return the desired book string.
-						return books[_bookSequence][0];
-					}
-					sequenceArray.pop();
-				}
-			}
-			// Otherwise, there was no match, so handle the token as usual.
-			return formatToken(token);
-		}
-
-		// Remove the number of items in the sequence. Let's say there are three items: `["1John", "2John", "3John"]`. `1John` is the current token, which is already gone from the array. That means we need to hop ahead two books, or `3 - 1`, to prevent us from stringifying the token again.
-		function removeBookSequenceTokens(numberToRemove, tokens) {
-			while (numberToRemove > 1) {
-				// Just remove sequence tokens (`type: ","`); we don't need them.
-				tokens.shift();
-				// Next is the `b` token we want to remove.
-				tokens.shift();
-				numberToRemove--;
-			}
-		}
-
 		// Format a single token.
 		function formatToken(token) {
-			// First check to see if we have a book range to handle specially (`1John-2John` might become `1-2 John`).
-			if (typeof token.bookRange === "string" && typeof books[token.bookRange] !== "undefined" && typeof books[token.bookRange][0] === "string") {
-				return books[token.bookRange][0];
+			// First check to see if we have a book range or sequence to handle specially (`1John-2John` might become `1-2 John`, or `1John,2John` might become `1 and 2 John`).
+			var bookProperties = ["bookRange", "bookSequence"];
+			while (bookProperties.length > 0) {
+				// This somewhat convoluted syntax is to satisfy Flow.
+				var property = bookProperties.shift();
+				if (typeof token[property] !== "string") {
+					continue;
+				}
+				var book = books[token[property]];
+				if (typeof book !== "undefined" && typeof book[0] === "string") {
+					return book[0];
+				}
 			}
 
 			// Most of the time, iterate over its `parts` to build the output string.
@@ -470,19 +1296,23 @@ var osisToEn =
 				case ",":
 				// Falls through. `default` is only here to satisfy code coverage. There are no other cases.
 				default:
-					return formatVariable(getBestOption(part.type, part.subType), part, token);
+					return formatVariable(getBestOption(part.type, part.subType, token.position), part, token);
 			}
 		}
 
 		// `options` can contain partial matches: `bc-bc`, `bc-b`, `c-bc`, `c-b`, `-bc`, `-b`, and `-` all match a `bc-bc` string. Take the best match that exists in options.
-		function getBestOption(splitChar, option) {
+		function getBestOption(splitChar, option, position) {
 			var _option$split = option.split(splitChar);
 
 			var _option$split2 = _slicedToArray(_option$split, 2);
 
 			var pre = _option$split2[0];
 			var post = _option$split2[1];
+			// If we want to do special formatting based on the position of the punctuation--for example, changing the last sequence separator to " and ". `position`, when set, is `&` or `,&`.
 
+			if (typeof position === "string" && typeof options[position] === "string") {
+				splitChar = position;
+			}
 			var postChars = post;
 			// Start by matching the full string. Progressively remove ending possibilities and then beginning possibilities. For `bc-bc`, it tries to find options in the following order, knowing that the last one, the `splitChar` on its own, will always match: `bc-bc`, `bc-b`, `c-bc`, `c-b`, `-bc`, `-` 
 			for (var i = 0, length = pre.length; i <= length; i++) {
@@ -612,10 +1442,15 @@ var osisToEn =
 			// We only need `prevToken` in a sequence, which is never first, so it's OK that this value is wrong on the first loop run.
 			var prevToken = tokens[0];
 			var i = 0;
+			// `annotateToken` can change the length of this array if there's a `bookSequence`.
 			while (tokens.length > 0) {
 				var token = tokens.shift();
 				// Never first.
 				if (token.type === ",") {
+					// If there's a bookSequence, use the context from the last actual token even though we've moved the token to a `subTokens` array.
+					if (typeof prevToken.subTokens !== "undefined") {
+						prevToken = prevToken.subTokens[prevToken.subTokens.length - 1];
+					}
 					annotateSequenceToken(token, prevToken, tokens);
 				} else {
 					annotateToken(token, tokens, i);
@@ -623,6 +1458,11 @@ var osisToEn =
 				// Add future context.
 				annotateTokenLaters(token, tokens);
 				annotateTokenParts(token.parts);
+				// Add a `position` property to the last `sequence` token.
+				if (tokens.length === 0 && out.length > 1) {
+					// If there are only two items, we know that there will be three items total: a reference token, a sequence, and a yet-to-be-added reference token.
+					out[out.length - 1].position = out.length === 2 ? "&" : ",&";
+				}
 				out.push(token);
 				prevToken = token;
 				i++;
@@ -653,6 +1493,7 @@ var osisToEn =
 
 		// Create a sequence `token.parts` with the keys we'll need later.
 		function annotateSequenceToken(token, prevToken, tokens) {
+			// In the case of a `bookSequence`, we've already selected the `prevToken` we want before we call this function.
 			var prevPart = prevToken.parts[prevToken.parts.length - 1];
 			// If preceded or followed by a range, only use the parts closest to the sequence token: `bcv-cv,bc-v` returns the subType `cv,bc`.
 			var prevTypes = prevToken.type.split("-");
@@ -671,6 +1512,7 @@ var osisToEn =
 		// Fill in the `laters` array for each token.
 		function annotateTokenLaters(token, tokens) {
 			var currentType = token.type;
+			// An array of later sequential books, in case we want to format the sequence specially (e.g., `1John-2John` might become `1 -2 John`).
 			var bookSequence = [];
 			// If we have a `b` sequence, we want to continue past when we would normally stop.
 			var keepCheckingBooks = false;
@@ -722,8 +1564,26 @@ var osisToEn =
 				}
 			}
 			if (bookSequence.length > 1) {
-				token.bookSequence = bookSequence;
+				addBookSequence(token, bookSequence, tokens);
 			}
+		}
+
+		// If given a sequence like `1John,2John`, we may want to turn that into `1 and 2 John`.
+		function addBookSequence(token, sequenceArray, tokens) {
+			// `sequenceArray` includes the current token. If `length === 1`, then the only item left in the array is the current token, which by definition isn't part of a sequence.
+			while (sequenceArray.length > 1) {
+				// Look for a comma-joined sequence in `books`.
+				var _bookSequence = sequenceArray.join(",");
+				if (typeof books[_bookSequence] !== "undefined" && typeof books[_bookSequence][0] === "string") {
+					token.bookSequence = _bookSequence;
+					// Remove the number of items in the sequence. Let's say there are three items: `["1John", "2John", "3John"]`. `1John` is the current token, which is already gone from the array. That means we need to hop ahead two books, or `3 - 1`, to prevent us from processing the tokens. The `* 2` removes sequence tokens (`,`) as well as book tokens--`tokens[0]` is a sequence, followed by a book, then sequence, then book, etc.
+					token.subTokens = tokens.splice(0, (sequenceArray.length - 1) * 2);
+					// Once we've found a match and have cleaned up later tokens, we're done.
+					return;
+				}
+				sequenceArray.pop();
+			}
+			// Most of the time, don't make any changes to `token`.
 		}
 
 		// Add `laters` to each `token.parts`.
@@ -1036,6 +1896,7 @@ var osisToEn =
 
 		return {
 			format: format,
+			tokenize: tokenize,
 			setOptions: setOptions,
 			setBooks: setBooks
 		};

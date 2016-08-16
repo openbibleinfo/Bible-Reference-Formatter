@@ -40,3 +40,6 @@ cd test/lang
 node make-languages.js
 cd ../..
 istanbul cover jasmine-node test/
+
+# ./node_modules/eslint/bin/eslint.js test/*.spec.js
+# ./node_modules/eslint/bin/eslint.js flow/*.js

@@ -11,7 +11,10 @@ type TokenType = {
 	parts: Array<PartType>;
 	laters: Array<string>;
 	bookRange?: string;
-	bookSequence?: Array<string>;
+	bookSequence?: string;
+	position?: string;
+	subTokens?: Array<TokenType>;
+	format?: string;
 }
 type PartType = {
 	type: string;
@@ -51,8 +54,27 @@ function OsisFormatter(): OsisFormatterInterface {
 
 	// Convert an OSIS string, and an optional OSIS context, to human-readable form. Aim for the shortest understandable string: `Matt.1-Matt.2` might become `Matthew 1-2`.
 	function format(osisString: string, osisContext: ?string) : string {
+		const tokens: Array<TokenType> = createTokens(osisString, osisContext)
+		return formatTokens(tokens)
+	}
+
+	// Convert an OSIS string, and an optional OSIS context, to a series of tokens for further processing. The number of tokens matches the number of comma-separated OSIS references in the first argument except some of those references produce no output (e.g., `1John,2John` may produce a formatted `1 and 2 John`). In that case, the extra token(s) are in `.subTokens`.
+	function tokenize(osisString: string, osisContext: ?string) : {"tokens": Array<TokenType>} {
+		const tokens: Array<TokenType> = createTokens(osisString, osisContext)
+		const out: Array<TokenType> = []
+		for (let i: number = 0, max: number = tokens.length; i < max; i++) {
+			const token: TokenType = tokens[i]
+			token.format = formatToken(token)
+			out.push(token)
+		}
+		return {
+			tokens: out
+		}
+	}
+
+	function createTokens(osisString: string, osisContext: ?string) : Array<TokenType> {
 		if (typeof osisString !== "string") {
-			throw "OsisFormatter.format(): first argument must be a string."
+			throw "OsisFormatter: first argument (OSIS) must be a string."
 		}
 		// Create a context object, using the supplied context (if available).
 		const context: ContextType = setContext(osisContext)
@@ -74,64 +96,34 @@ function OsisFormatter(): OsisFormatterInterface {
 				})
 			}
 		}
-		return formatTokens(tokens)
+		// Calculate data that we may need about future tokens in the sequence.
+		return annotateTokens(tokens)
 	}
 
 	// Format an array of tokens in a sequence.
 	function formatTokens(tokens: Array<TokenType>) : string {
-		// Calculate data that we may need about future tokens in the sequence.
-		tokens = annotateTokens(tokens)
 		const out: Array<string> = []
 		// First iterate over each token.
-		while (tokens.length > 0) {
-			const token: TokenType = tokens.shift()
-			if (typeof token.bookSequence !== "undefined") {
-				out.push(formatBookSequence(token, tokens))
-			} else {
-				out.push(formatToken(token))
-			}
+		for (let i: number = 0, max: number = tokens.length; i < max; i++) {
+			out.push(formatToken(tokens[i]))
 		}
 		return out.join("")
 	}
 
-	// If given a sequence like `1John,2John`, we may want to turn that into `1 and 2 John`.
-	function formatBookSequence(token: TokenType, tokens: Array<TokenType>) : string {
-		// Really, we've already checked this, but we'll make Flow happy at the cost of losing 100% code coverage because the following `if` statement is never false. Most of the time the `while` loop won't return, so we still drop down to `formatToken()`.
-		const sequenceArray: void | Array<string> = token.bookSequence
-		if (typeof sequenceArray !== "undefined") {
-			// The `sequenceArray` includes the current token. If `length === 1`, then the only item left in the array is the current token, which we pass to `formatToken()`.
-			while (sequenceArray.length > 1) {
-				// Look for a comma-joined sequence in `books`.
-				const bookSequence: string = sequenceArray.join(",")
-				if (typeof books[bookSequence] !== "undefined" && typeof books[bookSequence][0] === "string") {
-					// First remove future tokens that we've already taken care of in this sequence.
-					removeBookSequenceTokens(sequenceArray.length, tokens)
-					// And then return the desired book string.
-					return books[bookSequence][0]
-				}
-				sequenceArray.pop()
-			}
-		}
-		// Otherwise, there was no match, so handle the token as usual.
-		return formatToken(token)
-	}
-
-	// Remove the number of items in the sequence. Let's say there are three items: `["1John", "2John", "3John"]`. `1John` is the current token, which is already gone from the array. That means we need to hop ahead two books, or `3 - 1`, to prevent us from stringifying the token again.
-	function removeBookSequenceTokens(numberToRemove: number, tokens: Array<TokenType>) : void {
-		while (numberToRemove > 1) {
-			// Just remove sequence tokens (`type: ","`); we don't need them.
-			tokens.shift()
-			// Next is the `b` token we want to remove.
-			tokens.shift()
-			numberToRemove--
-		}
-	}
-
 	// Format a single token.
 	function formatToken(token: TokenType) : string {
-		// First check to see if we have a book range to handle specially (`1John-2John` might become `1-2 John`).
-		if (typeof token.bookRange === "string" && typeof books[token.bookRange] !== "undefined" && typeof books[token.bookRange][0] === "string") {
-			return books[token.bookRange][0]
+		// First check to see if we have a book range or sequence to handle specially (`1John-2John` might become `1-2 John`, or `1John,2John` might become `1 and 2 John`).
+		const bookProperties: Array<string> = ["bookRange", "bookSequence"]
+		while (bookProperties.length > 0) {
+			// This somewhat convoluted syntax is to satisfy Flow.
+			const property: string = bookProperties.shift()
+			if (typeof token[property] !== "string") {
+				continue
+			}
+			const book: void | Array<string> = books[token[property]]
+			if (typeof book !== "undefined" && typeof book[0] === "string") {
+				return book[0]
+			}
 		}
 
 		// Most of the time, iterate over its `parts` to build the output string.
@@ -161,13 +153,17 @@ function OsisFormatter(): OsisFormatterInterface {
 			case ",":
 			// Falls through. `default` is only here to satisfy code coverage. There are no other cases.
 			default:
-				return formatVariable(getBestOption(part.type, part.subType), part, token)
+				return formatVariable(getBestOption(part.type, part.subType, token.position), part, token)
 		}
 	}
 
 	// `options` can contain partial matches: `bc-bc`, `bc-b`, `c-bc`, `c-b`, `-bc`, `-b`, and `-` all match a `bc-bc` string. Take the best match that exists in options.
-	function getBestOption(splitChar: string, option: string) : string {
+	function getBestOption(splitChar: string, option: string, position: void | string) : string {
 		let [pre, post]: Array<string> = option.split(splitChar)
+		// If we want to do special formatting based on the position of the punctuation--for example, changing the last sequence separator to " and ". `position`, when set, is `&` or `,&`.
+		if (typeof position === "string" && typeof options[position] === "string") {
+			splitChar = position
+		}
 		const postChars: string = post
 		// Start by matching the full string. Progressively remove ending possibilities and then beginning possibilities. For `bc-bc`, it tries to find options in the following order, knowing that the last one, the `splitChar` on its own, will always match: `bc-bc`, `bc-b`, `c-bc`, `c-b`, `-bc`, `-` 
 		for (let i: number = 0, length: number = pre.length; i <= length; i++) {
@@ -291,10 +287,15 @@ function OsisFormatter(): OsisFormatterInterface {
 		// We only need `prevToken` in a sequence, which is never first, so it's OK that this value is wrong on the first loop run.
 		let prevToken: TokenType = tokens[0]
 		let i: number = 0
+		// `annotateToken` can change the length of this array if there's a `bookSequence`.
 		while (tokens.length > 0) {
 			const token: TokenType = tokens.shift()
 			// Never first.
 			if (token.type === ",") {
+				// If there's a bookSequence, use the context from the last actual token even though we've moved the token to a `subTokens` array.
+				if (typeof prevToken.subTokens !== "undefined") {
+					prevToken = prevToken.subTokens[prevToken.subTokens.length - 1]
+				}
 				annotateSequenceToken(token, prevToken, tokens)
 			} else {
 				annotateToken(token, tokens, i)
@@ -302,6 +303,11 @@ function OsisFormatter(): OsisFormatterInterface {
 			// Add future context.
 			annotateTokenLaters(token, tokens)
 			annotateTokenParts(token.parts)
+			// Add a `position` property to the last `sequence` token.
+			if (tokens.length === 0 && out.length > 1) {
+				// If there are only two items, we know that there will be three items total: a reference token, a sequence, and a yet-to-be-added reference token.
+				out[out.length - 1].position = out.length === 2 ? "&" : ",&"
+			}
 			out.push(token)
 			prevToken = token
 			i++
@@ -327,6 +333,7 @@ function OsisFormatter(): OsisFormatterInterface {
 
 	// Create a sequence `token.parts` with the keys we'll need later.
 	function annotateSequenceToken(token: TokenType, prevToken: TokenType, tokens: Array<TokenType>) : void {
+		// In the case of a `bookSequence`, we've already selected the `prevToken` we want before we call this function.
 		const prevPart: PartType = prevToken.parts[prevToken.parts.length - 1]
 		// If preceded or followed by a range, only use the parts closest to the sequence token: `bcv-cv,bc-v` returns the subType `cv,bc`.
 		const prevTypes: Array<string> = prevToken.type.split("-")
@@ -345,6 +352,7 @@ function OsisFormatter(): OsisFormatterInterface {
 	// Fill in the `laters` array for each token.
 	function annotateTokenLaters(token: TokenType, tokens: Array<TokenType>) : void {
 		const currentType: string = token.type
+		// An array of later sequential books, in case we want to format the sequence specially (e.g., `1John-2John` might become `1 -2 John`).
 		const bookSequence: Array<string> = []
 		// If we have a `b` sequence, we want to continue past when we would normally stop.
 		let keepCheckingBooks: boolean = false
@@ -391,8 +399,26 @@ function OsisFormatter(): OsisFormatterInterface {
 			}
 		}
 		if (bookSequence.length > 1) {
-			token.bookSequence = bookSequence
+			addBookSequence(token, bookSequence, tokens)
 		}
+	}
+
+	// If given a sequence like `1John,2John`, we may want to turn that into `1 and 2 John`.
+	function addBookSequence(token: TokenType, sequenceArray: Array<string>, tokens: Array<TokenType>) : void {
+		// `sequenceArray` includes the current token. If `length === 1`, then the only item left in the array is the current token, which by definition isn't part of a sequence.
+		while (sequenceArray.length > 1) {
+			// Look for a comma-joined sequence in `books`.
+			const bookSequence: string = sequenceArray.join(",")
+			if (typeof books[bookSequence] !== "undefined" && typeof books[bookSequence][0] === "string") {
+				token.bookSequence = bookSequence
+				// Remove the number of items in the sequence. Let's say there are three items: `["1John", "2John", "3John"]`. `1John` is the current token, which is already gone from the array. That means we need to hop ahead two books, or `3 - 1`, to prevent us from processing the tokens. The `* 2` removes sequence tokens (`,`) as well as book tokens--`tokens[0]` is a sequence, followed by a book, then sequence, then book, etc.
+				token.subTokens = tokens.splice(0, (sequenceArray.length - 1) * 2)
+				// Once we've found a match and have cleaned up later tokens, we're done.
+				return
+			}
+			sequenceArray.pop()
+		}
+		// Most of the time, don't make any changes to `token`.
 	}
 
 	// Add `laters` to each `token.parts`.
@@ -679,6 +705,7 @@ function OsisFormatter(): OsisFormatterInterface {
 
 	return {
 		format,
+		tokenize,
 		setOptions,
 		setBooks
 	}

@@ -168,6 +168,130 @@ type OptionsType = {
 	"v,v"?: string;
 
 	/*
+	Optional ending two-element sequence ("&") types (same as sequence types). Use when you want, e.g., `Gen.1.2,Gen.1.3` to become `Genesis 1:2 and 3` rather than just separated with the usual `,` separator.
+	*/
+	// You need to define "&" if you want to use any more-specific types.
+	"&"?: string;
+	"&b"?: string;
+	"&bc"?: string;
+	"&bcv"?: string;
+	"&bv"?: string;
+	"&c"?: string;
+	"&cv"?: string;
+	"&v"?: string;
+	"b&b"?: string;
+	"b&bc"?: string;
+	"b&bcv"?: string;
+	"b&bv"?: string;
+	"b&c"?: string;
+	"b&cv"?: string;
+	"b&v"?: string;
+	"bc&b"?: string;
+	"bc&bc"?: string;
+	"bc&bcv"?: string;
+	"bc&bv"?: string;
+	"bc&c"?: string;
+	"bc&cv"?: string;
+	"bc&v"?: string;
+	"bcv&b"?: string;
+	"bcv&bc"?: string;
+	"bcv&bcv"?: string;
+	"bcv&bv"?: string;
+	"bcv&c"?: string;
+	"bcv&cv"?: string;
+	"bcv&v"?: string;
+	"bv&b"?: string;
+	"bv&bc"?: string;
+	"bv&bcv"?: string;
+	"bv&bv"?: string;
+	"bv&c"?: string;
+	// "bv&cv" isn't possible.
+	"bv&v"?: string;
+	"c&b"?: string;
+	"c&bc"?: string;
+	"c&bcv"?: string;
+	"c&bv"?: string;
+	"c&c"?: string;
+	"c&cv"?: string;
+	"c&v"?: string;
+	"cv&b"?: string;
+	"cv&bc"?: string;
+	"cv&bcv"?: string;
+	"cv&bv"?: string;
+	"cv&c"?: string;
+	"cv&cv"?: string;
+	"cv&v"?: string;
+	"v&b"?: string;
+	"v&bc"?: string;
+	"v&bcv"?: string;
+	"v&bv"?: string;
+	"v&c"?: string;
+	"v&cv"?: string;
+	"v&v"?: string;
+
+	/*
+	Optional ending three-or-more element sequence (",&") types (same as sequence types). Use when you want, e.g., `Gen.1.2,Gen.1.3,Gen.1.4` to become `Genesis 1:2, 3, and 4` rather than just separated with the usual `,` separator.
+	*/
+	// You need to define ",&" if you want to use any more-specific types.
+	",&"?: string;
+	",&b"?: string;
+	",&bc"?: string;
+	",&bcv"?: string;
+	",&bv"?: string;
+	",&c"?: string;
+	",&cv"?: string;
+	",&v"?: string;
+	"b,&b"?: string;
+	"b,&bc"?: string;
+	"b,&bcv"?: string;
+	"b,&bv"?: string;
+	"b,&c"?: string;
+	"b,&cv"?: string;
+	"b,&v"?: string;
+	"bc,&b"?: string;
+	"bc,&bc"?: string;
+	"bc,&bcv"?: string;
+	"bc,&bv"?: string;
+	"bc,&c"?: string;
+	"bc,&cv"?: string;
+	"bc,&v"?: string;
+	"bcv,&b"?: string;
+	"bcv,&bc"?: string;
+	"bcv,&bcv"?: string;
+	"bcv,&bv"?: string;
+	"bcv,&c"?: string;
+	"bcv,&cv"?: string;
+	"bcv,&v"?: string;
+	"bv,&b"?: string;
+	"bv,&bc"?: string;
+	"bv,&bcv"?: string;
+	"bv,&bv"?: string;
+	"bv,&c"?: string;
+	// "bv,&cv" isn't possible.
+	"bv,&v"?: string;
+	"c,&b"?: string;
+	"c,&bc"?: string;
+	"c,&bcv"?: string;
+	"c,&bv"?: string;
+	"c,&c"?: string;
+	"c,&cv"?: string;
+	"c,&v"?: string;
+	"cv,&b"?: string;
+	"cv,&bc"?: string;
+	"cv,&bcv"?: string;
+	"cv,&bv"?: string;
+	"cv,&c"?: string;
+	"cv,&cv"?: string;
+	"cv,&v"?: string;
+	"v,&b"?: string;
+	"v,&bc"?: string;
+	"v,&bcv"?: string;
+	"v,&bv"?: string;
+	"v,&c"?: string;
+	"v,&cv"?: string;
+	"v,&v"?: string;
+
+	/*
 	Optional separator types.
 
 	The following ^ properties aren't part of separators; in the separator punctuation, the ^ is dropped:

@@ -1,9 +1,14 @@
 # Changelog
 
+## August 15, 2016
+
+1. Add support for formatting the last separator in a sequence differently (`&` and `,&`).
+2. Add `tokenize()` to the exported API to allow further processing.
+
 ## August 14, 2016
 
 1. Rename "readable" to "formatter" to clarify what it's doing.
-2. Finish documenting `osisFormatter.js` int he readme.
+2. Finish documenting `osisFormatter.js` in the readme.
 
 ## August 12, 2016
 

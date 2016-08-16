@@ -294,7 +294,7 @@ Separators separate individual components of an OSIS: the two `.` in `Gen.1.2`. 
 
 A separator with higher specificity overrides a separator with lower specificity. For example, `b.v` overrides `.v`, which in turn overrides `.`.
 
-### Ranges
+#### Ranges
 
 Ranges separate start and end OSIS references: the `-` in `Gen.1.2-Gen.3.4`. Range options always include the `-` character and, if they have any other characters, include an optional start type and a required end type.
 
@@ -329,7 +329,7 @@ There are over 50 possible range rules in total, but in practice you probably on
 
 You can omit the first part of the range: `-b`, `-c`, and `-v` are all valid options, for example.
 
-### Sequences
+#### Sequences
 
 Sequence separators separate multiple OSIS references or ranges: the `,` in `Gen.1.2,Gen.3.4`. Sequence options always include the `,` character and, if they have any other characters, include an optional start type and a required end type.
 
@@ -358,11 +358,60 @@ osisFormatter.setOptions({
 })
 ```
 
-### Start Contexts
+#### Ending Sequences
+
+You may want to separate the last item in a sequence differently; for example, you might want to format `Gen.1.2,Gen.1.3,Gen.1.4` as `Genesis 1:2, 3, and 4` rather than the default `Genesis 1:2, 3, 4`. Ending sequences affect only the last item in the full sequence string provided to `.format()`.
+
+Ending sequences come in two varieties: `&` for a two-item sequence (`Gen.1,Gen.2`), and `,&` for a three-or-more item sequence (`Gen.1,Gen.2,Gen.3,Gen.4`).
+
+You enable to these ending sequences by setting a `&` or `,&` key in `options`. If you've set any specific `,` options, you probably want to recreate similar rules with `&` and/or `,&` variants to avoid inconsistencies.
+
+For example, let's adapt the `niv-long` options to include `&` and `,&` options:
+
+```javascript
+osisFormatter.setOptions({
+	// Subset of `niv-long` rules.
+	",": "; ",
+	"v,c": "; $chapters ",
+	"v,cv": "; ",
+	"v,v": ",",
+	"$chapters": ["ch.", "chs."],
+
+	// Add `&` variants for two-item sequences. Default to the word "and" surrounded by spaces.
+	"&": " and ",
+	// Include the value of `$chapters` when a chapter follows a verse.
+	"v&c": " and $chapters ",
+	// Override the `v&c` value with the default in this case.
+	"v&cv": " and ",
+	// We don't need a `v,v` option because the default ` and ` works fine.
+
+	// Add `,&` variants for three-or-more item sequences. Default a semicolon, followed by the word "and" surrounded by spaces.
+	",&": "; and ",
+	// Include the value of `$chapters` when a chapter follows a verse.
+	"v,&c": "; and $chapters ",
+	// Override the `v,&c` value with the default in this case.
+	"v,&cv": " and ",
+	// Here we do need to include `v,v` because we want to use a comma rather than a semicolon.
+	"v,&v": ", and "
+})
+
+osisFormatter.format("Gen.1,Gen.3") // "Genesis 1 and 3"
+osisFormatter.format("Gen.1.2,Gen.3") // "Genesis 1:2 and ch. 3"
+osisFormatter.format("Gen.1.2,Gen.1.4") // "Genesis 1:2 and 4"
+osisFormatter.format("Gen.1,Gen.3,Gen.5") // "Genesis 1; 3; and 5"
+osisFormatter.format("Gen.1.2,Gen.1.4,Gen.3") // "Genesis 1:2,4; and ch. 3"
+osisFormatter.format("Gen.1.2,Gen.1.4,Gen.1.6") // "Genesis 1:2,4, and 6"
+osisFormatter.format("Gen,1John,2John,3John") // "Genesis and 1, 2, and 3 John"
+osisFormatter.format("Gen,Phlm,1John,2John,3John") // "Genesis; Philemon; and 1, 2, and 3 John"
+```
+
+As you can see in the final two examples, a special book sequence (`1John,2John,3John` becoming `1, 2, and 3 John`)counts as a single "book" for the purposes of determining the location of the last sequence separator.
+
+#### Start Contexts
 
 You can specify several options for formatting the start of the output string when providing a start context to `.format()`.
 
-For example, maybe you'd like the string to say `verses 2, 3` instead of just `2, 3` if `.format("Gen.1.2,Gen.1.3", "Gen.1")`, which you can do with `formatter.setOptions({"^v": "$verses ", "$verses": ["verse", "verses"]})`.
+For example, maybe you'd like the string to say `verses 2, 3` instead of just `2, 3` if `.format("Gen.1.2,Gen.1.3", "Gen.1")`, which you can do with `osisFormatter.setOptions({"^v": "$verses ", "$verses": ["verse", "verses"]})`.
 
 <table>
 <tr><th>Option</th><th>.format()</th></tr>
@@ -375,6 +424,46 @@ For example, maybe you'd like the string to say `verses 2, 3` instead of just `2
 </table>
 
 The `b1^cv` option requires `"singleChapterFormat": "bcv"`. The `b1^c` option does nothing if `"singleChapterFormat": "b"`.
+
+### `.tokenize()`
+
+If you want the raw tokens from the tokenization process because you want to do further processing on them, you can call `osisFormatter.tokenize()`. It takes the same two arguments as `.format()` (an OSIS string and an optional context string) and returns an object with a `tokens` key containing an array of `TokenType` objects.
+
+The structure of each object is a bit complicated and mostly contains artifacts from internal processing.
+
+```javascript
+osisFormatter.setBooks({"Gen": ["Gen."]})
+osisFormatter.tokenize("Gen")
+/*
+{"tokens: [{
+	"osis": "Gen",
+	"type": "b",
+	"parts": [{
+		"type": "b",
+		"subType": "",
+		"b": "Gen",
+		"laters": []
+	}],
+	"laters": [],
+	"format": "Gen."
+}]}
+*/
+```
+
+Here's a quick explanation:
+
+* `osis`: The input OSIS string for the token.
+* `type`: The output type, which doesn't necessarily match the input type; with the appropriate context, an input `bcv` could just be a `v`.
+* `parts`: An array of component parts that compose the token: each one is of type `b`, `c`, `v`, `.`, `-`, or `,`. The `subType` can have additional processing information (`b.v` if a `.` separates a book and verse, for example). `b` indicates the ending book context for the token; `c` and `v` may also appear and similarly establish ending chapter and verse context. `laters` lists future `part` types to help establish plural or singular usage of `$chapters` and `$verses`.
+* `laters`: Future token types establish plural or singular usage of `$chapters` and `$verses`.
+* `format`: The output string for that token. Joining all tokens' `format`s with `""` produces the same result as calling `osisFormatter.format()` with the same arguments.
+
+A token can also contain:
+
+* `bookRange`. If there is a valid book range in `books` (such as `1John-2John`), the key to use is here.
+* `bookSequence`. If there is a valid book sequence in `books` (such as `1John,2John`), the key to use is here.
+* `subTokens`. If there is a `bookSequence` key, there is also a `subTokens` array containing the tokens that the sequence encompasses. If you're trying to match your input OSIS string to the output array, be sure to look in `subTokens` if it exists; otherwise, your counts will be off.
+* `position`. A `,` token has a `&` or `,&` position if it's the last `,` token in the array. `&` indicates there are two OSISes in the sequence, while `,&` indicates there are three or more OSISes.
 
 ## Files
 
