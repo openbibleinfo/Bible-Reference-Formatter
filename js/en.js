@@ -1180,16 +1180,16 @@ var osisToEn =
 			"$chapters": ["ch", "chs"],
 			"$verses": ["v", "vv"],
 
-			"singleChapterFormat": "bv", // or `b` or `bcv`
+			"singleChapterFormat": "bv", // Or `b` or `bcv`.
 			"singleChapterBooks": ["Obad", "Phlm", "2John", "3John", "Jude", "PrAzar", "SgThree", "Sus", "Bel", "EpJer", "PrMan", "Ps151", "AddPs"],
 
-			"Ps151Format": "bc", // or `b`
+			"Ps151Format": "bc", // Or `b`.
 			"maxPs": 150
 		};
 	}
 
 	function OsisFormatter() {
-		// Some subset of "Matt.1.2-Mark.3.4"
+		// Some subset of "Matt.1.2-Mark.3.4".
 		var osisFormat = /^[1-5A-Za-z]{2,}(?:\.\d{1,3}(?:\.\d{1,3})?)?(?:-[1-5A-Za-z]{2,}(?:\.\d{1,3}(?:\.\d{1,3})?)?)?$/;
 
 		var books = {};
@@ -1198,7 +1198,11 @@ var osisToEn =
 		// Convert an OSIS string, and an optional OSIS context, to human-readable form. Aim for the shortest understandable string: `Matt.1-Matt.2` might become `Matthew 1-2`.
 		function format(osisString, osisContext) {
 			var tokens = createTokens(osisString, osisContext);
-			return formatTokens(tokens);
+			var out = [];
+			for (var i = 0, max = tokens.length; i < max; i++) {
+				out.push(formatToken(tokens[i]));
+			}
+			return out.join("");
 		}
 
 		// Convert an OSIS string, and an optional OSIS context, to a series of tokens for further processing. The number of tokens matches the number of comma-separated OSIS references in the first argument except some of those references produce no output (e.g., `1John,2John` may produce a formatted `1 and 2 John`). In that case, the extra token(s) are in `.subTokens`.
@@ -1243,16 +1247,6 @@ var osisToEn =
 			return annotateTokens(tokens);
 		}
 
-		// Format an array of tokens in a sequence.
-		function formatTokens(tokens) {
-			var out = [];
-			// First iterate over each token.
-			for (var i = 0, max = tokens.length; i < max; i++) {
-				out.push(formatToken(tokens[i]));
-			}
-			return out.join("");
-		}
-
 		// Format a single token.
 		function formatToken(token) {
 			// First check to see if we have a book range or sequence to handle specially (`1John-2John` might become `1-2 John`, or `1John,2John` might become `1 and 2 John`).
@@ -1264,7 +1258,7 @@ var osisToEn =
 					continue;
 				}
 				var book = books[token[property]];
-				if (typeof book !== "undefined" && typeof book[0] === "string") {
+				if (book !== undefined && typeof book[0] === "string") {
 					return book[0];
 				}
 			}
@@ -1314,7 +1308,7 @@ var osisToEn =
 				splitChar = position;
 			}
 			var postChars = post;
-			// Start by matching the full string. Progressively remove ending possibilities and then beginning possibilities. For `bc-bc`, it tries to find options in the following order, knowing that the last one, the `splitChar` on its own, will always match: `bc-bc`, `bc-b`, `c-bc`, `c-b`, `-bc`, `-` 
+			// Start by matching the full string. Progressively remove ending possibilities and then beginning possibilities. For `bc-bc`, it tries to find options in the following order, knowing that the last one, the `splitChar` on its own, will always match: `bc-bc`, `bc-b`, `c-bc`, `c-b`, `-bc`, `-`.
 			for (var i = 0, length = pre.length; i <= length; i++) {
 				post = postChars;
 				while (post.length > 0) {
@@ -1405,7 +1399,7 @@ var osisToEn =
 				}
 				return 0;
 			}
-			// If there are two or more chapter instances in a sequence, we know there are multiple chapters. "cc" = "", "", ""
+			// If there are two or more chapter instances in a sequence, we know there are multiple chapters. "cc" = "", "", "".
 			if (later.split("c").length > 2) {
 				return 1;
 			}
@@ -1429,7 +1423,7 @@ var osisToEn =
 			if (thisChapter.indexOf("-") >= 0) {
 				return true;
 			}
-			// "vv" = "", "", ""
+			// "vv" = "", "", "".
 			if (thisChapter.split("v").length > 2) {
 				return true;
 			}
@@ -1474,7 +1468,7 @@ var osisToEn =
 		function annotateToken(token, tokens, i) {
 			// The first `part.type` could be `c` or `v` if `format()` is provided a start context.
 			if (i === 0 && token.parts[0].type !== "b") {
-				// `c` or `v` or `cv`
+				// `c` or `v` or `cv`.
 				var _token$type$split = token.type.split("-");
 
 				var _token$type$split2 = _slicedToArray(_token$type$split, 1);
@@ -1628,7 +1622,7 @@ var osisToEn =
 			var token = {
 				osis: osis,
 				type: startToken.type + "-" + endToken.type,
-				// Add the end `parts` to the array.
+				// Add the end `parts` to the existing `parts` array.
 				parts: parts.concat(endToken.parts),
 				laters: []
 			};
@@ -1644,12 +1638,12 @@ var osisToEn =
 			var prevPart = startToken.parts[startToken.parts.length - 1];
 			var range = {
 				type: "-",
-				// We may need to know what kind of objects it's joining.
+				// To format it later, we may need to know what kind of objects it's joining.
 				subType: startToken.type + "-" + endToken.type,
 				b: prevPart.b,
 				laters: []
 			};
-			// Only add these if they exist in the previous part. These values reflect the current context, not the future context.
+			// Only add chapter and verse values if they exist in the previous part. These values reflect the current context, not the future context.
 			if (typeof prevPart.c !== "undefined") {
 				range.c = prevPart.c;
 			}
@@ -1674,26 +1668,26 @@ var osisToEn =
 			if (typeof books[b] === "undefined") {
 				throw "Unknown OSIS book: \"" + b + "\" (" + osis + ")\"";
 			}
-			var out = {
+			var token = {
 				osis: osis,
 				type: "",
 				parts: [],
 				laters: []
 			};
 			var isSingleChapter = isSingleChapterBook(b);
-			// If there's an end verse, if we've set the relevant option to `bv` rather than `bcv`, and if the book only has one chapter, then we want to omit the chapter: `Phlm.1.1` = `Philemon 1`.
+			// If there's an end verse, if we've set the relevant option, and if the book only has one chapter, then we want to omit the chapter: `Phlm.1.1` = `Philemon 1`.
 			var omitChapter = isSingleChapter && typeof v === "string" && (options.singleChapterFormat === "bv" || options.singleChapterFormat === "b");
-			// Returns true if there's a chapter. It modifies `out` in-place.
-			if (osisBookWithContext(b, c, v, isSingleChapter, omitChapter, context, out) === false) {
-				return out;
+			// Returns true if there's a chapter. It modifies `token` in-place.
+			if (osisBookWithContext(b, c, v, isSingleChapter, omitChapter, context, token) === false) {
+				return token;
 			}
-			// Returns true if there's a verse. It modifies `out` in-place.
-			if (osisChapterWithContext(b, c, v, omitChapter, context, out) === false) {
-				return out;
+			// Returns true if there's a verse. It modifies `token` in-place.
+			if (osisChapterWithContext(b, c, v, omitChapter, context, token) === false) {
+				return token;
 			}
 			// We know there's a verse.
-			out.type += "v";
-			out.parts.push({
+			token.type += "v";
+			token.parts.push({
 				type: "v",
 				subType: "",
 				b: b,
@@ -1702,37 +1696,27 @@ var osisToEn =
 				laters: []
 			});
 			context.v = parseInt(v, 10);
-			return out;
+			return token;
 		}
 
 		// Handle a "book" part.
-		function osisBookWithContext(b, c, v, isSingleChapter, omitChapter, context, out) {
-			// If we're looking at something like `Phlm-Phlm.1` or `Matt-Phlm.1`, we may want to treat `Phlm.1` as a book rather than include a chapter. This is unusual.
-			if (v === undefined && isSingleChapter === true && options.singleChapterFormat === "b") {
-				context.b = b, context.c = 0, context.v = 0;
-				out.type = "b";
-				out.parts.push({
-					type: "b",
-					subType: "",
-					b: b,
-					laters: []
-				});
-				return false;
-			}
+		function osisBookWithContext(b, c, v, isSingleChapter, omitChapter, context, token) {
+			// If we're looking at something like `Phlm-Phlm.1`, we may want to treat `Phlm.1` as a book rather than include a chapter. This is unusual.
+			var returnSingleBook = v === undefined && isSingleChapter === true && options.singleChapterFormat === "b";
 
-			// Gen.1,Exod = "Exod" || Gen.1,Gen = "Gen"
-			if (b !== context.b || c === undefined) {
-				// Do it this way to keep the reference to the original object.
+			// Gen.1,Exod = "Exod" || Gen.1,Gen = "Gen".
+			if (b !== context.b || c === undefined || returnSingleBook) {
+				// Do it this way rather than `context = {...}` to keep the reference to the original object.
 				context.b = b, context.c = 0, context.v = 0;
-				out.parts.push({
+				token.parts.push({
 					type: "b",
 					subType: "",
 					b: b,
 					laters: []
 				});
-				out.type = "b";
-				// There's no chapter, so we don't need to continue.
-				if (c === undefined) {
+				token.type = "b";
+				// There's no chapter, or there's no verse and we only want the whole book, so we don't need to continue.
+				if (c === undefined || returnSingleBook) {
 					return false;
 				}
 				// In general, the `subType` will be `b.c`.
@@ -1740,51 +1724,53 @@ var osisToEn =
 				// If we want to omit the chapter reference in a single-chapter book.
 				if (omitChapter === true) {
 					_subType = "b.v";
-					// It's a single-chapter book, but there's no end verse.
+					// It's a single-chapter book but we do want to show the chapter: `"singleChapterFormat": "bcv"` or `"bv"` without a verse (`Phlm.1`).
 				} else if (isSingleChapter === true) {
 					// `b1` means a single-chapter book.
 					_subType = "b1.c";
 				}
 				// We know there's a chapter, so insert the joiner.
-				out.parts.push({
+				token.parts.push({
 					type: ".",
 					subType: _subType,
 					b: b,
 					laters: []
 				});
 			}
-			// Otherwise, we know that it's the same book as in `context` and there's a chapter.
+			// At this point, we know that it's the same book as in `context` and there's a chapter.
 			return true;
 		}
 
 		// Handle a "chapter" part.
-		function osisChapterWithContext(b, c, v, omitChapter, context, out) {
+		function osisChapterWithContext(b, c, v, omitChapter, context, token) {
 			// We already know that the context book and current book are the same.
 			if (parseInt(c, 10) !== context.c || v === undefined) {
 				// We need to set `context.v` because we don't know that `osisBookWithContext()` reset it.
 				context.c = parseInt(c, 10), context.v = 0;
-				// If only `Phlm.1`, we want to include the chapter if `options.singleChapterFormat === "bv"`, but omit the chapter if it's `=== "b"`. `omitChapter` is always `false` when `v === undefined`.
-				if (omitChapter === false) {
-					out.parts.push({
-						type: "c",
-						subType: "",
-						b: b,
-						c: c,
-						laters: []
-					});
-					out.type += "c";
-					// There's no verse, so we don't need any further processing.
-					if (v === undefined) {
-						return false;
-					}
-					// We know there's a verse, so insert the joiner.
-					out.parts.push({
-						type: ".",
-						subType: "c.v",
-						b: b,
-						laters: []
-					});
+				// If only `Phlm.1`, we want to include the chapter if `options.singleChapterFormat === "bv"` or `"bcv"`, but omit the chapter if it's `=== "b"`. `omitChapter` is always `false` when `v === undefined`. We just want to set the context in this case.
+				if (omitChapter === true) {
+					return true;
 				}
+				// Otherwise, add the chapter part.
+				token.parts.push({
+					type: "c",
+					subType: "",
+					b: b,
+					c: c,
+					laters: []
+				});
+				token.type += "c";
+				// There's no verse, so we don't need any further processing.
+				if (v === undefined) {
+					return false;
+				}
+				// We know there's a verse, so insert the joiner.
+				token.parts.push({
+					type: ".",
+					subType: "c.v",
+					b: b,
+					laters: []
+				});
 			}
 			// Otherwise, we know that it's the same book and chapter as in `context` and that there's a verse.
 			return true;
@@ -1811,14 +1797,14 @@ var osisToEn =
 		// Given an optional string context, create a `context` obect.
 		function setContext(osis) {
 			// We always only want these three keys. Flow doesn't like calling `Object.seal`, however.
-			var out = {
+			var context = {
 				b: "",
 				c: 0,
 				v: 0
 			};
 			// There's no provided context.
 			if (osis == null) {
-				return out;
+				return context;
 			}
 			// Don't allow sequences.
 			osis = normalizeOsis(osis);
@@ -1845,18 +1831,18 @@ var osisToEn =
 				throw "Unknown OSIS book provided for \"context\": \"" + b + "\" (" + osis + ")\"";
 			}
 			// `b` always exists.
-			out.b = b;
+			context.b = b;
 			// `c` and `v` don't necessarily exist. `v` only exists if `c` does.
 			if (typeof c === "string") {
-				out.c = parseInt(c, 10);
+				context.c = parseInt(c, 10);
 				if (typeof v === "string") {
-					out.v = parseInt(v, 10);
+					context.v = parseInt(v, 10);
 				}
 			}
-			return out;
+			return context;
 		}
 
-		// Override any default parameters with user-supplied parameters. Also make sure `userOptions` has all the keys we need. Each call is independent, which means that `userOptions` should contain all the keys to override defaults.
+		// Override any default parameters with user-supplied parameters. Also make sure `userOptions` has all the keys we need. Each call is independent, which means it has no memory between calls; `userOptions` should contain all the keys to override defaults.
 		function setOptions(userOptions) {
 			// Reset them to the default.
 			options = getDefaults();
@@ -1879,7 +1865,7 @@ var osisToEn =
 			}
 		}
 
-		// Set valid books and abbreviations. It takes an object where each key is the OSIS book (e.g., `Matt`), and each value is a one- or two-item array. The first item is the book name to use, and the second item is the book name to use for plural cases. For example: `{"Ps": ["Psalm", "Psalms"]}`. You can also use a special key of the type `OSIS.$chapters` (e.g., `Ps.$chapters`), which overrides any chapter abbreviations. For example, `{"Ps": ["Ps.", "Pss."]` could result in `Psalms 1:2, Pss. 3, 4` if given the OSIS `Ps.1.2,Ps.3,Ps.4`.
+		// Set valid books and abbreviations. It takes an object where each key is the OSIS book (e.g., `Matt`), and each value is a one-, two-, or three-item array. The first item is the book name to use, the second item is the book name to use for plural cases, and the third item is to use when the book appears on its own. For example: `{"Ps": ["Psalm", "Psalms"]}`. You can also use a special key of the type `OSIS.$chapters` (e.g., `Ps.$chapters`), which overrides any chapter abbreviations. For example, `{"Ps.$chapters": ["Ps.", "Pss."]` could result in `Psalms 1:2, Pss. 3, 4` if given the OSIS `Ps.1.2,Ps.3,Ps.4`.
 		function setBooks(userBooks) {
 			books = {};
 			Object.keys(userBooks).forEach(function (key) {

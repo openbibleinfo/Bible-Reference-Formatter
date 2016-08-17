@@ -465,7 +465,7 @@ A token can also contain:
 * `subTokens`. If there is a `bookSequence` key, there is also a `subTokens` array containing the tokens that the sequence encompasses. If you're trying to match your input OSIS string to the output array, be sure to look in `subTokens` if it exists; otherwise, your counts will be off.
 * `position`. A `,` token has a `&` or `,&` position if it's the last `,` token in the array. `&` indicates there are two OSISes in the sequence, while `,&` indicates there are three or more OSISes.
 
-## Files
+## Folder Structure
 
 `flow` contains the raw [Flow](https://flowtype.org/) (Javascript with type annotations) source.
 
@@ -477,7 +477,7 @@ A token can also contain:
 
 ## System Requirements
 
-The `es6/` files require an ES6-capable Node.js. I test it on 6.3.0.
+The `es6/` files require an ES6-capable Node.js. I developed it on 6.3.0.
 
 The `js/` files require any modern browser or IE10 or higher. They use ES5 syntax.
 
@@ -496,7 +496,7 @@ If you want to build the project using `compile-and-run.sh`, here are the depend
 
 ## Limitations
 
-It doesn't validate that the references exist; it happily converts the nonexistent `GEN 99` to `Gen.99`.
+It doesn't validate that the references exist; it happily formats the nonexistent `Gen.99` as `Genesis 99`.
 
 It follows the OSIS and Paratext formats strictly; if provided an unexpected book name or format, it throws an exception.
 

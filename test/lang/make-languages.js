@@ -20,7 +20,7 @@ function writeTests(lang, describes) {
 		out.push(`describe(${JSON.stringify(describe.describe)}, function() {`)
 		for (const it of describe.it) {
 			let func = []
-			let osises = JSON.stringify(it.osises)
+			let osises = prettyPrint(it.osises)
 			osises = osises.replace(/\\\\u/g, "\\u")
 			func.push(`\tit(${JSON.stringify(it.it)}, function() {`)
 			func.push(`\tloopTest(${osises})`)
@@ -98,4 +98,11 @@ function getLangFiles() {
 	return fs.readdirSync(dataPath).filter(function(value) {
 		return value.match(/txt$/)
 	})
+}
+
+function prettyPrint(obj) {
+	let json = JSON.stringify(obj, null, "\t\t\t")
+	json = json.replace(/\t{6}/g, "\t\t\t\t")
+	json = json.replace(/\}$/, "\t\t}")
+	return json
 }

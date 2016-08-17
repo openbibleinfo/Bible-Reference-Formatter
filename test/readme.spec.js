@@ -60,7 +60,9 @@ describe("Convert OSIS to Paratext", function() {
 describe("Browser Usage", function() {
 	it("should handle OsisFormatter", function() {
 		const osisFormatter = new OsisFormatter
-		osisFormatter.setBooks({"Phlm":["Phlm"]})
+		osisFormatter.setBooks({
+			"Phlm": ["Phlm"]
+		})
 		expect(osisFormatter.format("Phlm.1.2")).toEqual("Phlm 2")
 	})
 
@@ -84,8 +86,12 @@ describe("Build Your Own Output Style", function() {
 	})
 
 	it("should handle the first block", function() {
-		formatter.setBooks({"Ps": ["Psalm", "Psalms"]})
-		formatter.setOptions({"c.v": ":", "^v": "$verses "})
+		formatter.setBooks({
+			"Ps": ["Psalm", "Psalms"]
+		})
+		formatter.setOptions({
+			"c.v": ":", "^v": "$verses "
+		})
 		expect(formatter.format("Ps.1.1")).toEqual("Psalm 1:1")
 		expect(formatter.format("Ps.2-Ps.3")).toEqual("Psalms 2-3")
 		expect(formatter.format("Ps.2.2,Ps.2.3", "Ps.2")).toEqual("vv 2, 3")
@@ -152,17 +158,23 @@ describe("Build Your Own Output Style", function() {
 		formatter.setBooks({
 			"Phlm": ["Philemon"]
 		})
-		formatter.setOptions({"singleChapterFormat": "b"})
+		formatter.setOptions({
+			"singleChapterFormat": "b"
+		})
 		expect(formatter.format("Phlm.1.2")).toEqual("Philemon 2")
 		expect(formatter.format("Phlm.1")).toEqual("Philemon")
 		expect(formatter.format("Phlm")).toEqual("Philemon")
 
-		formatter.setOptions({"singleChapterFormat": "bv"})
+		formatter.setOptions({
+			"singleChapterFormat": "bv"
+		})
 		expect(formatter.format("Phlm.1.2")).toEqual("Philemon 2")
 		expect(formatter.format("Phlm.1")).toEqual("Philemon 1")
 		expect(formatter.format("Phlm")).toEqual("Philemon")
 
-		formatter.setOptions({"singleChapterFormat": "bcv"})
+		formatter.setOptions({
+			"singleChapterFormat": "bcv"
+		})
 		expect(formatter.format("Phlm.1.2")).toEqual("Philemon 1:2")
 		expect(formatter.format("Phlm.1")).toEqual("Philemon 1")
 		expect(formatter.format("Phlm")).toEqual("Philemon")
@@ -173,13 +185,19 @@ describe("Build Your Own Output Style", function() {
 			"Ps": ["Ps.", "Pss."],
 			"Ps151": ["Psalm 151"],
 		})
-		formatter.setOptions({"Ps151Format": "b"})
+		formatter.setOptions({
+			"Ps151Format": "b"
+		})
 		expect(formatter.format("Ps151.1.5")).toEqual("Psalm 151 5")
 
-		formatter.setOptions({"Ps151Format": "b", "singleChapterFormat": "bcv"})
+		formatter.setOptions({
+			"Ps151Format": "b", "singleChapterFormat": "bcv"
+		})
 		expect(formatter.format("Ps151.1.5")).toEqual("Psalm 151 1:5")
 
-		formatter.setOptions({"Ps151Format": "bc"})
+		formatter.setOptions({
+			"Ps151Format": "bc"
+		})
 		expect(formatter.format("Ps151.1.5")).toEqual("Ps. 151:5")
 	})
 
@@ -189,30 +207,43 @@ describe("Build Your Own Output Style", function() {
 			"Phlm": ["Phlm"]
 		})
 
-		formatter.setOptions({".": "~"})
+		formatter.setOptions({
+			".": "~"
+		})
 		expect(formatter.format("Gen.1.2")).toEqual("Gen~1:2")
 
-		formatter.setOptions({"c.v": "~"})
+		formatter.setOptions({
+			"c.v": "~"
+		})
 		expect(formatter.format("Gen.1.2")).toEqual("Gen 1~2")
 
-		formatter.setOptions({"b.c": "~", "singleChapterFormat": "bcv"})
+		formatter.setOptions({
+			"b.c": "~", "singleChapterFormat": "bcv"
+		})
 		expect(formatter.format("Gen.1.2")).toEqual("Gen~1:2")
 		expect(formatter.format("Phlm.1.2")).toEqual("Phlm 1:2")
 
-		formatter.setOptions({"b1.c": "~", "singleChapterFormat": "bcv"})
+		formatter.setOptions({
+			"b1.c": "~", "singleChapterFormat": "bcv"
+		})
 		expect(formatter.format("Phlm.1.2")).toEqual("Phlm~1:2")
 
-		formatter.setOptions({"b.v": "~"})
+		formatter.setOptions({
+			"b.v": "~"
+		})
 		expect(formatter.format("Phlm.1.2")).toEqual("Phlm~2")
 
-		formatter.setOptions({".c": "~", "singleChapterFormat": "bcv"})
+		formatter.setOptions({
+			".c": "~", "singleChapterFormat": "bcv"
+		})
 		expect(formatter.format("Gen.1.2")).toEqual("Gen~1:2")
 		expect(formatter.format("Phlm.1.2")).toEqual("Phlm~1:2")
 
-		formatter.setOptions({".v": "~"})
+		formatter.setOptions({
+			".v": "~"
+		})
 		expect(formatter.format("Gen.1.2")).toEqual("Gen 1:2")
 		expect(formatter.format("Phlm.1.2")).toEqual("Phlm~2")
-
 	})
 
 	it("should handle Ranges", function() {

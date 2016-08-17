@@ -1,5 +1,9 @@
 # Changelog
 
+## August 16, 2016
+
+Simplify some logic and add consistency fixes.
+
 ## August 15, 2016
 
 1. Add support for formatting the last separator in a sequence differently (`&` and `,&`).

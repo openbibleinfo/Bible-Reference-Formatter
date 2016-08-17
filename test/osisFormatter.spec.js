@@ -34,7 +34,6 @@ function setOptions(newOptions={}) {
 		"^c": "$chapters ",
 		"b1^v": "$verses ",
 		"b1^c": "$b ",
-		//"^cv": "",
 
 		"$chapters": ["ch.", "chs."],
 		"$verses": ["v.", "vv."],
@@ -104,7 +103,10 @@ describe("Basic parsing", function() {
 	})
 
 	it("should handle single-chapter books with `bcv`", function() {
-		setOptions({singleChapterFormat: "bcv"})
+		setOptions({
+			"singleChapterFormat": "bcv",
+			"b1.c": " "
+		})
 		expect(f.format("Phlm.1")).toEqual("Philem. 1")
 		expect(f.format("Phlm.1-Rev")).toEqual("Philem. 1\u2014Rev.")
 		expect(f.format("Phlm.1.4-Phlm.1")).toEqual("Philem. 1:4\u2013ch. 1")
@@ -138,7 +140,7 @@ describe("Basic parsing", function() {
 		expect(f.format("Ps.3.2,Ps.1.3,Ps.1.4", "Ps.1-Ps.3")).toEqual("v. 2; 1:3, 4")
 	})
 
-	it("should handle chapter start contexts", function () {
+	it("should handle chapter start contexts", function() {
 		expect(f.format("Matt.2-Matt.2.3", "Matt.1")).toEqual("ch. 2-v. 3")
 		expect(f.format("Matt.2-Matt.3.3", "Matt.1")).toEqual("chs. 2\u20133:3")
 		expect(f.format("Matt.2-Matt.3.3,Matt.4", "Matt.1")).toEqual("chs. 2\u20133:3; ch. 4")
@@ -146,7 +148,7 @@ describe("Basic parsing", function() {
 		expect(f.format("Matt.2,Matt.4", "Matt.1")).toEqual("chs. 2; 4")
 	})
 
-	it("should handle verse start contexts", function () {
+	it("should handle verse start contexts", function() {
 		expect(f.format("Matt.1.2-Matt.2.3", "Matt.1")).toEqual("vv. 2\u20132:3")
 		expect(f.format("Matt.1.2-Matt.1.3", "Matt.1")).toEqual("vv. 2-3")
 		expect(f.format("Matt.1.2-Matt.1.3,Matt.1.4", "Matt.1")).toEqual("vv. 2-3, 4")
@@ -162,7 +164,10 @@ describe("Setting options", function() {
 	})
 
 	it("should handle adding text to single-chapter books", function() {
-		setOptions({"b.v": " $verses "}) // Phlm.(1.)2
+		// Phlm.(1.)2
+		setOptions({
+			"b.v": " $verses "
+		})
 
 		expect(f.format("Matt.1.2-Phlm.1.3")).toEqual("Matt. 1:2\u2014Philem. v. 3")
 		expect(f.format("Phlm.1.4-Phlm.1")).toEqual("Philem. vv. 4\u2013ch. 1")
@@ -176,7 +181,10 @@ describe("Setting options", function() {
 	})
 
 	it("should handle adding text to multi-chapter books", function() {
-		setOptions({"b.v": " $verses "}) // Phlm.(1.)2
+		// Phlm.(1.)2
+		setOptions({
+			"b.v": " $verses "
+		})
 		expect(f.format("Matt.1.2-Matt.1.4", "Matt.1.2")).toEqual("vv. 2-4")
 		expect(f.format("Matt.1.2,Matt.1.3,Matt.1.4", "Matt.1.2")).toEqual("vv. 2, 3, 4")
 		expect(f.format("Matt.1.2,Matt.1.3,Matt.1.4", "Matt.1")).toEqual("vv. 2, 3, 4")
@@ -187,7 +195,10 @@ describe("Setting options", function() {
 	})
 
 	it("should handle adding text to Psalms", function() {
-		setOptions({"b.v": " $verses "}) // Phlm.(1.)2
+		// Phlm.(1.)2
+		setOptions({
+			"b.v": " $verses "
+		})
 		expect(f.format("Ps.1.2-Ps.1.4", "Ps.1.2")).toEqual("vv. 2-4")
 		expect(f.format("Ps.1.2,Ps.1.3,Ps.1.4", "Ps.1.2")).toEqual("vv. 2, 3, 4")
 		expect(f.format("Ps.1.2,Ps.1.3,Ps.1.4", "Ps.2")).toEqual("1:2, 3, 4")
@@ -199,48 +210,67 @@ describe("Setting options", function() {
 	})
 
 	it("should handle a single chapter option", function() {
-		setOptions({"$chapters": ["chapter"]})
+		setOptions({
+			"$chapters": ["chapter"]
+		})
 		expect(f.format("Matt.2-Matt.3", "Matt")).toEqual("chapter 2\u20133")
 		expect(f.format("Matt.2", "Matt")).toEqual("chapter 2")
 	})
 
 	it("should handle a single verse option", function() {
-		setOptions({"$verses": ["v."]})
+		setOptions({
+			"$verses": ["v."]
+		})
 		expect(f.format("Ps.1.2-Ps.1.3", "Ps.1")).toEqual("v. 2-3")
 	})
 
 	it("should handle an odd `$chapters`", function() {
-		setOptions({"c.v": " $chapters "})
+		setOptions({
+			"c.v": " $chapters "
+		})
 		expect(f.format("Matt.2.3,Matt.2.4", "Matt")).toEqual("2 ch. 3, 4")
 		expect(f.format("Matt.3.3,Matt.4.4")).toEqual("Matt. 3 ch. 3; 4 ch. 4")
 	})
 
 	it("should handle multiple `$chapters` replacements", function() {
-		setOptions({"b.c": " $chapters $chapters "})
+		setOptions({
+			"b.c": " $chapters $chapters "
+		})
 		expect(f.format("Matt.2.3,Ps.2.4")).toEqual("Matt. ch. ch. 2:3; Ps. Ps. Ps. 2:4")
 		expect(f.format("Matt.3.3,Matt.4.4")).toEqual("Matt. chs. chs. 3:3; 4:4")
 	})
 
 	it("should handle multiple `$verses` replacements", function() {
-		setOptions({"c.v": " $verses $verses "})
+		setOptions({
+			"c.v": " $verses $verses "
+		})
 		expect(f.format("Matt.2.3,Ps.2.4")).toEqual("Matt. 2 v. v. 3; Ps. 2 v. v. 4")
 		expect(f.format("Matt.3.3,Matt.4.4")).toEqual("Matt. 3 v. v. 3; 4 v. v. 4")
 	})
 
 	it("should handle multiple `$b` replacements", function() {
-		setOptions({"b.c": " ($b $b) "})
+		setOptions({
+			"b.c": " ($b $b) "
+		})
 		expect(f.format("Matt.2.3,Ps.2.4")).toEqual("Matt. (Matt. Matt.) 2:3; Ps. (Ps. Ps.) 2:4")
 		expect(f.format("Matt.3.3,Matt.4.4")).toEqual("Matt. (Matt. Matt.) 3:3; 4:4")
 	})
 
 	it("should return an empty string for `$c` and `$v` when they're not defined", function() {
-		setOptions({"b.c": " (chapter $c $c) ", "c.v": " (verse $v $v) "})
+		setOptions({
+			"b.c": " (chapter $c $c) ",
+			"c.v": " (verse $v $v) "
+		})
 		expect(f.format("Matt.2.3,Ps.2.4")).toEqual("Matt. (chapter  ) 2 (verse  ) 3; Ps. (chapter  ) 2 (verse  ) 4")
 		expect(f.format("Matt.3.3,Matt.3.4")).toEqual("Matt. (chapter  ) 3 (verse  ) 3, 4")
 	})
 
-	it("should handle `singleChapterFormat = \"b\"` with the same book", function () {
-		setOptions({"singleChapterFormat": "b", "b1^v": "$b V ", "b-v": "\u2014$b R "})
+	it("should handle `singleChapterFormat = \"b\"` with the same book", function() {
+		setOptions({
+			"singleChapterFormat": "b",
+			"b1^v": "$b V ",
+			"b-v": "\u2014$b R "
+		})
 		expect(f.format("Phlm-Phlm.1")).toEqual("Philem.\u2014Philem\.")
 		expect(f.format("Phlm-Phlm.1.2")).toEqual("Philem.\u2014Philem\. R 2")
 		expect(f.format("Phlm,Phlm.1")).toEqual("Philem.; Philem\.")
@@ -251,8 +281,12 @@ describe("Setting options", function() {
 		expect(f.format("Phlm.1.4", "Phlm.1")).toEqual("Philem\. V 4")
 	})
 
-	it("should handle `singleChapterFormat = \"b\"` with a different book", function () {
-		setOptions({"singleChapterFormat": "b", "b1^v": "$b V ", "b-v": "\u2014$b R "})
+	it("should handle `singleChapterFormat = \"b\"` with a different book", function() {
+		setOptions({
+			"singleChapterFormat": "b",
+			"b1^v": "$b V ",
+			"b-v": "\u2014$b R "
+		})
 		expect(f.format("Matt-Phlm.1")).toEqual("Matt.\u2014Philem\.")
 		expect(f.format("Matt-Phlm.1.2")).toEqual("Matt.\u2014Philem\. 2")
 		expect(f.format("Matt,Phlm.1")).toEqual("Matt.; Philem\.")
@@ -270,7 +304,11 @@ describe("Setting options", function() {
 	})
 
 	it("should handle `&` options", function() {
-		setOptions({"&": " and ", "v&c": " and $chapters ", "v,c": ", $chapters "})
+		setOptions({
+			"&": " and ",
+			"v&c": " and $chapters ",
+			"v,c": ", $chapters "
+		})
 		expect(f.format("Gen.1,Gen.2")).toEqual("Gen. 1 and 2")
 		expect(f.format("Gen.1.2,Gen.3")).toEqual("Gen. 1:2 and ch. 3")
 		expect(f.format("Gen.1.2,1John,2John")).toEqual("Gen. 1:2 and 1 and 2 John")
@@ -278,7 +316,12 @@ describe("Setting options", function() {
 	})
 
 	it("should handle `,&` options", function() {
-		setOptions({",&": "; and ", "v,&c": " and $chapters ", "v,c": ", $chapters ", "v,&v": ", and "})
+		setOptions({
+			",&": "; and ",
+			"v,&c": " and $chapters ",
+			"v,c": ", $chapters ",
+			"v,&v": ", and "
+		})
 		expect(f.format("Gen.1,Gen.2")).toEqual("Gen. 1; 2")
 		expect(f.format("Gen.1.2,Gen.3")).toEqual("Gen. 1:2, ch. 3")
 		expect(f.format("Gen.1.2,1John,2John")).toEqual("Gen. 1:2; 1 and 2 John")
@@ -293,7 +336,10 @@ describe("Psalm 151", function() {
 	})
 
 	it("should handle Ps151 as a `bc`", function() {
-		setOptions({"b.v": " $verses ", "Ps151Format": "bc"})
+		setOptions({
+			"b.v": " $verses ",
+			"Ps151Format": "bc"
+		})
 
 		expect(f.format("Ps.1-Ps151")).toEqual("Pss. 1\u2013151")
 		expect(f.format("Ps.1.2-Ps151")).toEqual("Pss. 1:2\u2013Ps. 151")
@@ -306,7 +352,10 @@ describe("Psalm 151", function() {
 	})
 
 	it("should handle Ps151 as a `b` with `singleChapterFormat: bv`", function() {
-		setOptions({"Ps151Format": "b", "singleChapterFormat": "bv" })
+		setOptions({
+			"Ps151Format": "b",
+			"singleChapterFormat": "bv"
+		})
 
 		expect(f.format("Ps.1-Ps151")).toEqual("Pss. 1\u2014Ps. 151")
 		expect(f.format("Ps.1.2-Ps151")).toEqual("Pss. 1:2\u2014Ps. 151")
@@ -319,7 +368,10 @@ describe("Psalm 151", function() {
 	})
 
 	it("should handle Ps151 as a `b` with `singleChapterFormat: bcv`", function() {
-		setOptions({"Ps151Format": "b", "singleChapterFormat": "bcv"})
+		setOptions({
+			"Ps151Format": "b",
+			"singleChapterFormat": "bcv"
+		})
 		expect(f.format("Ps151.1.4-Ps151.1.5")).toEqual("Ps. 151 1:4-5")
 		expect(f.format("Ps151-Matt.1")).toEqual("Ps. 151\u2014Matt. 1")
 		expect(f.format("Ps151.1-Matt.1")).toEqual("Ps. 151 1\u2014Matt. 1")
@@ -369,8 +421,12 @@ describe("Exceptions", function() {
 
 	it("should not accept an invalid type when setting options", function() {
 		expect(f.setOptions("")).not.toBeDefined()
-		expect(() => f.setOptions({singleChapterBooks: "Phlm"})).toThrow()
-		expect(() => f.setOptions({singleChapterFormat: ["bv"]})).toThrow()
+		expect(() => f.setOptions({
+			singleChapterBooks: "Phlm"
+		})).toThrow()
+		expect(() => f.setOptions({
+			singleChapterFormat: ["bv"]
+		})).toThrow()
 	})
 
 	it("should not accept an empty `setOptions()` call", function() {
@@ -385,8 +441,12 @@ describe("Multiple objects", function() {
 
 	it("should allow multiple objects not to trample each other", function() {
 		const c1 = new OsisFormatter
-		c1.setBooks({Matt: ["Matt"]})
-		c1.setOptions({".": "/", "c.v": "/"})
+		c1.setBooks({
+			Matt: ["Matt"]
+		})
+		c1.setOptions({
+			".": "/", "c.v": "/"
+		})
 		expect(c1.format("Matt.1.1")).toEqual("Matt/1/1")
 		expect(f.format("Matt.1.1")).toEqual("Matt. 1:1")
 	})
@@ -418,15 +478,27 @@ describe(".setBooks()", function() {
 
 	it("should not accept a non-array value", function() {
 		expect(() => f.setBooks("Matt.1")).toThrow()
-		expect(() => f.setBooks({"a": "Matt.1"})).toThrow()
-		expect(() => f.setBooks({"a": {}})).toThrow()
+		expect(() => f.setBooks({
+			"a": "Matt.1"
+		})).toThrow()
+		expect(() => f.setBooks({
+			"a": {}
+		})).toThrow()
 	})
 
 	it("should only accept arrays of lengths 1, 2, or 3", function() {
-		expect(() => f.setBooks({"a": []})).toThrow()
-		expect(f.setBooks({"a": ["b"]})).not.toBeDefined()
-		expect(f.setBooks({"a": ["b", "c"]})).not.toBeDefined()
-		expect(() => f.setBooks({"a": ["b", "c", "d", "e"]})).toThrow()
+		expect(() => f.setBooks({
+			"a": []
+		})).toThrow()
+		expect(f.setBooks({
+			"a": ["b"]
+		})).not.toBeDefined()
+		expect(f.setBooks({
+			"a": ["b", "c"]
+		})).not.toBeDefined()
+		expect(() => f.setBooks({
+			"a": ["b", "c", "d", "e"]
+		})).toThrow()
 	})
 	resetBooks()
 })
@@ -438,6 +510,19 @@ describe(".tokenize()", function() {
 	})
 
 	it("should tokenize a book", function() {
-		expect(f.tokenize("Gen")).toEqual({"tokens":[{"osis":"Gen","type":"b","parts":[{"type":"b","subType":"","b":"Gen","laters":[]}],"laters":[],"format":"Gen."}]})
+		expect(f.tokenize("Gen")).toEqual({
+			"tokens": [{
+				"osis": "Gen",
+				"type": "b",
+				"parts": [{
+					"type": "b",
+					"subType": "",
+					"b": "Gen",
+					"laters": []
+				}],
+				"laters": [],
+				"format": "Gen."
+			}]
+		})
 	})
 })
