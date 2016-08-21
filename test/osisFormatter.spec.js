@@ -303,6 +303,53 @@ describe("Setting options", function() {
 		expect(f.format("Phlm")).toEqual("Philem.")
 	})
 
+	it("should handle `^cv` formats", function() {
+		f.setOptions({
+			"^c": "^c ",
+			"^v": "^v ",
+			"^cv": "^cv "
+		})
+		expect(f.format("Gen.1.2-Gen.1.3", "Gen")).toEqual("^cv 1:2-3")
+		expect(f.format("Gen.1.2-Gen.3.4", "Gen")).toEqual("^cv 1:2-3:4")
+		expect(f.format("Gen.1", "Gen")).toEqual("^c 1")
+		expect(f.format("Gen.1.2", "Gen.1")).toEqual("^v 2")
+	})
+
+	it("should handle `b1^cv` formats", function() {
+		f.setOptions({
+			"singleChapterFormat": "bcv",
+			"b1^c": "b1^c ",
+			"b1^v": "b1^v ",
+			"b1^cv": "b1^cv "
+		})
+		expect(f.format("Phlm.1.2-Phlm.1.3", "Phlm")).toEqual("b1^cv 1:2-3")
+		expect(f.format("Phlm.1.2-3John.1.4", "Phlm")).toEqual("b1^cv 1:2-3 John 1:4")
+		expect(f.format("Phlm.1", "Phlm")).toEqual("b1^c 1")
+		expect(f.format("Phlm.1.2", "Phlm.1")).toEqual("b1^v 2")
+	})
+
+	// I don't think this should necessarily return anything intelligible, but it should at least not break.
+	it("should handle a weird `b` option", function() {
+		f.setOptions({
+			"b": "$b $chapters"
+		})
+		expect(f.format("Gen.1")).toEqual("Gen. ch 1")
+		expect(f.format("Gen.1-Gen.2")).toEqual("Gen. chs 1-2")
+		expect(f.format("Gen")).toEqual("Gen. chs")
+		expect(f.format("Gen-Phlm")).toEqual("Gen. ch-Philem. ch")
+	})
+
+	// Again, this is an unusual choice. It should at least not break.
+	it("should handle a weird `c` option", function() {
+		f.setOptions({
+			"c": "$c $verses"
+		})
+		expect(f.format("Gen.1")).toEqual("Gen. 1 v")
+		expect(f.format("Gen.1-Gen.2")).toEqual("Gen. 1 vv-2 v")
+		expect(f.format("Gen")).toEqual("Gen.")
+		expect(f.format("Gen-Phlm")).toEqual("Gen.-Philem.")
+	})
+
 	it("should handle `&` options", function() {
 		setOptions({
 			"&": " and ",
@@ -342,10 +389,12 @@ describe("Psalm 151", function() {
 		})
 
 		expect(f.format("Ps.1-Ps151")).toEqual("Pss. 1\u2013151")
+		expect(f.format("Ps.1-AddPs")).toEqual("Pss. 1\u2013151")
 		expect(f.format("Ps.1.2-Ps151")).toEqual("Pss. 1:2\u2013Ps. 151")
 		expect(f.format("Ps151")).toEqual("Ps. 151")
 		expect(f.format("Ps151.1")).toEqual("Ps. 151")
 		expect(f.format("Ps151.1.2-Ps151.1.3")).toEqual("Ps. 151:2-3")
+		expect(f.format("AddPs.1.2-AddPs.1.3")).toEqual("Ps. 151:2-3")
 		expect(f.format("Ps151-Matt.1")).toEqual("Ps. 151\u2014Matt. 1")
 		expect(f.format("Ps151.1-Matt.1")).toEqual("Ps. 151\u2014Matt. 1")
 		expect(f.format("Ps151.1.1-Matt.1")).toEqual("Ps. 151:1\u2014Matt. 1")
@@ -358,10 +407,12 @@ describe("Psalm 151", function() {
 		})
 
 		expect(f.format("Ps.1-Ps151")).toEqual("Pss. 1\u2014Ps. 151")
+		expect(f.format("Ps.1-AddPs")).toEqual("Pss. 1\u2014Ps. 151")
 		expect(f.format("Ps.1.2-Ps151")).toEqual("Pss. 1:2\u2014Ps. 151")
 		expect(f.format("Ps151")).toEqual("Ps. 151")
 		expect(f.format("Ps151.1")).toEqual("Ps. 151 1")
 		expect(f.format("Ps151.1.3-Ps151.1.4")).toEqual("Ps. 151 3-4")
+		expect(f.format("AddPs.1.3-AddPs.1.4")).toEqual("Ps. 151 3-4")
 		expect(f.format("Ps151-Matt.1")).toEqual("Ps. 151\u2014Matt. 1")
 		expect(f.format("Ps151.1-Matt.1")).toEqual("Ps. 151 1\u2014Matt. 1")
 		expect(f.format("Ps151.1.1-Matt.1")).toEqual("Ps. 151 1\u2014Matt. 1")
@@ -373,7 +424,9 @@ describe("Psalm 151", function() {
 			"singleChapterFormat": "bcv"
 		})
 		expect(f.format("Ps151.1.4-Ps151.1.5")).toEqual("Ps. 151 1:4-5")
+		expect(f.format("AddPs.1.4-AddPs.1.5")).toEqual("Ps. 151 1:4-5")
 		expect(f.format("Ps151-Matt.1")).toEqual("Ps. 151\u2014Matt. 1")
+		expect(f.format("AddPs-Matt.1")).toEqual("Ps. 151\u2014Matt. 1")
 		expect(f.format("Ps151.1-Matt.1")).toEqual("Ps. 151 1\u2014Matt. 1")
 		expect(f.format("Ps151.1.1-Matt.1")).toEqual("Ps. 151 1:1\u2014Matt. 1")
 	})

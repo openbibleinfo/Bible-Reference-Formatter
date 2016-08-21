@@ -7,6 +7,8 @@ describe("Tests", function() {
 		expect(osisToParatext("Matt.1.2")).toEqual("MAT 1:2")
 		expect(osisToParatext("Matt.1")).toEqual("MAT 1")
 		expect(osisToParatext("Matt")).toEqual("MAT")
+		expect(osisToParatext("Ps151")).toEqual("PS2")
+		expect(osisToParatext("AddPs")).toEqual("PS2")
 	})
 
 	it("should handle verse ranges", function() {
@@ -17,6 +19,8 @@ describe("Tests", function() {
 		expect(osisToParatext("Matt.1.7-Mark.2.3")).toEqual("MAT 1:7-MRK 2:3")
 		expect(osisToParatext("Matt.1.8-Mark.2")).toEqual("MAT 1:8-MRK 2")
 		expect(osisToParatext("Matt.1.9-Mark")).toEqual("MAT 1:9-MRK")
+		expect(osisToParatext("Ps151.1.1-Ps151.1.2")).toEqual("PS2 1:1-2")
+		expect(osisToParatext("AddPs.1.3-AddPs.1.4")).toEqual("PS2 1:3-4")
 	})
 
 	it("should handle chapter ranges", function() {

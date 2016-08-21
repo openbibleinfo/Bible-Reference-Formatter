@@ -19,18 +19,13 @@ For the reverse, to convert human-readable passage references to OSIS references
 
 ```javascript
 const osisToEn = require("./es6/en")
-osisToEn("niv-long", "Matt.1.2-Matt.1.3,Matt.1.4", "Matt.1") // "vv. 2–3,4"
-osisToEn("niv-short", "Matt.1.2-Matt.1.3,Matt.1.4", "Matt.1") // "vv. 2–3,4"
-osisToEn("niv-shortest", "Matt.1.2-Matt.1.3,Matt.1.4", "Matt.1") // "ver 2-3, 4"
-```
-
-Other examples:
-
-```javascript
-const osisToEn = require("./es6/en")
 osisToEn("niv-long", "Matt.1.2-Matt.1.3,Matt.1.4") // "Matthew 1:2–3,4"
 osisToEn("niv-short", "Matt.1.2-Matt.1.3,Matt.1.4") // "Matt 1:2–3,4"
 osisToEn("niv-shortest", "Matt.1.2-Matt.1.3,Matt.1.4") // "Mt 1:2-3, 4"
+
+osisToEn("niv-long", "Matt.1.2-Matt.1.3,Matt.1.4", "Matt.1") // "vv. 2–3,4"
+osisToEn("niv-short", "Matt.1.2-Matt.1.3,Matt.1.4", "Matt.1") // "vv. 2–3,4"
+osisToEn("niv-shortest", "Matt.1.2-Matt.1.3,Matt.1.4", "Matt.1") // "ver 2-3, 4"
 ```
 
 #### Output Format Type
@@ -60,7 +55,7 @@ The two longer NIV styles don't include spaces between verses. The short ESV sty
 
 ```javascript
 const osisToParatext = require("./es6/osisToParatext")
-let paratext = osisToParatext("Matt.1.2-Matt.1.3,Matt.1.4") // "MAT 1:2-3,MAT 1:4"
+osisToParatext("Matt.1.2-Matt.1.3,Matt.1.4") // "MAT 1:2-3,MAT 1:4"
 ```
 
 ### Convert Paratext to OSIS
@@ -69,7 +64,7 @@ let paratext = osisToParatext("Matt.1.2-Matt.1.3,Matt.1.4") // "MAT 1:2-3,MAT 1:
 
 ```javascript
 const paratextToOsis = require("./es6/paratextToOsis")
-let osis = paratextToOsis("MAT 1:2-3,MAT 1:4") // "Matt.1.2-Matt.1.3,Matt.1.4"
+paratextToOsis("MAT 1:2-3,MAT 1:4") // "Matt.1.2-Matt.1.3,Matt.1.4"
 ```
 
 ## Browser Usage
@@ -194,7 +189,7 @@ osisFormatter.format("1Kgs-2Kgs,1John,2John,3John") // "1-2 Kings, 1, 2, and 3 J
 osisFormatter.format("1John,2John,3John.1.5") // "1 and 2 John, 3 John 5"
 ```
 
-This special formatting only occurs when the OSIS specifies no chapters or verse. In the second example, the specificity of `3John.1.5` prevents it from triggering the special formatting.
+This special formatting only occurs when the OSIS specifies no chapters or verses. In the second example, the specificity of `3John.1.5` prevents it from triggering the special formatting.
 
 These special ranges and sequences always use the first item in the array for each key.
 
@@ -364,7 +359,7 @@ You may want to separate the last item in a sequence differently; for example, y
 
 Ending sequences come in two varieties: `&` for a two-item sequence (`Gen.1,Gen.2`), and `,&` for a three-or-more item sequence (`Gen.1,Gen.2,Gen.3,Gen.4`).
 
-You enable to these ending sequences by setting a `&` or `,&` key in `options`. If you've set any specific `,` options, you probably want to recreate similar rules with `&` and/or `,&` variants to avoid inconsistencies.
+You enable these ending sequences by setting a `&` or `,&` key in `options`. If you've set any specific `,` options, you probably want to recreate similar rules with `&` and/or `,&` variants to avoid inconsistencies.
 
 For example, let's adapt the `niv-long` options to include `&` and `,&` options:
 
@@ -405,7 +400,7 @@ osisFormatter.format("Gen,1John,2John,3John") // "Genesis and 1, 2, and 3 John"
 osisFormatter.format("Gen,Phlm,1John,2John,3John") // "Genesis; Philemon; and 1, 2, and 3 John"
 ```
 
-As you can see in the final two examples, a special book sequence (`1John,2John,3John` becoming `1, 2, and 3 John`)counts as a single "book" for the purposes of determining the location of the last sequence separator.
+As you can see in the final two examples, a special book sequence (`1John,2John,3John` becoming `1, 2, and 3 John`) counts as a single "book" for the purposes of determining the location of the last sequence separator.
 
 #### Start Contexts
 
@@ -454,7 +449,7 @@ Here's a quick explanation:
 
 * `osis`: The input OSIS string for the token.
 * `type`: The output type, which doesn't necessarily match the input type; with the appropriate context, an input `bcv` could just be a `v`.
-* `parts`: An array of component parts that compose the token: each one is of type `b`, `c`, `v`, `.`, `-`, or `,`. The `subType` can have additional processing information (`b.v` if a `.` separates a book and verse, for example). `b` indicates the ending book context for the token; `c` and `v` may also appear and similarly establish ending chapter and verse context. `laters` lists future `part` types to help establish plural or singular usage of `$chapters` and `$verses`.
+* `parts`: An array of parts that compose the token: each one is of type `b`, `c`, `v`, `.`, `-`, or `,`. The `subType` can have additional processing information (`b.v` if a `.` separates a book and verse, for example). `b` indicates the ending book context for the token; `c` and `v` may also appear and similarly establish ending chapter and verse context. `laters` lists future `part` types to help establish plural or singular usage of `$chapters` and `$verses`.
 * `laters`: Future token types establish plural or singular usage of `$chapters` and `$verses`.
 * `format`: The output string for that token. Joining all tokens' `format`s with `""` produces the same result as calling `osisFormatter.format()` with the same arguments.
 
