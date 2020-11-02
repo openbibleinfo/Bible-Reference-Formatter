@@ -1,0 +1,30 @@
+{
+  "name": "bible-reference-formatter",
+  "version": "1.0.1",
+  "description": "Utility that converts Bible references from OSIS to human-readable formats and Paratext.",
+  "main": "es6/en.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jasmine test/*.spec.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/openbibleinfo/Bible-Reference-Formatter.git"
+  },
+  "keywords": [
+    "bible",
+    "reference",
+    "verse"
+  ],
+  "author": "openbibleinfo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/openbibleinfo/Bible-Reference-Formatter/issues"
+  },
+  "homepage": "https://github.com/openbibleinfo/Bible-Reference-Formatter#readme",
+  "devDependencies": {
+    "jasmine": "^3.6.3"
+  }
+}
