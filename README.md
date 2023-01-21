@@ -378,15 +378,15 @@ osisFormatter.setOptions({
 	"v&c": " and $chapters ",
 	// Override the `v&c` value with the default in this case.
 	"v&cv": " and ",
-	// We don't need a `v,v` option because the default ` and ` works fine.
+	// We don't need a `v&v` option because the default ` and ` works fine.
 
 	// Add `,&` variants for three-or-more item sequences. Default a semicolon, followed by the word "and" surrounded by spaces.
 	",&": "; and ",
 	// Include the value of `$chapters` when a chapter follows a verse.
 	"v,&c": "; and $chapters ",
 	// Override the `v,&c` value with the default in this case.
-	"v,&cv": " and ",
-	// Here we do need to include `v,v` because we want to use a comma rather than a semicolon.
+	"v,&cv": "; and ",
+	// Here we do need to include `v,&v` because we want to use a comma rather than a semicolon.
 	"v,&v": ", and "
 })
 
